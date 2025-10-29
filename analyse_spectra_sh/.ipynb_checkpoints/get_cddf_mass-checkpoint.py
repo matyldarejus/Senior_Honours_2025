@@ -22,10 +22,9 @@ if __name__ == '__main__':
     model = sys.argv[1]
     wind = sys.argv[2]
     snap = sys.argv[3]
-    norients = sys.argv[4] # Needed to add this to make the number of lines of sight changeable
+    norients = int(sys.argv[4]) # Needed to add this to make the number of lines of sight changeable
 
     vel_range = 600.
-    
     
     """
     lines = ["H1215", "MgII2796", "CII1334", "SiIII1206", "CIV1548", "OVI1031"]
@@ -35,8 +34,7 @@ if __name__ == '__main__':
                       'snap_105': [4.5, 25.1, 25.1, 34.5, 10., 7.1],}
     #chisq_lim_dict = {'snap_151': [3.5, 28.2, 15.8, 31.6, 5., 4.]} # for the extras sample
     """
-    # Consider only snap = 151 and OVI1031 line
-
+    
     lines = ['OVI1031']
     chisq_lim_dict = {'snap_151': [4., 50., 15.8, 39.8, 8.9, 4.5]}
     chisq_lim = chisq_lim_dict[f'snap_{snap}']
@@ -44,7 +42,7 @@ if __name__ == '__main__':
     snapfile = f'/disk04/mrejus/sh/samples/{model}_{wind}_{snap}.hdf5'
     s = pg.Snapshot(snapfile)
     boxsize = float(s.boxsize.in_units_of('ckpc/h_0'))
-    redshift = s.redshift
+    redshift = [s.redshift]
 
     delta_m = 0.5
     min_m = 10.
@@ -107,7 +105,7 @@ if __name__ == '__main__':
     dX_mass[2] = compute_dX(nlos_high, lines, path_lengths,
                             redshift=redshift, hubble_parameter=hubble_parameter,
                             hubble_constant=hubble_constant)[0]
-
+    
     for l, line in enumerate(lines):
 
         results_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_hm12_fit_lines_{line}.h5'
@@ -147,11 +145,13 @@ if __name__ == '__main__':
         all_los = all_los[mask]
 
         all_ids = all_ids[mask]
-        idx = np.where(gal_id == some_id)
-        #idx = np.array([np.where(gal_ids == j)[0] for j in all_ids]).flatten()
+        #idx = np.where(gal_ids == some_id)
+        idx = np.array([np.where(gal_ids == j)[0] for j in all_ids]).flatten()
         all_mass = mass[idx]
 
         plot_data[f'cddf_all'] = np.zeros(len(plot_logN))
+        
+        
         for j in range(len(bins_logN) -1):
             N_mask = (all_N > bins_logN[j]) & (all_N < bins_logN[j+1])
             plot_data[f'cddf_all'][j] = len(all_N[N_mask])

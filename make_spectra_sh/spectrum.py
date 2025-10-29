@@ -237,7 +237,7 @@ class Spectrum(object):
             _tau_model = pg.analysis.model_tau(self.ion_name, p, self.wavelengths)
             ax.plot(x_val, tau_to_flux(_tau_model), alpha=0.5, lw=1, ls='--', label='%g %g'%(self.line_list['N'][i],self.line_list['b'][i]))
 
-        #ax.plot(x_val, self.fluxes_model, label='model', c='tab:pink', ls='--', lw=2)
+        ax.plot(x_val, self.fluxes_model, label='model', c='tab:pink', ls='--', lw=2)
 
         ax.set_ylim(-0.1, 1.1)
         ax.set_xlim(x_val[0], x_val[-1])
@@ -245,13 +245,13 @@ class Spectrum(object):
         #ax.set_xlim(max(self.gal_velocity_pos-2*vel_range, 0), min(self.gal_velocity_pos+2*vel_range, self.velocities[-1]))
         ax.legend(loc='best',fontsize=8)
         
-        #chisq = np.around(np.unique(self.line_list['Chisq']), 2)
-        #chisq = [str(i) for i in chisq]
-        #plt.title(r'$\chi^2_r = {x}$'.format(x = ', '.join(chisq) ))
+        chisq = np.around(np.unique(self.line_list['Chisq']), 2)
+        chisq = [str(i) for i in chisq]
+        plt.title(r'$\chi^2_r = {x}$'.format(x = ', '.join(chisq) ))
         
         if filename == None:
             filename = self.spectrum_file.split('/')[-1].replace('.h5', '.png')
-        #plt.savefig(f'../figures/spec_{i}.png')
+        plt.savefig(f'/disk04/mrejus/sh/results/plots/spec/spec/{filename}')
         plt.show()
         #plt.savefig('../figures/spec_gal_1.png')
         plt.close()
@@ -320,7 +320,7 @@ class Spectrum(object):
 
         if plot_fit:
             self.plot_fit()
-
+    
 
 
 

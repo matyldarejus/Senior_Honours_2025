@@ -5,8 +5,10 @@ import h5py
 import sys
 import matplotlib.pyplot as plt
 
-sf = h5py.File("/disk04/mrejus/sh/normal/m25n256_s50_151_hm12/sample_galaxy_101_OVI1031_135_deg_0.25r200.h5", "r")
+sf = h5py.File("/disk04/mrejus/sh/normal/results/m25n256_s50_151_hm12_fit_lines_OVI1031.h5", "r")
 print(sf.keys())
+
+print(sf["chisq_0.25r200"])
 
 
 

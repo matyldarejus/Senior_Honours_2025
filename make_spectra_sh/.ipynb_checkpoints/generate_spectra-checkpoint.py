@@ -117,6 +117,8 @@ def generate_pygad_spectrum(s, los, line, lambda_rest, gal_vel_pos, periodic_vel
         print(f'WARNING: fewer than {min_restr_column} gas elements contribute 90% of the total column density.')
     del spectrum['restr_column']
 
+    total_EW = np.sum(1. - spectrum['fluxes']) * pixel_size * lambda_rest / c
+    print(r'Npix with abs: %d  EW: %g Angstrom' % (len(spectrum['fluxes'][1. - spectrum['fluxes'] > 3. / snr]), total_EW))
     write_spectrum(f'{spec_name}.h5', line, los, lambda_rest, gal_vel_pos, s.redshift, snr, spectrum)
 
     return

@@ -26,6 +26,7 @@ def cell_indices_2d(los_array, boxsize, ncells=9):
     count = 0
 
     for i in range(ncells_dimension):
+        #print(los_array)
         x_mask = (los_array[:, 0] > gridsize*i) & (los_array[:, 0] < gridsize*(i+1))
         
         for j in range(ncells_dimension):

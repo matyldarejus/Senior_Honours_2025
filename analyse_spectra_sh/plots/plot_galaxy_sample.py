@@ -73,6 +73,7 @@ if __name__ == '__main__':
         gal_Tcgm = sf['Tcgm'][:]
         gal_fcold = sf['fcold'][:]
 
+    print(f'Galaxies sampled: {len(gal_sm)}')
     z = np.array([0, 0, 1])
     Lbaryon_norm = gal_Lbaryon / np.linalg.norm(gal_Lbaryon, axis=1)[:, None]
     alpha = np.degrees(np.arccos([np.dot(z, i) for i in Lbaryon_norm]))

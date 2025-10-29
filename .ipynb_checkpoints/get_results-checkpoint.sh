@@ -2,7 +2,7 @@
 
 # Usage: bash get_results.sh MODEL WIND SNAP NLOS (one galaxy only)
 
-# ====== Parse arguments ======
+# ====== Arguments ======
 MODEL=$1
 WIND=$2
 SNAP=$3

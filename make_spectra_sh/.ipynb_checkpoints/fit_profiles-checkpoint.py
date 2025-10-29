@@ -12,24 +12,29 @@ if __name__ == '__main__':
     model = sys.argv[1]
     wind = sys.argv[2]
     snap = sys.argv[3]
-    i = int(sys.argv[4])
+    #i = int(sys.argv[4])
+    ion = sys.argv[4]
 
     vel_range = 600.
     chisq_asym_thresh = -3
     chisq_unacceptable = 25
 
     spec_dir = f'/disk04/mrejus/sh/normal/{model}_{wind}_{snap}_hm12/'
-    spec_file = sorted(os.listdir(spec_dir))[i]
+    #spec_dir = f'./test/'
+    listdir = os.listdir(spec_dir)
+    spec_file = [i for i in listdir if ion in i] # Check how many repeats this does, if I need to run it once or over x number of galaxies
 
-    print(spec_file)
+    #print(listdir)
 
-    spec = Spectrum(f'{spec_dir}{spec_file}')
+    for my_file in spec_file:
+        spec = Spectrum(f'{spec_dir}{my_file}')
+        print('Fitting lines in: %s' % my_file)
 
-    spec.main(
+        spec.main(
             vel_range=vel_range,
             do_fit=True,
             write_lines=True,
             chisq_unacceptable=chisq_unacceptable,
             chisq_asym_thresh=chisq_asym_thresh, 
-            do_plot=False,
-        )
+            plot_fit=True,
+            )

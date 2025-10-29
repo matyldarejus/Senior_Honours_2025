@@ -35,6 +35,7 @@ if __name__ == '__main__':
     vel_range = 600. #km/s
     #orients = ['0_deg', '45_deg', '90_deg', '135_deg', '180_deg', '225_deg', '270_deg', '315_deg'] 
     orients = np.linspace(0, (360 - 360/norients), norients, dtype=int)
+    
 
     sample_dir = f'/disk04/mrejus/sh/samples/'
     #spectra_dir = f'/disk04/mrejus/sh/normal/{model}_{wind}_{snap}/'
@@ -70,17 +71,40 @@ if __name__ == '__main__':
     all_chisq = []
     all_ids = []
 
+    n_found = 0
+
+    gal_todo = []
     for i in range(len(gal_ids)):
         for o, orient in enumerate(orients):
             spec_name = f'sample_galaxy_{gal_ids[i]}_{line}_{orient}_deg_{fr200}r200'
             spectrum = read_h5_into_dict(f'{spectra_dir}{spec_name}.h5')
 
+            #print(spec_name)
+
+            
+            # Check if lines are present
+            if 'line_list' not in spectrum or 'N' not in spectrum['line_list']:
+                #print(f"[!] No line_list in {spec_name}")
+                gal_todo.append(spec_name)
+                continue
+
+            n_lines = len(spectrum['line_list']['N'])
+        
+            if n_lines == 0:
+                #print(f"[ ] No detected lines in {spec_name}")
+                continue
+    
+            n_found += n_lines
+            #print(f"[+] {spec_name}: {n_lines} lines")
+
+
             if not 'line_list' in spectrum.keys():
                 spectrum['line_list'] = {}
                 spectrum['line_list']['N'] = []
-
+            
+        
             if len(spectrum['line_list']['N']) > 0.:
-               
+             
                 wave_boxsize = spectrum['wavelengths'][-1] - spectrum['wavelengths'][0]
                 for j in range(len(spectrum['line_list']['l'])):
                     if spectrum['line_list']['l'][j] < np.min(spectrum['wavelengths']):
@@ -106,6 +130,7 @@ if __name__ == '__main__':
 
                 all_chisq.extend(spectrum['line_list']['Chisq'][line_mask])
                 all_N.extend(spectrum['line_list']['N'][line_mask])
+                #print(f"N: {spectrum['line_list']['N'][line_mask]}")
                 all_b.extend(spectrum['line_list']['b'][line_mask])
                 all_l.extend(spectrum['line_list']['l'][line_mask])
                 all_ew.extend(spectrum['line_list']['EW'][line_mask])
@@ -113,6 +138,11 @@ if __name__ == '__main__':
 
     all_los = np.reshape(all_los, (int(len(all_los)*0.5), 2))
 
+    # Optionally: Wipe the old file
+
+    #if os.path.exists(results_file):
+     #   os.remove(results_file)
+    print(len(gal_todo))   
     with h5py.File(results_file, 'a') as hf:
         if not f'log_rho_{fr200}r200' in hf.keys():
             hf.create_dataset(f'log_rho_{fr200}r200', data=np.array(all_rho))

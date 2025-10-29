@@ -59,7 +59,9 @@ def compute_dX(nlos, lines, path_lengths, redshift=0., hubble_parameter=68., hub
 
     for i in range(len(lines)):
         dz = float(np.array(path_lengths[f'dz_{lines[i]}'])[idx]) * float(nlos)
-        all_dX[i] = dz * (hubble_constant / hubble_parameter) * ((1 + redshift) **2.)
+        #print(nlos)
+        #print(path_lengths[f'dz_{lines[i]}'])
+        all_dX[i] = dz * (hubble_constant / hubble_parameter) * ((1 + redshift[0]) **2.)
     
     return all_dX
 

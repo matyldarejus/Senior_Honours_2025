@@ -21,7 +21,8 @@ def bin_data(x, y, xbins):
     return np.array([y[digitized == i] for i in range(1, len(xbins))])
 
 def quench_thresh(z): # in units of yr^-1 
-    return -1.8  + 0.3*z -9.
+    #print(z)
+    return -1.8  + 0.3*z[0] -9.
 
 def ssfr_type_check(ssfr_thresh, ssfr):
 
@@ -36,10 +37,9 @@ if __name__ == '__main__':
     model = sys.argv[1]
     wind = sys.argv[2]
     snap = sys.argv[3]
-    norients = sys.argv[4] # Needed to add this to make the number of lines of sight changeable
+    norients = int(sys.argv[4]) # Needed to add this to make the number of lines of sight changeable
 
     vel_range = 600.
-    
     
     """
     lines = ["H1215", "MgII2796", "CII1334", "SiIII1206", "CIV1548", "OVI1031"]
@@ -49,7 +49,6 @@ if __name__ == '__main__':
                       'snap_105': [4.5, 25.1, 25.1, 34.5, 10., 7.1],}
     #chisq_lim_dict = {'snap_151': [3.5, 28.2, 15.8, 31.6, 5., 4.]} # for the extras sample
     """
-
     # Consider only snap = 151 and OVI1031 line
 
     lines = ['OVI1031']
@@ -60,7 +59,7 @@ if __name__ == '__main__':
     snapfile = f'/disk04/mrejus/sh/samples/{model}_{wind}_{snap}.hdf5'
     s = pg.Snapshot(snapfile)
     boxsize = float(s.boxsize.in_units_of('ckpc/h_0'))
-    redshift = s.redshift
+    redshift = [s.redshift]
     quench = quench_thresh(redshift)
 
     sim = caesar.load(f'/disk04/rad/sim/{model}/{wind}/Groups/{model}_{snap}.hdf5')
@@ -90,7 +89,7 @@ if __name__ == '__main__':
         create_path_length_file(vel_range, lines, redshift, path_length_file)
     path_lengths = read_h5_into_dict(path_length_file)
 
-    plot_dir = f'/disk04/sapple/cgm/absorption/ml_project/analyse_spectra/plots/'
+    plot_dir = f'~/data/plots'
     sample_dir = f'/disk04/mrejus/sh/samples/'
     sample_file = f'{sample_dir}{model}_{wind}_{snap}_galaxy_sample.h5'
     #sample_file = f'{sample_dir}{model}_{wind}_{snap}_galaxy_sample_extras.h5'
@@ -118,10 +117,14 @@ if __name__ == '__main__':
                     redshift=redshift, hubble_parameter=hubble_parameter,
                     hubble_constant=hubble_constant)[0]
 
+    #print("dX_all, dX_sf, dX_gv, dX_q =", dX_all, dX_sf, dX_gv, dX_q)
+
     for l, line in enumerate(lines):
 
         results_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_hm12_fit_lines_{line}.h5'
         cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_{line}_cddf_chisqion.h5'
+
+        #print(results_file)
 
         #results_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_fit_lines_{line}_extras.h5'
         #cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_{line}_cddf_chisqion_extras.h5'
@@ -147,7 +150,7 @@ if __name__ == '__main__':
                 all_ew.extend(hf[f'ew_{fr200[j]}r200'][:])
                 all_chisq.extend(hf[f'chisq_{fr200[j]}r200'][:])
                 all_ids.extend(hf[f'ids_{fr200[j]}r200'][:])
-                #all_los.extend(hf[f'LOS_pos_{fr200[j]}r200'][:])
+                all_los.extend(hf[f'LOS_pos_{fr200[j]}r200'][:])
 
         all_N = np.array(all_N)
         all_b = np.array(all_b)
@@ -156,6 +159,11 @@ if __name__ == '__main__':
         all_chisq = np.array(all_chisq)
         all_ids = np.array(all_ids)
         all_los = np.array(all_los)
+
+        #print(all_N)
+        #print(all_b)
+        #print(all_l)
+        #print(all_ew)
 
         mask = (all_N > logN_min) * (all_chisq < chisq_lim[l]) * (all_ew >= 0.)
         all_N = all_N[mask]
@@ -167,12 +175,7 @@ if __name__ == '__main__':
         all_ids = all_ids[mask]
         #idx = np.where(gal_id == some_id)
         #idx = np.array([np.where(gal_ids == j)[0] for j in all_ids]).flatten()
-        idx = []
-        for j in all_ids:
-            match -= np.where(gal_ids == j)[0]
-            if len(match) > 0:
-                idx.append(match[0])
-        idx = np.array(idx, dtype = int)
+        idx = np.array([np.where(gal_ids == j)[0] for j in all_ids]).flatten()
         all_ssfr = ssfr[idx]
 
         sf_mask, gv_mask, q_mask = ssfr_type_check(quench, all_ssfr)
@@ -209,6 +212,8 @@ if __name__ == '__main__':
         plot_data[f'cddf_sf'] = np.log10(plot_data[f'cddf_sf'])
         plot_data[f'cddf_gv'] = np.log10(plot_data[f'cddf_gv'])
         plot_data[f'cddf_q'] = np.log10(plot_data[f'cddf_q'])
+
+        print(plot_data[f'cddf_all'])
         
         plot_data[f'cddf_all_cv_mean_{ncells}'], plot_data[f'cddf_all_cv_{ncells}'] = \
                 get_cosmic_variance_cddf(all_N, all_los, boxsize, line, bins_logN, delta_N, path_lengths, ncells=ncells, 

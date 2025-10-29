@@ -35,7 +35,7 @@ if __name__ == '__main__':
     wind = sys.argv[2]
     snap = sys.argv[3]
     sample_gal = int(sys.argv[4]) # supply the gal id that we want from command line]
-    nlos = sys.argv[5]
+    nlos = int(sys.argv[5])
 
     sqrt2 = np.sqrt(2.)
     delta_fr200 = 0.25
