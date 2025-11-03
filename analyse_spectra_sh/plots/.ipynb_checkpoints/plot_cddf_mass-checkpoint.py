@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
     for l, line in enumerate(lines):
 
-        results_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_fit_lines_OVI1031.h5'
+        results_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_hm12_fit_lines_OVI1031.h5'
         cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_OVI1031_cddf_mass.h5'
 
         plot_data = read_h5_into_dict(cddf_file)
@@ -119,7 +119,6 @@ if __name__ == '__main__':
                             c=mass_colors[k], ls='-', lw=1)
  
         ax_top = ax[i].secondary_xaxis('top')
-        ax_top.set_xticks(np.arange(logN_min, 18), labels=[])
 
         ax[i].set_xlim(logN_min, 18)
         ax[i].set_ylim(-19, -9)

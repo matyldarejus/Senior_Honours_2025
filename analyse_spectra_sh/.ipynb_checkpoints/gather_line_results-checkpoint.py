@@ -84,7 +84,7 @@ if __name__ == '__main__':
             
             # Check if lines are present
             if 'line_list' not in spectrum or 'N' not in spectrum['line_list']:
-                #print(f"[!] No line_list in {spec_name}")
+                print(f"[!] No line_list in {spec_name}")
                 gal_todo.append(spec_name)
                 continue
 
@@ -141,11 +141,12 @@ if __name__ == '__main__':
     # Optionally: Wipe the old file
 
     #if os.path.exists(results_file):
-     #   os.remove(results_file)
-    print(len(gal_todo))   
+    #    os.remove(results_file)
+    #print(len(gal_todo))   
     with h5py.File(results_file, 'a') as hf:
         if not f'log_rho_{fr200}r200' in hf.keys():
             hf.create_dataset(f'log_rho_{fr200}r200', data=np.array(all_rho))
+            print(f'Added log_rho_{fr200}r200')
         if not f'log_T_{fr200}r200' in hf.keys():
             hf.create_dataset(f'log_T_{fr200}r200', data=np.array(all_T))
         if not f'log_Z_{fr200}r200' in hf.keys():
@@ -161,6 +162,7 @@ if __name__ == '__main__':
         if not f'pos_dv_{fr200}r200' in hf.keys():
             hf.create_dataset(f'pos_dv_{fr200}r200', data=np.array(all_pos_dv))
         if not f'log_N_{fr200}r200' in hf.keys():
+            print(f'Added log_N_{fr200}r200')
             hf.create_dataset(f'log_N_{fr200}r200', data=np.array(all_N))
         if not f'b_{fr200}r200' in hf.keys():
             hf.create_dataset(f'b_{fr200}r200', data=np.array(all_b))
