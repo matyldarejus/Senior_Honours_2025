@@ -6,8 +6,10 @@ model=$1
 wind=$2
 snap=$3
 line=$4
+start=$5
+end=$6
 
-for ii in {0..216}
+for ii in {start..end}
 do
    echo Submitting job $ii
    python $pipeline_path $model $wind $snap $ii $line
