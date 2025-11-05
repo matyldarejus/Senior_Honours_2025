@@ -9,9 +9,9 @@ line=$4
 start=$5
 end=$6
 
-for ii in {start..end}
+for ii in $(seq $start $end)
 do
-   echo Submitting job $ii
-   python $pipeline_path $model $wind $snap $ii $line
-   echo Finished job $ii
+   echo "Submitting job $ii"
+   python "$pipeline_path" "$model" "$wind" "$snap" "$ii" "$line"
+   echo "Finished job $ii"
 done
