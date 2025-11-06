@@ -25,6 +25,7 @@ python $MAKE_SPECTRA/get_galaxy_sample.py $MODEL $WIND $SNAP ||
 # Step 2: Get sample temperature
 echo "[2/8] Running get_sample_temp..."
 python $MAKE_SPECTRA/get_sample_temp.py $MODEL $WIND $SNAP ||
+
 # Step 3: Get galaxy stellar mass & sSFR
 echo "[3/8] Running get_gal_sm_ssfr..."
 python $MAKE_SPECTRA/get_gal_sm_ssfr.py $MODEL $WIND $SNAP ||

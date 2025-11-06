@@ -8,13 +8,7 @@ python=3.9 yt=4.2.1 matplotlib=3.4.3 numpy=1.22 scipy=1.9
 
 ## Run instructions
 
-For full data generation and analysis routine run:
-
-bash full_analysis.sh MODEL WIND SNAP NLOS GAL_NO
-
-Which just wraps up the get_results and get_data for all galaxies in the sample generated.
-
-NLOS = currently modifies the range of angles at which the lines of sight are taken. 
+get_data.sh and get_results.sh provide more or less the instructions on what order the files should be ran to generate and fit spectra for galaxies sampled from SIMBA. 
 
 ## Acknowledgements
 
@@ -22,7 +16,7 @@ This repository is based on code originally developed by Sarah Appleby as part o
 
 The original version can be found [here](https://github.com/sarahappleby/cgm/tree/master/absorption/ml_project).  
 
-This fork has been adapted by Matylda Rejus i.e. myself for use in my Senior Honours project. I'm trying to keep track of changes I make as I go along via commit messages :)
+This fork has been adapted by Matylda Rejus i.e. myself for use in my Senior Honours project. I'm trying to keep track of changes I make as I go along via commit messages :) The biggest difference is an updated Voigt profile fitter.
 
 
 

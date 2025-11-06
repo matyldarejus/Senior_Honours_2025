@@ -15,3 +15,6 @@ do
    python "$pipeline_path" "$model" "$wind" "$snap" "$ii" "$line"
    echo "Finished job $ii"
 done
+
+
+
