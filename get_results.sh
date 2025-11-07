@@ -30,6 +30,10 @@ python $ANALYSE_SPECTRA/get_cddf.py $MODEL $WIND $SNAP $NLOS ||
 echo "[3/5] Running get_cddf_mass..."
 python $ANALYSE_SPECTRA/get_cddf_mass.py $MODEL $WIND $SNAP $NLOS ||
 
+# Step 4: Get completeness
+echo "[4/5] Running get_completeness..."
+python $ANALYSE_SPECTRA/get_completeness.py $MODEL $WIND $SNAP ||
+
 # Step 4: Plot cddf
 echo "[4/5] Running plot_cddf..."
 python $ANALYSE_SPECTRA/plots/plot_cddf.py $MODEL $WIND $SNAP ||
