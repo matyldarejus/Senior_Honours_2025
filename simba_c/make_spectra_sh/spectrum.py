@@ -202,7 +202,21 @@ class Spectrum(object):
         self.get_tau_model()
         self.fluxes_model = tau_to_flux(self.tau_model)
 
+    def get_line_temp(self):
+        
+        # find the temperature corresponding to the l wavelength line widths
+        line_wav = self.line_list['l']
 
+        all_wav = self.wavelengths
+
+        def _find_nearest(array, value):
+            return np.abs(array - value).argmin()
+        
+        idx = [_find_nearest(all_wav, lw) for lw in line_wav]
+        temp = self.temperatures[idx]
+
+        return temp 
+    
     def write_line_list(self):
 
         # save the components of the fit in h5 format to the original input file
@@ -383,6 +397,21 @@ def fit_profiles_sat(
 
     def _tau_to_flux(tau):  # return flux from tau, avoiding over/underflow
         return np.exp(-np.clip(tau, -50, 50))
+    
+    def get_line_temp(self):
+        
+        # find the temperature corresponding to the l wavelength line widths
+        line_wav = self.line_list['l']
+
+        all_wav = self.wavelengths
+
+        def _find_nearest(array, value):
+            return np.abs(array - value).argmin()
+        
+        idx = [_find_nearest(all_wav, lw) for lw in line_wav]
+        temp = self.temperatures[idx]
+
+        return temp 
 
     def _chisq_asym(p, l, flux, noise, mode):  # reduced chisq, suppressing saturated regions
         #chisq_asym = -1.
@@ -516,7 +545,8 @@ def fit_profiles_sat(
         "N": np.array([]),
         "dN": np.array([]),
         "EW": np.array([]),
-        "Chisq": np.array([])
+        "Chisq": np.array([]),
+        "Temp": np.array([])   # temperature for each line
     }
 
     # loop over regions
@@ -924,6 +954,12 @@ def fit_profiles_sat(
                 line_list["EW"], EquivalentWidth(_tau_to_flux(tau_line), l_reg)
             )
             line_list["Chisq"] = np.append(line_list["Chisq"], chisq_soln)
+
+            line_temp = get_line_temp(line_list['l'])
+
+            line_list["Temp"] = np.append(
+                line_list["Temp"], line_temp)
+
             #if verbose:
             #    print('Region %d: line'%ireg,ip,params[ip*3],params[ip*3+1],params[ip*3+2])
 
@@ -1306,7 +1342,7 @@ if __name__ == '__main__':
     else:
         vel_range = 600.
 
-    #spec_file = 'sample_galaxy_811_MgII2796_270_deg_0.75r200.h5'
+    #spec_file = 'sample_galaxy_980_OVI1031_315_deg_1.0r200.h5'
     
     #if 'SiIII1206' in spec_file.split('_'):
     print('Doing spectrum file',spec_file)
