@@ -24,6 +24,8 @@ if __name__ == '__main__':
     listdir = os.listdir(spec_dir)
     spec_file = [i for i in listdir if ion and azimuth in i] # Check how many repeats this does, if I need to run it once or over x number of galaxies
 
+    spec_file = f'{spec_dir}sample_galaxy_552_OVI1031_180_deg_1.25r200.h5' # Test for a single file
+
     #print(listdir)
 
     for my_file in spec_file:
