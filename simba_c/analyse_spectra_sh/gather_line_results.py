@@ -8,7 +8,7 @@ from scipy import interpolate
 import pygad as pg
 import os
 import sys
-sys.path.insert(0, '/home/matylda/sh/make_spectra_sh/')
+sys.path.insert(0, '/home/matylda/sh/simba_c/make_spectra_sh/')
 from utils import *
 from physics import *
 
