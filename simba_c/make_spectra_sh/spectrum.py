@@ -183,6 +183,19 @@ class Spectrum(object):
 
         for k in self.line_list.keys():
             self.line_list[k] = np.delete(self.line_list[k], outwith_vel_mask)
+        
+        # find the temperature corresponding to the l wavelength line widths
+        if 'l' in self.line_list:
+            line_wav = self.line_list['l']
+
+            all_wav = self.wavelengths
+
+            def _find_nearest(array, value):
+                return np.abs(array - value).argmin()
+            
+            idx = [_find_nearest(all_wav, lw) for lw in line_wav]
+            temp = self.temperatures[idx]
+            self.line_list['t'] = temp
 
 
     def get_tau_model(self):
@@ -202,21 +215,7 @@ class Spectrum(object):
         self.get_tau_model()
         self.fluxes_model = tau_to_flux(self.tau_model)
 
-    def get_line_temp(self):
-        
-        # find the temperature corresponding to the l wavelength line widths
-        line_wav = self.line_list['l']
 
-        all_wav = self.wavelengths
-
-        def _find_nearest(array, value):
-            return np.abs(array - value).argmin()
-        
-        idx = [_find_nearest(all_wav, lw) for lw in line_wav]
-        temp = self.temperatures[idx]
-
-        return temp 
-    
     def write_line_list(self):
 
         # save the components of the fit in h5 format to the original input file
@@ -954,12 +953,7 @@ def fit_profiles_sat(
                 line_list["EW"], EquivalentWidth(_tau_to_flux(tau_line), l_reg)
             )
             line_list["Chisq"] = np.append(line_list["Chisq"], chisq_soln)
-
-            line_temp = get_line_temp(line_list['l'])
-
-            line_list["Temp"] = np.append(
-                line_list["Temp"], line_temp)
-
+            
             #if verbose:
             #    print('Region %d: line'%ireg,ip,params[ip*3],params[ip*3+1],params[ip*3+2])
 
