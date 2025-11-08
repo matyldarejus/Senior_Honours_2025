@@ -184,7 +184,7 @@ class Spectrum(object):
         for k in self.line_list.keys():
             self.line_list[k] = np.delete(self.line_list[k], outwith_vel_mask)
         
-        # find the temperature corresponding to the l wavelength line widths
+        # find the temperature corresponding to the l wavelength line widths - not sure if this is needed / works 
         if 'l' in self.line_list:
             print("Finding line temperatures...")
             line_wav = self.line_list['l']
@@ -941,14 +941,35 @@ def fit_profiles_sat(
                 line_list["EW"], EquivalentWidth(_tau_to_flux(tau_line), l_reg)
             )
             line_list["Chisq"] = np.append(line_list["Chisq"], chisq_soln)
-            # Add temperature for this line
-
-            def _find_nearest(array, value):
-                return np.abs(array - value).argmin()
             
+            # Add temperature for this line
+            # Interpolate between the two closest values in the temperature array
+
+            lam = float(line_line['l'][-1]) # take the last line  
+            i = np.searchsorted(wavelengths, lambda)
+
+            if i == 0: # if before first, take first temperature
+                t = temperatures[0]
+            elif i >= len(wavelengths): # if after last, take last temperature
+                t = temperatures[-1]
+            else:
+                l0 = wavelengths[i-1] 
+                l1 = wavelengths[i]
+                
+                if l1 == l0:
+                    t = temperatures[i-1]
+                else:
+                    t = temperatures[i-1] + ((lam - l0)/(l1 - l0) * (temperatures[i]-temperatures[i-1]))
+
+            line_list["t"] = np.append(line_list["t"], t)
+
+            """
+            # No interpolation
             idx = _find_nearest(wavelengths, line_list["l"][-1])  # get the last wavelength we just added
             line_list["t"] = np.append(line_list["t"], temperatures[idx])
-            
+            print('Line at %.3f A: T=%.1f K'%(line_list["l"][-1], line_list["t"][-1]))
+            """
+
             #if verbose:
             #    print('Region %d: line'%ireg,ip,params[ip*3],params[ip*3+1],params[ip*3+2])
 
