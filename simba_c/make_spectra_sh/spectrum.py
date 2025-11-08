@@ -351,8 +351,7 @@ def fit_profiles_sat(
     max_lines=10,
     mode="Voigt",
     logN_bounds=[8,20],
-    b_bounds=[1, 300]
-)
+    b_bounds=[1, 300]):
     """
     Fit Voigt/other profiles to the given spectrum.  Begins with one
     line, then adds lines until desired chi-sq is achieved.
