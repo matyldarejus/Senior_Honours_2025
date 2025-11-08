@@ -953,13 +953,13 @@ def fit_profiles_sat(
             elif i >= len(wavelengths): # if after last, take last temperature
                 t = temperatures[-1]
             else:
-                l0 = wavelengths[i-1] 
-                l1 = wavelengths[i]
+                lam0 = wavelengths[i-1] 
+                lam1 = wavelengths[i]
                 
-                if l1 == l0:
+                if lam1 == lam0:
                     t = temperatures[i-1]
                 else:
-                    t = temperatures[i-1] + ((lam - l0)/(l1 - l0) * (temperatures[i]-temperatures[i-1]))
+                    t = temperatures[i-1] + ((lam - lam0)/(lam1 - lam0) * (temperatures[i]-temperatures[i-1]))
 
             line_list["t"] = np.append(line_list["t"], t)
 
