@@ -307,7 +307,7 @@ class Spectrum(object):
             self.line_list = fit_profiles_sat(self.ion_name, self.waves_fit, self.fluxes_fit, self.noise_fit,
                                                       chisq_lim=2.5,
                                                       max_lines=10, logN_bounds=logN_bounds, 
-                                                      b_bounds=b_bounds, mode='Voigt')
+                                                      b_bounds=b_bounds, mode='Voigt', self.wavelengths, self.temperatures)
             '''
             self.line_list = pg.analysis.fit_profiles(self.ion_name, self.wavelengths[self.vel_mask], self.fluxes[self.vel_mask], self.noise[self.vel_mask],
                                                   chisq_lim=2.5, max_lines=10, logN_bounds=[12,17], b_bounds=[3,100], mode='Voigt')
@@ -350,6 +350,8 @@ def fit_profiles_sat(
     mode="Voigt",
     logN_bounds=[8,20],
     b_bounds=[1, 300],
+    wavelengths,
+    temperatures
 ):
     """
     Fit Voigt/other profiles to the given spectrum.  Begins with one
@@ -377,7 +379,7 @@ def fit_profiles_sat(
 
 
     Returns:
-        profiles:    Dictionary of [N, dN, b, db, l, dl, EW] of best-fit
+        profiles:    Dictionary of [N, dN, b, db, l, dl, EW, t] of best-fit
                      profiles.
         tau_model:   Optical depths of best-fit model.
 
@@ -940,6 +942,13 @@ def fit_profiles_sat(
                 line_list["EW"], EquivalentWidth(_tau_to_flux(tau_line), l_reg)
             )
             line_list["Chisq"] = np.append(line_list["Chisq"], chisq_soln)
+            # Add temperature for this line
+
+            def _find_nearest(array, value):
+                return np.abs(array - value).argmin()
+            
+            idx = _find_nearest(wavelengths, line_list["l"][-1])  # get the last wavelength we just added
+            line_list["t"] = np.append(line_list["t"], temperatures[idx])
             
             #if verbose:
             #    print('Region %d: line'%ireg,ip,params[ip*3],params[ip*3+1],params[ip*3+2])
