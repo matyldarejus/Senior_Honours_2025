@@ -195,7 +195,7 @@ class Spectrum(object):
                 return np.abs(array - value).argmin()
             
             idx = [_find_nearest(all_wav, lw) for lw in line_wav]
-            temp = self.temperatures[idx]
+            temp = self.temperature[idx]
             print(f"Line temperatures: {temp}")
             self.line_list['t'] = temp
 
@@ -304,7 +304,7 @@ class Spectrum(object):
                 logN_bounds = [10, 17]
             b_bounds=[1,100]
             print('Doing fitting for ion %s, lambda range=[%.2f,%.2f]' % (self.ion_name, self.wavelengths[0], self.wavelengths[-1]))
-            self.line_list = fit_profiles_sat(self.ion_name, self.waves_fit, self.fluxes_fit, self.noise_fit, self.wavelengths, self.temperatures,
+            self.line_list = fit_profiles_sat(self.ion_name, self.waves_fit, self.fluxes_fit, self.noise_fit, self.wavelengths, self.temperature,
                                                       chisq_lim=2.5,
                                                       max_lines=10, logN_bounds=logN_bounds, 
                                                       b_bounds=b_bounds, mode='Voigt')
