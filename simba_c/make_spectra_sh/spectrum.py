@@ -304,10 +304,10 @@ class Spectrum(object):
                 logN_bounds = [10, 17]
             b_bounds=[1,100]
             print('Doing fitting for ion %s, lambda range=[%.2f,%.2f]' % (self.ion_name, self.wavelengths[0], self.wavelengths[-1]))
-            self.line_list = fit_profiles_sat(self.ion_name, self.waves_fit, self.fluxes_fit, self.noise_fit,
+            self.line_list = fit_profiles_sat(self.ion_name, self.waves_fit, self.fluxes_fit, self.noise_fit, self.wavelengths, self.temperatures,
                                                       chisq_lim=2.5,
                                                       max_lines=10, logN_bounds=logN_bounds, 
-                                                      b_bounds=b_bounds, mode='Voigt', self.wavelengths, self.temperatures)
+                                                      b_bounds=b_bounds, mode='Voigt')
             '''
             self.line_list = pg.analysis.fit_profiles(self.ion_name, self.wavelengths[self.vel_mask], self.fluxes[self.vel_mask], self.noise[self.vel_mask],
                                                   chisq_lim=2.5, max_lines=10, logN_bounds=[12,17], b_bounds=[3,100], mode='Voigt')
@@ -345,14 +345,14 @@ def fit_profiles_sat(
     l,
     flux,
     noise,
+    wavelengths,
+    temperatures,
     chisq_lim=2.5,
     max_lines=10,
     mode="Voigt",
     logN_bounds=[8,20],
-    b_bounds=[1, 300],
-    wavelengths,
-    temperatures
-):
+    b_bounds=[1, 300]
+)
     """
     Fit Voigt/other profiles to the given spectrum.  Begins with one
     line, then adds lines until desired chi-sq is achieved.
