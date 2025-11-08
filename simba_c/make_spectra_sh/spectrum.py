@@ -186,6 +186,7 @@ class Spectrum(object):
         
         # find the temperature corresponding to the l wavelength line widths
         if 'l' in self.line_list:
+            print("Finding line temperatures...")
             line_wav = self.line_list['l']
 
             all_wav = self.wavelengths
@@ -195,6 +196,7 @@ class Spectrum(object):
             
             idx = [_find_nearest(all_wav, lw) for lw in line_wav]
             temp = self.temperatures[idx]
+            print(f"Line temperatures: {temp}")
             self.line_list['t'] = temp
 
 
@@ -396,21 +398,6 @@ def fit_profiles_sat(
 
     def _tau_to_flux(tau):  # return flux from tau, avoiding over/underflow
         return np.exp(-np.clip(tau, -50, 50))
-    
-    def get_line_temp(self):
-        
-        # find the temperature corresponding to the l wavelength line widths
-        line_wav = self.line_list['l']
-
-        all_wav = self.wavelengths
-
-        def _find_nearest(array, value):
-            return np.abs(array - value).argmin()
-        
-        idx = [_find_nearest(all_wav, lw) for lw in line_wav]
-        temp = self.temperatures[idx]
-
-        return temp 
 
     def _chisq_asym(p, l, flux, noise, mode):  # reduced chisq, suppressing saturated regions
         #chisq_asym = -1.
@@ -545,7 +532,7 @@ def fit_profiles_sat(
         "dN": np.array([]),
         "EW": np.array([]),
         "Chisq": np.array([]),
-        "Temp": np.array([])   # temperature for each line
+        "t": np.array([])   # temperature for each line
     }
 
     # loop over regions
