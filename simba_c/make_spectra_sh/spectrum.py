@@ -945,7 +945,7 @@ def fit_profiles_sat(
             # Add temperature for this line
             # Interpolate between the two closest values in the temperature array
 
-            lam = float(line_line['l'][-1]) # take the last line  
+            lam = float(line_list['l'][-1]) # take the last line  
             i = np.searchsorted(wavelengths, lam)
 
             if i == 0: # if before first, take first temperature
