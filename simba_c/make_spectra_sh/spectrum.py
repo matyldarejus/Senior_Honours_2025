@@ -963,6 +963,8 @@ def fit_profiles_sat(
 
             line_list["t"] = np.append(line_list["t"], t)
 
+            if verbose:
+                print('Line at %.3f A: T=%.1f K'%(line_list["l"][-1], line_list["t"][-1]))
             """
             # No interpolation
             idx = _find_nearest(wavelengths, line_list["l"][-1])  # get the last wavelength we just added
