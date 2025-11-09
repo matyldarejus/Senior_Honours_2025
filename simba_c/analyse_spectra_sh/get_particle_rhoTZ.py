@@ -1,5 +1,6 @@
 # Sourced from https://github.com/sarahappleby/cgm/tree/master
 # Edited by Matylda Rejus for SH 2025
+# Plot rho-T phase space diagrams for ALL gas particles in the simulation snapshots
 
 
 import matplotlib.pyplot as plt

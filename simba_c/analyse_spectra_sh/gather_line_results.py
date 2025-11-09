@@ -70,6 +70,7 @@ if __name__ == '__main__':
     all_ew = []
     all_chisq = []
     all_ids = []
+    all_ts = []
 
     n_found = 0
 
@@ -135,6 +136,7 @@ if __name__ == '__main__':
                 all_l.extend(spectrum['line_list']['l'][line_mask])
                 all_ew.extend(spectrum['line_list']['EW'][line_mask])
                 all_ids.extend([gal_ids[i]] * len(spectrum['line_list']['N'][line_mask]))
+                all_ts.extend(spectrum['line_list']['t'][line_mask])
 
     all_los = np.reshape(all_los, (int(len(all_los)*0.5), 2))
 
@@ -174,3 +176,5 @@ if __name__ == '__main__':
             hf.create_dataset(f'chisq_{fr200}r200', data=np.array(all_chisq))
         if not f'ids_{fr200}r200' in hf.keys():
             hf.create_dataset(f'ids_{fr200}r200', data=np.array(all_ids))
+        if not f't_{fr200}r200' in hf.keys():
+            hf.create_dataset(f't_{fr200}r200', data=np.array(all_ts))
