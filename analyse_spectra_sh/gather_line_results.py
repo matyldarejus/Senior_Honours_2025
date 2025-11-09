@@ -31,6 +31,7 @@ if __name__ == '__main__':
     line = "OVI1031"
     fr200 = float(sys.argv[4])
     norients = int(sys.argv[5])
+    wipe = True if sys.argv[6] == 'True' else False
     
     vel_range = 600. #km/s
     #orients = ['0_deg', '45_deg', '90_deg', '135_deg', '180_deg', '225_deg', '270_deg', '315_deg'] 
@@ -141,9 +142,9 @@ if __name__ == '__main__':
     all_los = np.reshape(all_los, (int(len(all_los)*0.5), 2))
 
     #Optionally: Wipe the old file
-
-    if os.path.exists(results_file):
-        os.remove(results_file)
+    if wipe == True:
+        if os.path.exists(results_file):
+            os.remove(results_file)
     #print(len(gal_todo))   
     with h5py.File(results_file, 'a') as hf:
         if not f'log_rho_{fr200}r200' in hf.keys():

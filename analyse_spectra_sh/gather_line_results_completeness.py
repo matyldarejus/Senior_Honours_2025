@@ -31,6 +31,7 @@ if __name__ == '__main__':
     fr200 = sys.argv[4]
     line = 'OVI1031'
     norients = int(sys.argv[5])
+    wipe = True if sys.argv[6] == 'True' else False
 
     if snap == '151':
         redshift = 0.
@@ -114,6 +115,10 @@ if __name__ == '__main__':
                 all_ew.extend(spectrum['line_list']['EW'][line_mask])
                 all_ids.extend([gal_ids[i]] * len(spectrum['line_list']['N'][line_mask]))
                 all_ts.extend(spectrum['line_list']['t'][line_mask])
+    
+    if wipe == True:
+        if os.path.exists(results_file):
+            os.remove(results_file)
     
     with h5py.File(results_file, 'a') as hf:
         if not f'log_rho_{fr200}r200' in hf.keys():
