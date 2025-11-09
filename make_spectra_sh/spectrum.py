@@ -516,7 +516,8 @@ def fit_profiles_sat(
         "N": np.array([]),
         "dN": np.array([]),
         "EW": np.array([]),
-        "Chisq": np.array([])
+        "Chisq": np.array([]),
+        "t": np.array([])   # temperature for each line
     }
 
     # loop over regions
