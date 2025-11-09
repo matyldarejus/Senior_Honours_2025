@@ -14,6 +14,7 @@ if __name__ == '__main__':
     snap = sys.argv[3]
     #i = int(sys.argv[4])
     ion = sys.argv[4]
+    azimuth = sys.argv[5]
 
     vel_range = 600.
     chisq_asym_thresh = -3
@@ -22,7 +23,7 @@ if __name__ == '__main__':
     spec_dir = f'/disk04/mrejus/sh/normal/{model}_{wind}_{snap}_hm12/'
     #spec_dir = f'./test/'
     listdir = os.listdir(spec_dir)
-    spec_file = [i for i in listdir if ion in i] # Check how many repeats this does, if I need to run it once or over x number of galaxies
+    spec_file = [i for i in listdir if ion in i and azimuth in i] # Check how many repeats this does, if I need to run it once or over x number of galaxies
 
     #print(listdir)
 
