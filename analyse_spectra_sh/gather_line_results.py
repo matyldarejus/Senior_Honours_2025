@@ -32,6 +32,7 @@ if __name__ == '__main__':
     fr200 = float(sys.argv[4])
     norients = int(sys.argv[5])
     wipe = True if sys.argv[6] == 'True' else False
+    verbose = True if sys.argv[7] == 'True' else False
     
     vel_range = 600. #km/s
     #orients = ['0_deg', '45_deg', '90_deg', '135_deg', '180_deg', '225_deg', '270_deg', '315_deg'] 
@@ -81,7 +82,8 @@ if __name__ == '__main__':
             spec_name = f'sample_galaxy_{gal_ids[i]}_{line}_{orient}_deg_{fr200}r200'
             spectrum = read_h5_into_dict(f'{spectra_dir}{spec_name}.h5')
 
-            #print(spec_name)
+            if verbose:
+                print(f'Currently adding on {spec_name}')
 
             
             # Check if lines are present
