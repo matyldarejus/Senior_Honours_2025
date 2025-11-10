@@ -1,3 +1,7 @@
+# Sourced from https://github.com/sarahappleby/cgm/tree/master
+# Edited by Matylda Rejus for SH 2025
+# Plots NT diagrams for different lines, split by SSFR and impact parameter
+
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib import colors
