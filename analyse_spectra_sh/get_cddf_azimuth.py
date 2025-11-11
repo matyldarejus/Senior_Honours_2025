@@ -112,7 +112,7 @@ if __name__ == '__main__':
 
         # Compute angles between LOS vector and L_baryon
         gal_index = np.array([np.where(gal_ids == g)[0][0] for g in all_ids])
-        los_vecs = all_los - gal_pos[gal_index]
+        los_vecs = all_los - gal_pos[gal_index][:2]
         los_vecs /= np.linalg.norm(los_vecs, axis=1)[:, None]
 
         cos_theta = np.sum(los_vecs * gal_L_unit[gal_index], axis=1)
