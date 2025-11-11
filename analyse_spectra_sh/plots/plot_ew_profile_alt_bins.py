@@ -58,9 +58,9 @@ if __name__ == '__main__':
     fr200 = np.arange(min_fr200, (nbins_fr200+1)*delta_fr200, delta_fr200)
     chisq_lim = 2.5
 
-    delta_m = 1.5
+    delta_m = 0.5
     min_m = 10.
-    nbins_m = 1 
+    nbins_m = 3
     mass_bins = np.arange(min_m, min_m+(nbins_m+1)*delta_m, delta_m)
     
     mass_bin_labels = [] 
