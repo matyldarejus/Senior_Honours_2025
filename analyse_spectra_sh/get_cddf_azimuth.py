@@ -46,8 +46,8 @@ if __name__ == '__main__':
     hubble_constant = co.hubble_parameter(0).in_units('km/s/Mpc')
 
     # Define azimuthal bins (angle between LOS and angular momentum)
-    az_bins = np.array([0, 30, 60, 90])
-    az_labels = ['major', 'intermediate', 'minor']
+    az_bins = np.array([0, 30, 90])
+    az_labels = ['major', 'minor']
 
     ncells = 16
     logN_min = 11.
