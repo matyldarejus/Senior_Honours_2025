@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
     for l, line in enumerate(lines):
 
-        cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_{line}_cddf_chisqion.h5'
+        cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_{line}_cddf_azimuth.h5'
         plot_data = read_h5_into_dict(cddf_file)
         completeness = plot_data['completeness']
         print(f'Line {line}: {completeness}')
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
         for az_idx, az_label in enumerate(az_labels):
             offset = (-1)**az_idx * 0.05
-            mock_cddf = mock_cddf = plot_data[f'cddf_{az_label}']
+            mock_cddf = plot_data[f'cddf_{az_label}']
             ax[i].plot(plot_data['plot_logN'], mock_cddf,
                        c=az_colors[az_idx], ls=az_ls[az_idx], lw=1.5,
                        label=f'{az_label.capitalize()} axis')
