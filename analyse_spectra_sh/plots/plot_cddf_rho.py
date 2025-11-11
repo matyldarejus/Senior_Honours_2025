@@ -1,5 +1,6 @@
 # Sourced from https://github.com/sarahappleby/cgm/tree/master
 # Edited by Matylda Rejus for SH 2025
+# Plots CDDFs for different rho bins (inner vs outer CGM)
 
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
