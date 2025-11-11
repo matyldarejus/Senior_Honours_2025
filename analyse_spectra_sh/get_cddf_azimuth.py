@@ -1,5 +1,6 @@
-# Sourced from https://github.com/sarahappleby/cgm/tree/master
-# Edited by Matylda Rejus for SH 2025
+# get_cddf_azimuth.py
+# Adapted from get_cddf_mass.py (Matylda Rejus, 2025)
+# Now computes CDDFs binned by azimuthal angle (LOS vs galaxy angular momentum)
 
 import numpy as np
 import h5py
@@ -8,10 +9,12 @@ import caesar
 from yt.utilities.cosmology import Cosmology
 import os
 import sys
+
 sys.path.insert(0, '/home/matylda/sh/make_spectra_sh/')
 from utils import *
 from physics import create_path_length_file, compute_dX
 from cosmic_variance import get_cosmic_variance_cddf
+
 
 def get_bin_middle(xbins):
     return np.array([xbins[i] + 0.5*(xbins[i+1] - xbins[i]) for i in range(len(xbins)-1)])
@@ -22,11 +25,11 @@ if __name__ == '__main__':
     model = sys.argv[1]
     wind = sys.argv[2]
     snap = sys.argv[3]
-    norients = int(sys.argv[4])  # number of LOS orientations
+    norients = int(sys.argv[4])
 
     vel_range = 600.
-
     lines = ['OVI1031']
+
     chisq_lim_dict = {'snap_151': [4., 50., 15.8, 39.8, 8.9, 4.5]}
     chisq_lim = chisq_lim_dict[f'snap_{snap}']
 
@@ -42,33 +45,36 @@ if __name__ == '__main__':
     hubble_parameter = co.hubble_parameter(sim.simulation.redshift).in_units('km/s/Mpc')
     hubble_constant = co.hubble_parameter(0).in_units('km/s/Mpc')
 
-    # Define azimuthal bins (angles in degrees)
-    # e.g., 0° along major axis, 90° along minor axis
-    az_bins = np.array([0, 30, 60, 90])  # You can adjust these
+    # Define azimuthal bins (angle between LOS and angular momentum)
+    az_bins = np.array([0, 30, 60, 90])
     az_labels = ['major', 'intermediate', 'minor']
-    az_plot_titles = [r'$\theta < 30^\circ$', r'$30^\circ < \theta < 60^\circ$', r'$\theta > 60^\circ$']
 
     ncells = 16
     logN_min = 11.
-    logN_max = 18.
     bins_logN = np.array([11., 11.5, 12., 12.5, 13., 13.5, 14., 15., 16., 17., 18.])
     plot_logN = get_bin_middle(bins_logN)
     delta_N = np.array([10**bins_logN[i+1] - 10**bins_logN[i] for i in range(len(plot_logN))])
 
+    # Path length file
     path_length_file = f'/disk04/mrejus/sh/path_lengths.h5'
     if not os.path.isfile(path_length_file):
         create_path_length_file(vel_range, lines, [redshift], path_length_file)
     path_lengths = read_h5_into_dict(path_length_file)
 
+    # Load galaxy sample file
     sample_dir = f'/disk04/mrejus/sh/samples/'
     sample_file = f'{sample_dir}{model}_{wind}_{snap}_galaxy_sample.h5'
 
     with h5py.File(sample_file, 'r') as sf:
         gal_ids = sf['gal_ids'][:]
-        gal_pos = sf['pos'][:]       # shape (Ngal, 3)
-        gal_angmom = sf['ang_mom'][:]  # shape (Ngal, 3), if stored
+        gal_pos = sf['position'][:]
+        gal_L = sf['L_baryon'][:]  # angular momentum vectors
 
-    # Precompute path lengths
+    # Normalise angular momentum vectors
+    L_norm = np.linalg.norm(gal_L, axis=1)
+    gal_L_unit = gal_L / L_norm[:, None]
+
+    # Compute path length normalization
     nlos_all = len(gal_ids) * norients
     dX_all = compute_dX(nlos_all, lines, path_lengths,
                         redshift=redshift, hubble_parameter=hubble_parameter,
@@ -85,7 +91,8 @@ if __name__ == '__main__':
 
         all_N, all_ew, all_chisq, all_ids, all_los = [], [], [], [], []
 
-        fr200_values = [0.25, 0.5, 0.75, 1.0, 1.25]  # you can adjust if needed
+        fr200_values = [0.25, 0.5, 0.75, 1.0, 1.25]
+
         for fr in fr200_values:
             with h5py.File(results_file, 'r') as hf:
                 all_N.extend(hf[f'log_N_{fr}r200'][:])
@@ -100,37 +107,32 @@ if __name__ == '__main__':
         all_ids = np.array(all_ids)
         all_los = np.array(all_los)
 
-        # Mask poor fits / non-detections
-        mask = (all_N > logN_min) * (all_chisq < chisq_lim[l]) * (all_ew >= 0.)
-        all_N = all_N[mask]
-        all_los = all_los[mask]
-        all_ids = all_ids[mask]
+        mask = (all_N > logN_min) & (all_chisq < chisq_lim[l]) & (all_ew >= 0.)
+        all_N, all_los, all_ids = all_N[mask], all_los[mask], all_ids[mask]
 
-        # Compute azimuthal angles between LOS vector and galaxy angular momentum
-        gal_indices = np.array([np.where(gal_ids == j)[0][0] for j in all_ids])
-        gal_L = gal_angmom[gal_indices]
-        los_vecs = all_los - gal_pos[gal_indices]
+        # Compute angles between LOS vector and L_baryon
+        gal_index = np.array([np.where(gal_ids == g)[0][0] for g in all_ids])
+        los_vecs = all_los - gal_pos[gal_index]
+        los_vecs /= np.linalg.norm(los_vecs, axis=1)[:, None]
 
-        los_norm = np.linalg.norm(los_vecs, axis=1)
-        L_norm = np.linalg.norm(gal_L, axis=1)
-        cos_theta = np.sum(los_vecs * gal_L, axis=1) / (los_norm * L_norm)
+        cos_theta = np.sum(los_vecs * gal_L_unit[gal_index], axis=1)
         theta = np.degrees(np.arccos(np.clip(cos_theta, -1, 1)))
 
-        # Initialize
-        plot_data[f'cddf_all'] = np.zeros(len(plot_logN))
-
+        # All-sightlines CDDF
+        plot_data['cddf_all'] = np.zeros(len(plot_logN))
         for j in range(len(bins_logN) - 1):
             N_mask = (all_N > bins_logN[j]) & (all_N < bins_logN[j + 1])
-            plot_data[f'cddf_all'][j] = len(all_N[N_mask])
-        plot_data[f'cddf_all_poisson'] = np.sqrt(plot_data[f'cddf_all']) / (plot_data[f'cddf_all'] * np.log(10.))
-        plot_data[f'cddf_all'] /= (delta_N * dX_all)
-        plot_data[f'cddf_all'] = np.log10(plot_data[f'cddf_all'])
+            plot_data['cddf_all'][j] = len(all_N[N_mask])
+        plot_data['cddf_all_poisson'] = np.sqrt(plot_data['cddf_all']) / (plot_data['cddf_all'] * np.log(10.))
+        plot_data['cddf_all'] /= (delta_N * dX_all)
+        plot_data['cddf_all'] = np.log10(plot_data['cddf_all'])
 
         plot_data[f'cddf_all_cv_mean_{ncells}'], plot_data[f'cddf_all_cv_{ncells}'] = \
-            get_cosmic_variance_cddf(all_N, all_los, boxsize, line, bins_logN, delta_N, path_lengths, ncells=ncells,
-                                     redshift=redshift, hubble_parameter=hubble_parameter,
-                                     hubble_constant=hubble_constant)
+            get_cosmic_variance_cddf(all_N, all_los, boxsize, line, bins_logN, delta_N,
+                                     path_lengths, ncells=ncells, redshift=redshift,
+                                     hubble_parameter=hubble_parameter, hubble_constant=hubble_constant)
 
+        # === AZIMUTHAL bins ===
         for j, label in enumerate(az_labels):
             plot_data[f'cddf_{label}'] = np.zeros(len(plot_logN))
             az_mask = (theta >= az_bins[j]) & (theta < az_bins[j+1])
@@ -142,12 +144,13 @@ if __name__ == '__main__':
             # Poisson + normalization
             plot_data[f'cddf_{label}_poisson'] = np.sqrt(plot_data[f'cddf_{label}'])
             plot_data[f'cddf_{label}_poisson'] /= (plot_data[f'cddf_{label}'] * np.log(10.))
-            plot_data[f'cddf_{label}'] /= (delta_N * dX_all)  # same dX for simplicity
+            plot_data[f'cddf_{label}'] /= (delta_N * dX_all)
             plot_data[f'cddf_{label}'] = np.log10(plot_data[f'cddf_{label}'])
 
             plot_data[f'cddf_{label}_cv_mean_{ncells}'], plot_data[f'cddf_{label}_cv_{ncells}'] = \
-                get_cosmic_variance_cddf(all_N[az_mask], all_los[az_mask], boxsize, line, bins_logN, delta_N,
-                                         path_lengths, ncells=ncells, redshift=redshift,
-                                         hubble_parameter=hubble_parameter, hubble_constant=hubble_constant)
+                get_cosmic_variance_cddf(all_N[az_mask], all_los[az_mask], boxsize, line, bins_logN,
+                                         delta_N, path_lengths, ncells=ncells,
+                                         redshift=redshift, hubble_parameter=hubble_parameter,
+                                         hubble_constant=hubble_constant)
 
         write_dict_to_h5(plot_data, cddf_file)
