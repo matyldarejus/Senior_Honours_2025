@@ -59,16 +59,16 @@ if __name__ == '__main__':
 
     fig, ax = plt.subplots(2, 1, figsize=(15, 10), gridspec_kw={'height_ratios': [2, 1]}, sharey='row', sharex='col')
 
-    #ssfr_lines = []
-    #for i in range(len(ssfr_colors)):
-    #    ssfr_lines.append(Line2D([0,1],[0,1], color=ssfr_colors[i]))
-    #leg = ax[0].legend(ssfr_lines, ssfr_labels, loc=3, fontsize=14)
-    #ax[0].add_artist(leg)
+    ssfr_lines = []
+    for i in range(len(ssfr_colors)):
+        ssfr_lines.append(Line2D([0,1],[0,1], color=ssfr_colors[i]))
+    leg = ax[0].legend(ssfr_lines, ssfr_labels, loc='lower left', fontsize=14)
+    ax[0].add_artist(leg)
 
     rho_lines = []
     for i in range(len(rho_ls)):
         rho_lines.append(Line2D([0,1],[0,1], color=ssfr_colors[0], ls=rho_ls[i], lw=rho_lw[i]))
-    leg = ax[0].legend(rho_lines, rho_labels, loc=3, fontsize=14)
+    leg = ax[0].legend(rho_lines, rho_labels, loc='lower right', fontsize=14)
     ax[0].add_artist(leg)
 
     i = 0
