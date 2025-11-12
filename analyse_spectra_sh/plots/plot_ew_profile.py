@@ -37,6 +37,7 @@ if __name__ == '__main__':
     wind = sys.argv[2]
     snap = sys.argv[3]
     norients = int(sys.argv[4])
+    verbose = True if sys.argv[5] == 'True' else False
     
     data_dir = f'/disk04/rad/sim/{model}/{wind}/'
     sim = caesar.load(f'{data_dir}Groups/{model}_{snap}.hdf5')
@@ -78,6 +79,9 @@ if __name__ == '__main__':
         gal_ssfr = sf['ssfr'][:]
 
     mass_long = np.repeat(gal_sm, norients)
+    
+    if verbose:
+        print(mass_long)
     ssfr_long = np.repeat(gal_ssfr, norients)
     sf_mask, gv_mask, q_mask = ssfr_type_check(quench, ssfr_long)
 
