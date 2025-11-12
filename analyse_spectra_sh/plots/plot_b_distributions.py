@@ -1,4 +1,4 @@
-# Plot b-parameter distributions for different ssfr types and radial bins
+# Plot b-parameter distributions for different ssfr types
 import matplotlib.pyplot as plt
 import numpy as np
 import h5py
@@ -25,14 +25,12 @@ if __name__ == '__main__':
     snap = sys.argv[3]
     line = "OVI1031"
 
-    # --- paths ---
     plot_dir = '/home/matylda/data/plots/'
     sample_dir = '/disk04/mrejus/sh/samples/'
     results_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_hm12_fit_lines_{line}.h5'
     sample_file = f'{sample_dir}{model}_{wind}_{snap}_galaxy_sample.h5'
     snapfile = f'{sample_dir}{model}_{wind}_{snap}.hdf5'
 
-    # --- read galaxy info ---
     with h5py.File(sample_file, 'r') as sf:
         gal_ids = sf['gal_ids'][:]
         ssfr = sf['ssfr'][:]
@@ -42,7 +40,6 @@ if __name__ == '__main__':
     quench = quench_thresh(z)
     sf_mask, gv_mask, q_mask = ssfr_type_check(quench, ssfr)
 
-    # --- colour palette ---
     cb_blue = '#5289C7'
     cb_green = '#90C987'
     cb_red = '#E26F72'
@@ -50,7 +47,7 @@ if __name__ == '__main__':
 
     b_all, b_sf, b_gv, b_q = [], [], [], []
 
-    # --- gather all b-values from results file ---
+    # get all the b values
     with h5py.File(results_file, 'r') as f:
         for key in f.keys():
             if not key.startswith('b_'):
@@ -72,10 +69,8 @@ if __name__ == '__main__':
             b_gv.extend(b_vals[gv_mask_i])
             b_q.extend(b_vals[q_mask_i])
 
-    # --- convert to arrays ---
     b_all, b_sf, b_gv, b_q = map(np.array, (b_all, b_sf, b_gv, b_q))
 
-    # --- plot ---
     fig, ax = plt.subplots(figsize=(7,5))
     bins = np.linspace(0, 150, 40)
 
