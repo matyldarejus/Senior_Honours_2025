@@ -24,6 +24,7 @@ if __name__ == '__main__':
     model = sys.argv[1]
     wind = sys.argv[2]
     snap = sys.argv[3]
+    verbose = True if sys.argv[4] == 'True' else False
 
     lines = ["OVI1031"]
     plot_lines = ['OVI']
@@ -101,6 +102,11 @@ if __name__ == '__main__':
             all_N = all_N[mask]
 
             order = np.argsort(all_D)
+
+            if verbose:
+                print(all_D)
+                print(order)
+
             weighted_D[i] = all_D[order][np.argmin(np.abs(np.nancumsum(all_N[order]) / np.nansum(all_N) - 0.5))]
             weighted_D_25[i] = all_D[order][np.argmin(np.abs(np.nancumsum(all_N[order]) / np.nansum(all_N) - 0.25))]
             weighted_D_75[i] = all_D[order][np.argmin(np.abs(np.nancumsum(all_N[order]) / np.nansum(all_N) - 0.75))]
