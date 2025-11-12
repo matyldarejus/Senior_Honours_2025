@@ -235,7 +235,7 @@ if __name__ == '__main__':
         #binned_N = bin_data(all_N, all_N, bins_logN)
         #plot_data['cddf_all_std'] = np.array([np.nanstd(i) for i in binned_N])
 
-        """
+        
         for i in range(len(inner_outer)):
 
             nlos_all = len(gal_ids) * len(inner_outer[i]) * norients
@@ -313,6 +313,6 @@ if __name__ == '__main__':
             plot_data[f'cddf_sf_{labels[i]}'] = np.log10(plot_data[f'cddf_sf_{labels[i]}'])
             plot_data[f'cddf_gv_{labels[i]}'] = np.log10(plot_data[f'cddf_gv_{labels[i]}'])
             plot_data[f'cddf_q_{labels[i]}'] = np.log10(plot_data[f'cddf_q_{labels[i]}'])
-        """
+        
 
         write_dict_to_h5(plot_data, cddf_file)
