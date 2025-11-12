@@ -65,6 +65,7 @@ if __name__ == '__main__':
 
         cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_{line}_cddf_azimuth.h5'
         plot_data = read_h5_into_dict(cddf_file)
+        completeness = plot_data['completeness']
 
         xerr = np.array([
             (plot_data['bin_edges_logN'][k + 1] - plot_data['bin_edges_logN'][k]) * 0.5
@@ -85,13 +86,15 @@ if __name__ == '__main__':
         plot_data['cddf_minor_err'] = np.sqrt(
             plot_data[f'cddf_minor_cv_{ncells}']**2. + plot_data['cddf_minor_poisson']**2.)
 
-        # --- Plot all ---
         ax[0].errorbar(plot_data['plot_logN'], plot_data['cddf_all'],
                        c=cb_grey, yerr=plot_data['cddf_all_err'],
                        xerr=xerr, capsize=4, ls='-', lw=1.5,
                        label='All CGM')
+        
+        ax[0].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
+        ax[1].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
 
-        # --- Plot major/minor ---
+
         for az_idx, az_label in enumerate(az_labels):
             mock_cddf = plot_data[f'cddf_{az_label}']
             ax[0].plot(plot_data['plot_logN'], mock_cddf,
