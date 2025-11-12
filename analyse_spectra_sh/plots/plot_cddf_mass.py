@@ -60,9 +60,9 @@ if __name__ == '__main__':
     x = [0.79, 0.74, 0.77, 0.75, 0.755, 0.76]
     ncells = 16
 
-    delta_m = 0.5
+    delta_m = 0.25
     min_m = 10.
-    nbins_m = 3
+    nbins_m = 5
     mass_bins = np.arange(min_m, min_m+(nbins_m+1)*delta_m, delta_m)
     mass_bin_labels = []
     mass_plot_titles = []
