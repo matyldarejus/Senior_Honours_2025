@@ -263,15 +263,15 @@ if __name__ == '__main__':
         ax[i].axhline(Tth, ls=':', c='k', lw=1)
     
 
-        fig.subplots_adjust(right=0.82, wspace=0.25, hspace=0.25)
+    fig.subplots_adjust(right=0.82, wspace=0.25, hspace=0.25)
 
-        cbar_ax = fig.add_axes([0.84, 0.24, 0.02, 0.51])
-        fig.colorbar(im, cax=cbar_ax, ticks=fr200, label=r'$\rho / r_{200}$')
+    cbar_ax = fig.add_axes([0.84, 0.24, 0.02, 0.51])
+    fig.colorbar(im, cax=cbar_ax, ticks=fr200, label=r'$\rho / r_{200}$')
 
-        plt.tight_layout(rect=[0, 0, 0.82, 1])
+    plt.tight_layout(rect=[0, 0, 0.82, 1])
 
-        plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_OVI_NT_r200.png', format='png', bbox_inches='tight', dpi=300)
-        plt.close()
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_OVI_NT_r200.png', format='png', bbox_inches='tight', dpi=300)
+    plt.close()
 
 
                                                  
