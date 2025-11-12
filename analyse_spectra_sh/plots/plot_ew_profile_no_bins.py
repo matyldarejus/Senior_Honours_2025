@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     delta_m = 1.5
     min_m = 10.
-    nbins_m = 1 
+    nbins_m = 2
     mass_bins = np.arange(min_m, min_m+(nbins_m+1)*delta_m, delta_m)
     
     mass_bin_labels = [] 
