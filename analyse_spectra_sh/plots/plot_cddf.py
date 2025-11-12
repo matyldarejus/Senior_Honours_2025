@@ -156,10 +156,10 @@ if __name__ == '__main__':
         ax[i+1].set_xlim(logN_min, 18)
         ax[i+1].set_ylim(-1.25, 1.25)
 
-        if line in ["SiIII1206", "CIV1548", "OVI1031"]:
+        if line in ["OVI1031"]:
             ax[i+1].set_xlabel(r'${\rm log }(N / {\rm cm}^{-2})$')
 
-        if line in ['H1215', "SiIII1206"]:
+        if line in ["OVI1031"]:
             ax[i].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
             ax[i+1].set_ylabel(r'${\rm log}\ f_{\rm CDDF\ All}$')
         ax[i].annotate(plot_lines[lines.index(line)], xy=(x[l], 0.86), xycoords='axes fraction',
