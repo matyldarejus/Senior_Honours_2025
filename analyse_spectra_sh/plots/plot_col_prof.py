@@ -146,5 +146,5 @@ if __name__ == '__main__':
     plt.xlabel(r'$r_\perp / r_{200}$')
     plt.tight_layout()
     plt.savefig(
-        f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI.pdf', format='pdf')
+        f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI.png', format='png')
     plt.close()
