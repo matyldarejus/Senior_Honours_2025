@@ -1,5 +1,6 @@
 # Sourced from https://github.com/sarahappleby/cgm/tree/master
 # Edited by Matylda Rejus for SH 2025
+# Plots CDDFs for different rho bins (inner vs outer CGM)
 
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -61,14 +62,14 @@ if __name__ == '__main__':
     ssfr_lines = []
     for i in range(len(ssfr_colors)):
         ssfr_lines.append(Line2D([0,1],[0,1], color=ssfr_colors[i]))
-    leg = ax[0].legend(ssfr_lines, ssfr_labels, loc=3, fontsize=14)
+    leg = ax[0].legend(ssfr_lines, ssfr_labels, loc='lower left', fontsize=14)
     ax[0].add_artist(leg)
 
-    #rho_lines = []
-    #for i in range(len(rho_ls)):
-    #    rho_lines.append(Line2D([0,1],[0,1], color=ssfr_colors[0], ls=rho_ls[i], lw=rho_lw[i]))
-    #leg = ax[0][1].legend(rho_lines, rho_labels, loc=3, fontsize=14)
-    #ax[0][1].add_artist(leg)
+    rho_lines = []
+    for i in range(len(rho_ls)):
+        rho_lines.append(Line2D([0,1],[0,1], color=ssfr_colors[0], ls=rho_ls[i], lw=rho_lw[i]))
+    leg = ax[0].legend(rho_lines, rho_labels, loc='lower right', fontsize=14)
+    ax[0].add_artist(leg)
 
     i = 0
     j = 0
@@ -91,6 +92,7 @@ if __name__ == '__main__':
 
         ax[i+1].axhline(0, c='k', lw=0.8, ls='-')
 
+        # Combine errors
         plot_data[f'cddf_all_poisson'][np.isnan(plot_data[f'cddf_all_poisson'])] = 0
         plot_data[f'cddf_sf_poisson'][np.isnan(plot_data[f'cddf_sf_poisson'])] = 0
         plot_data[f'cddf_gv_poisson'][np.isnan(plot_data[f'cddf_gv_poisson'])] = 0
@@ -114,20 +116,23 @@ if __name__ == '__main__':
         ax[i].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
         ax[i+1].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
 
-        #for k in range(len(labels)):
+        # Plot different rho bins
+        for k in range(len(labels)):
 
-        #    ax[i][j].plot(plot_data['plot_logN'], plot_data[f'cddf_all_{labels[k]}'], c=ssfr_colors[0], ls=rho_ls[k+1], lw=1.5)
-        #    ax[i][j].plot(plot_data['plot_logN'], plot_data[f'cddf_sf_{labels[k]}'], c=ssfr_colors[1], ls=rho_ls[k+1], lw=rho_lw[k+1])
-        #    ax[i][j].plot(plot_data['plot_logN'], plot_data[f'cddf_gv_{labels[k]}'], c=ssfr_colors[2], ls=rho_ls[k+1], lw=rho_lw[k+1])
-        #    ax[i][j].plot(plot_data['plot_logN'], plot_data[f'cddf_q_{labels[k]}'], c=ssfr_colors[3], ls=rho_ls[k+1], lw=rho_lw[k+1])
+            ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_all_{labels[k]}'], c=ssfr_colors[0], ls=rho_ls[k+1], lw=1.5)
+            ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_sf_{labels[k]}'], c=ssfr_colors[1], ls=rho_ls[k+1], lw=rho_lw[k+1])
+            ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_gv_{labels[k]}'], c=ssfr_colors[2], ls=rho_ls[k+1], lw=rho_lw[k+1])
+            ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_q_{labels[k]}'], c=ssfr_colors[3], ls=rho_ls[k+1], lw=rho_lw[k+1])
 
-        #    ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_sf_{labels[k]}'] - plot_data[f'cddf_all']), 
-        #                    c=ssfr_colors[1], ls=rho_ls[k+1], lw=rho_lw[k+1])
-        #    ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_gv_{labels[k]}'] - plot_data[f'cddf_all']), 
-        #                    c=ssfr_colors[2], ls=rho_ls[k+1], lw=rho_lw[k+1])
-        #    ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_q_{labels[k]}'] - plot_data[f'cddf_all']), 
-        #                    c=ssfr_colors[3], ls=rho_ls[k+1], lw=rho_lw[k+1])
+            ax[i+1].plot(plot_data['plot_logN'], (plot_data[f'cddf_sf_{labels[k]}'] - plot_data[f'cddf_all']), 
+                            c=ssfr_colors[1], ls=rho_ls[k+1], lw=rho_lw[k+1])
+            ax[i+1].plot(plot_data['plot_logN'], (plot_data[f'cddf_gv_{labels[k]}'] - plot_data[f'cddf_all']), 
+                            c=ssfr_colors[2], ls=rho_ls[k+1], lw=rho_lw[k+1])
+            ax[i+1].plot(plot_data['plot_logN'], (plot_data[f'cddf_q_{labels[k]}'] - plot_data[f'cddf_all']), 
+                            c=ssfr_colors[3], ls=rho_ls[k+1], lw=rho_lw[k+1])
        
+        """
+        # Plot SSFR types for all CGM
         ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_sf'], c=ssfr_colors[1], ls='-', lw=1)
         ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_gv'], c=ssfr_colors[2], ls='-', lw=1)
         ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_q'], c=ssfr_colors[3], ls='-', lw=1)
@@ -140,6 +145,7 @@ if __name__ == '__main__':
 
         ax[i+1].errorbar(plot_data['plot_logN'] + 0.05, (plot_data[f'cddf_q'] - plot_data[f'cddf_all']), yerr=plot_data[f'cddf_all_q_err'],
                             xerr=xerr, c=ssfr_colors[3], capsize=4, ls='-', lw=1)
+        """
 
         #ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_sf'] - plot_data[f'cddf_all']),
         #                c=ssfr_colors[1], ls='-', lw=1)
@@ -148,7 +154,7 @@ if __name__ == '__main__':
         #ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_q'] - plot_data[f'cddf_all']),
         #                c=ssfr_colors[3], ls='-', lw=1)
 
-            # Axes & labels
+        # Axes & labels
         ax[0].set_xlim(logN_min, 18)
         ax[0].set_ylim(-19, -9)
         ax[1].set_xlim(logN_min, 18)
@@ -164,9 +170,9 @@ if __name__ == '__main__':
         if line in ['OVI1031']:
             ax[0].set_xticks(range(11, 19))
 
-    
     plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_compressed_chisqion_{ncells}.png', format='png')
+
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_compressed_rho.png', format='png')
     #plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_compressed_chisqion_{ncells}_extras.pdf', format='pdf')
     plt.close()

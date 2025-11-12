@@ -37,6 +37,7 @@ if __name__ == '__main__':
     wind = sys.argv[2]
     snap = sys.argv[3]
     norients = int(sys.argv[4])
+    verbose = True if sys.argv[5] == 'True' else False
     
     data_dir = f'/disk04/rad/sim/{model}/{wind}/'
     sim = caesar.load(f'{data_dir}Groups/{model}_{snap}.hdf5')
@@ -58,9 +59,9 @@ if __name__ == '__main__':
     fr200 = np.arange(min_fr200, (nbins_fr200+1)*delta_fr200, delta_fr200)
     chisq_lim = 2.5
 
-    delta_m = 0.25
+    delta_m = 0.5
     min_m = 10.
-    nbins_m = 5
+    nbins_m = 3
     mass_bins = np.arange(min_m, min_m+(nbins_m+1)*delta_m, delta_m)
     
     mass_bin_labels = [] 
@@ -78,6 +79,9 @@ if __name__ == '__main__':
         gal_ssfr = sf['ssfr'][:]
 
     mass_long = np.repeat(gal_sm, norients)
+    
+    if verbose:
+        print(mass_long)
     ssfr_long = np.repeat(gal_ssfr, norients)
     sf_mask, gv_mask, q_mask = ssfr_type_check(quench, ssfr_long)
 

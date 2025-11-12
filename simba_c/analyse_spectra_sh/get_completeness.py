@@ -21,6 +21,7 @@ if __name__ == '__main__':
     model = sys.argv[1]
     wind = sys.argv[2]
     snap = sys.argv[3]
+    type = sys.argv[4]  # 'azimuth', 'chisqion', 'mass'
 
 
     #lines = ["H1215", "MgII2796", "CII1334", "SiIII1206", "CIV1548", "OVI1031"]
@@ -39,7 +40,7 @@ if __name__ == '__main__':
     end = [15.5, 14.5, 15.5, 14.5, 15.5, 14.5]
     logN = np.arange(9, 18, 0.01)
 
-    cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_OVI1031_cddf_mass.h5'
+    cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_OVI1031_cddf_{type}.h5'
     
     plot_data = read_h5_into_dict(cddf_file)
     
