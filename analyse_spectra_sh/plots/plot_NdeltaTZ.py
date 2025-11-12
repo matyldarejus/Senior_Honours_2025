@@ -161,5 +161,5 @@ if __name__ == '__main__':
     cbar.ax.xaxis.set_label_position('top')
 
     fig.subplots_adjust(wspace=0., hspace=0.)
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Nweighted_deltaTZ_{ion}.pdf', format='pdf')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Nweighted_deltaTZ_{ion}.png', format='png')
     plt.close()
