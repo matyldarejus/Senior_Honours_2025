@@ -183,7 +183,7 @@ class Spectrum(object):
 
         for k in self.line_list.keys():
             self.line_list[k] = np.delete(self.line_list[k], outwith_vel_mask)
-        
+
         # find the temperature corresponding to the l wavelength line widths - not sure if this is needed / works 
         if 'l' in self.line_list:
             print("Finding line temperatures...")
@@ -198,6 +198,7 @@ class Spectrum(object):
             temp = self.temperature[idx]
             print(f"Line temperatures: {temp}")
             self.line_list['t'] = temp
+
 
 
     def get_tau_model(self):
@@ -266,7 +267,7 @@ class Spectrum(object):
         
         if filename == None:
             filename = self.spectrum_file.split('/')[-1].replace('.h5', '.png')
-        plt.savefig(f'/disk04/mrejus/sh/results/plots/profiles/{model}_{wind}_{snap}/{filename}')
+        plt.savefig(f'/disk04/mrejus/sh/results/plots/spec/spec/{filename}')
         plt.show()
         #plt.savefig('../figures/spec_gal_1.png')
         plt.close()
@@ -351,7 +352,8 @@ def fit_profiles_sat(
     max_lines=10,
     mode="Voigt",
     logN_bounds=[8,20],
-    b_bounds=[1, 300]):
+    b_bounds=[1, 300],
+):
     """
     Fit Voigt/other profiles to the given spectrum.  Begins with one
     line, then adds lines until desired chi-sq is achieved.
@@ -378,7 +380,7 @@ def fit_profiles_sat(
 
 
     Returns:
-        profiles:    Dictionary of [N, dN, b, db, l, dl, EW, t] of best-fit
+        profiles:    Dictionary of [N, dN, b, db, l, dl, EW] of best-fit
                      profiles.
         tau_model:   Optical depths of best-fit model.
 
@@ -941,8 +943,9 @@ def fit_profiles_sat(
                 line_list["EW"], EquivalentWidth(_tau_to_flux(tau_line), l_reg)
             )
             line_list["Chisq"] = np.append(line_list["Chisq"], chisq_soln)
-            
-            # Add temperature for this line
+            #if verbose:
+            #    print('Region %d: line'%ireg,ip,params[ip*3],params[ip*3+1],params[ip*3+2])#
+             # Add temperature for this line
             # Interpolate between the two closest values in the temperature array
 
             lam = float(line_list['l'][-1]) # take the last line  
@@ -974,6 +977,7 @@ def fit_profiles_sat(
 
             #if verbose:
             #    print('Region %d: line'%ireg,ip,params[ip*3],params[ip*3+1],params[ip*3+2])
+
 
 
     return line_list
@@ -1354,7 +1358,7 @@ if __name__ == '__main__':
     else:
         vel_range = 600.
 
-    #spec_file = 'sample_galaxy_980_OVI1031_315_deg_1.0r200.h5'
+    #spec_file = 'sample_galaxy_811_MgII2796_270_deg_0.75r200.h5'
     
     #if 'SiIII1206' in spec_file.split('_'):
     print('Doing spectrum file',spec_file)
