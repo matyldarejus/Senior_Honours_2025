@@ -80,8 +80,8 @@ if __name__ == '__main__':
 
     ion_line = [Line2D([0, 1], [0, 1], ls=linestyle,
                        marker=marker, color='dimgrey')]
-    leg2 = ax.legend(ion_line, [plot_label], loc=4, fontsize=14)
-    ax.add_artist(leg2)
+    #leg2 = ax.legend(ion_line, [plot_label], loc=4, fontsize=14)
+    #ax.add_artist(leg2)
 
 
     fcol = np.zeros((len(mass_plot_titles), len(fr200)))
@@ -99,7 +99,7 @@ if __name__ == '__main__':
                 all_chisq = np.array(hf[f'chisq_{r}r200'][:])
                 all_ids = np.array(hf[f'ids_{r}r200'][:])
             except KeyError:
-                print(f"⚠️ No data for r = {r}r200, skipping.")
+                print(f"No data for r = {r}r200, skipping.")
                 continue
 
             # Apply quality cuts
@@ -136,7 +136,6 @@ if __name__ == '__main__':
                 ncol[j][i] = np.sum(mass_mask & collisional)
                 ntotal[j][i] = np.sum(mass_mask)
 
-    # --- Plot results ---
     for j in range(len(mass_plot_titles)):
         plt.plot(fr200, fcol[j], color=mass_colors[j],
                  ls=linestyle, marker=marker, lw=1.5)
