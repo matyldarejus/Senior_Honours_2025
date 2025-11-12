@@ -31,7 +31,6 @@ if __name__ == '__main__':
     N_min = [13.2]
 
     Tphoto_ovi = 5
-    Tphoto_civ = 4.8
     linestyles = ['--', ':']
     markers = ['s', '^']
 
@@ -106,8 +105,11 @@ if __name__ == '__main__':
             all_N = all_N[mask]
             all_ids = all_ids[mask]
 
-            idx = np.array([np.where(gal_ids == l)[0] for l in all_ids]).flatten()
-            all_mass = mass[idx]
+            idx = np.concatenate([np.where(gal_ids == gid)[0] for gid in all_ids if gid in gal_ids], axis=0)
+            if len(idx) == 0:
+                # Skip this radius bin if no matches
+                continue
+            all_mass = mass[idx.astype(int)]
 
             collisional = all_T > Tphoto_ovi # note: only for OVI
            
