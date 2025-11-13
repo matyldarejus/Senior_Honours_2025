@@ -140,13 +140,15 @@ if __name__ == '__main__':
             ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_q_per75'], plot_data[f'{bin_label}_q_per25'], alpha=0.3, color=cb_red)
 
             ax[l][b].set_ylim(-3., 0.)
-            ax[l][b].legend(loc=1)
             
             if b == 0:
                 ax[l][b].set_ylabel(r'${\rm log (EW}/\AA)$')
+                ax[l][b].set_title(mass_plot_titles[b])
+                ax[l][b].legend(loc=1)
             
             if l == 0:
                 ax[l][b].set_title(mass_plot_titles[b])
+                
             if l == len(lines) -1:
                 ax[l][b].set_xlabel(r'$\rho / r_{200}$')
 
