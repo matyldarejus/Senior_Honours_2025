@@ -148,9 +148,9 @@ if __name__ == '__main__':
             
             if l == 0:
                 ax[l][b].set_title(mass_plot_titles[b])
-                
+
             if l == len(lines) -1:
-                ax[l][b].set_xlabel(r'$\rho / r_{200}$')
+                ax[l][b].set_xlabel(r'$r_\perp / r_{200}$')
 
     plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
