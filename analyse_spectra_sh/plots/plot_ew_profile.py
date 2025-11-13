@@ -131,25 +131,22 @@ if __name__ == '__main__':
         for b, bin_label in enumerate(mass_bin_labels):
 
             ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_sf_med'], ls='-', c=cb_blue, label='SF', lw=1.5)
-            if b == 0:
-                ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_sf_per75'], plot_data[f'{bin_label}_sf_per25'], alpha=0.3, color=cb_blue)
+            ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_sf_per75'], plot_data[f'{bin_label}_sf_per25'], alpha=0.3, color=cb_blue)
 
             ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_gv_med'], ls='-', c=cb_green, label='GV', lw=1.5)
-            if b == 0:
-                ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_gv_per75'], plot_data[f'{bin_label}_gv_per25'], alpha=0.3, color=cb_green)
+            ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_gv_per75'], plot_data[f'{bin_label}_gv_per25'], alpha=0.3, color=cb_green)
 
             ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_q_med'], ls='-', c=cb_red, label='Q', lw=1.5)
-            if b == 0:
-                ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_q_per75'], plot_data[f'{bin_label}_q_per25'], alpha=0.3, color=cb_red)
+            ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_q_per75'], plot_data[f'{bin_label}_q_per25'], alpha=0.3, color=cb_red)
 
-            ax[l][b].set_ylim(-3., 1.)
+            ax[l][b].set_ylim(-3., 0.)
 
             if b == 0:
                 ax[l][b].set_ylabel(r'${\rm log (EW}/\AA)$')
-            if b == nbins_m  -1:
-                ax[l][b].annotate(plot_lines[l], xy=(0.05, 0.85), xycoords='axes fraction')
-                if l == 0:
-                    ax[l][b].legend(loc=1)
+            #if b == nbins_m  -1:
+            #    ax[l][b].annotate(plot_lines[l], xy=(0.05, 0.85), xycoords='axes fraction')
+            #    if l == 0:
+            #        ax[l][b].legend(loc=1)
             if l == 0:
                 ax[l][b].set_title(mass_plot_titles[b])
             if l == len(lines) -1:

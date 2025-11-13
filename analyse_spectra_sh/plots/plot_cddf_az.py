@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
         ax[1].axhline(0, c='k', lw=0.8, ls='-')
 
-
+        # Replace NaNs with zeros
         for key in ['cddf_all_poisson', 'cddf_major_poisson', 'cddf_minor_poisson']:
             plot_data[key][np.isnan(plot_data[key])] = 0
 
@@ -109,17 +109,17 @@ if __name__ == '__main__':
                        c=az_colors[az_idx], ls=az_ls[az_idx], lw=1.5)
 
         # Axes & labels
-        ax[0].set_xlim(logN_min, 18)
+        ax[0].set_xlim(logN_min, 16.5)
         ax[0].set_ylim(-19, -9)
-        ax[1].set_xlim(logN_min, 18)
+        ax[1].set_xlim(logN_min, 16.5)
         ax[1].set_ylim(-1.25, 1.25)
 
         ax[1].set_xlabel(r'${\rm log }(N / {\rm cm}^{-2})$')
         ax[0].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
         ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
 
-        ax[0].annotate(plot_lines[l], xy=(0.76, 0.86), xycoords='axes fraction',
-                       bbox=dict(boxstyle="round", fc="w", ec='dimgrey', lw=0.75))
+        #ax[0].annotate(plot_lines[l], xy=(0.76, 0.86), xycoords='axes fraction',
+        #               bbox=dict(boxstyle="round", fc="w", ec='dimgrey', lw=0.75))
 
         if line in ['OVI1031']:
             ax[0].set_xticks(range(11, 19))
