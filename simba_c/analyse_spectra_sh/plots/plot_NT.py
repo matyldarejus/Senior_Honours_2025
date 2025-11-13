@@ -266,7 +266,7 @@ if __name__ == '__main__':
     fig.subplots_adjust(right=0.82, wspace=0.25, hspace=0.25)
 
     cbar_ax = fig.add_axes([0.84, 0.24, 0.02, 0.51])
-    fig.colorbar(im, cax=cbar_ax, ticks=fr200, label=r'$\rho / r_{200}$')
+    fig.colorbar(im, cax=cbar_ax, ticks=fr200, label=r'$r_\perp / r_{200}$')
 
     plt.tight_layout(rect=[0, 0, 0.82, 1])
 
