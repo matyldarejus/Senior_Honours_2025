@@ -83,6 +83,7 @@ if __name__ == '__main__':
     ax.set_ylabel('Count')
     ax.legend(fontsize=11)
     ax.set_title(f'{line} linewidth distributions', fontsize=15)
+    ax.set_xlim(0, 90)
 
     plt.tight_layout()
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_bparam_dist_total.png', format='png')
