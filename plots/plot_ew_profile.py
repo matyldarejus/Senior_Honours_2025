@@ -167,7 +167,7 @@ if __name__ == '__main__':
                 ax[l][b].set_xlabel(r'$r_\perp / r_{200}$')
 
     plt.tight_layout()
-    fig.subplots_adjust(wspace=0., hspace=0.)
+    fig.subplots_adjust(wspace=0.1, hspace=0.)
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_ew_profile.png', dpi=400)
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_ew_profile.pdf')
     plt.show()
