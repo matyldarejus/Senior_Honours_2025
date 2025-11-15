@@ -170,5 +170,6 @@ if __name__ == '__main__':
 
     #plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_deltaTN_{line}.png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_deltaTN_{line}.png', format)
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_deltaTN_{line}.pdf', format='pdf')
     plt.close()
