@@ -11,6 +11,23 @@ import sys
 import caesar
 import os
 
+
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.5
+plt.rcParams['axes.labelsize'] = 24
+plt.rcParams['axes.titlesize'] = 24
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
+plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['legend.frameon'] = True
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
+
 def ssfr_b_redshift(z):
     return 1.9*np.log10(1+z) - 7.7
 
@@ -99,76 +116,6 @@ if __name__ == '__main__':
     sf_line = sfms_line(sm_line,b=quench)
     q_line = sfms_line(sm_line, b=quench-1.)
 
-    """
-    plt.plot(sm_line, sf_line, ls='--', lw=1.3, c='dimgray')
-    plt.plot(sm_line, q_line, ls='--', lw=1.3, c='dimgray')
-    plt.text(11.55, sf_height[snap_index], 'SF')
-    plt.text(11.55, gv_height[snap_index], 'GV')
-    plt.text(11.55, q_height[snap_index], 'Q')
-    for i in range(nbins_m + 1):
-        plt.axvline(min_m+i*delta_m, ls=':', lw=1.5, c='darkgray')
-    im = plt.scatter(gal_sm, np.log10(gal_sfr + 1e-3), c=inclination, cmap=cmap, s=5, marker='o')
-    plt.colorbar(im, label=r'$i\ (^\circ)$')
-    plt.clim(90, 0)
-    plt.xlim(9.75,11.75)
-    plt.ylim(-3.5, ylims[snap_index])
-    plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
-    plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_inclination.png')
-    plt.close()
-
-    plt.plot(sm_line, sf_line, ls='--', lw=1.3, c='dimgray')
-    plt.plot(sm_line, q_line, ls='--', lw=1.3, c='dimgray')
-    plt.text(11.55, sf_height[snap_index], 'SF')
-    plt.text(11.55, gv_height[snap_index], 'GV')
-    plt.text(11.55, q_height[snap_index], 'Q')
-    for i in range(nbins_m + 1):
-        plt.axvline(min_m+i*delta_m, ls=':', lw=1.5, c='darkgray')
-    im = plt.scatter(gal_sm, np.log10(gal_sfr + 10**-2.5), c=gal_ssfr, cmap=sf_cmap, s=5, marker='o')
-    plt.colorbar(im, label=r'$\textrm{log} ({\rm sSFR} / {\rm Gyr}^{-1})$')
-    plt.clim(-3.5, 0)
-    plt.xlim(9.75,11.75)
-    plt.ylim(-3., ylims[snap_index])
-    plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
-    plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_ssfr.png')
-    plt.close()
-
-    plt.plot(sm_line, sf_line, ls='--', lw=1.3, c='dimgray')
-    plt.plot(sm_line, q_line, ls='--', lw=1.3, c='dimgray')
-    plt.text(11.55, sf_height[snap_index], 'SF')
-    plt.text(11.55, gv_height[snap_index], 'GV')
-    plt.text(11.55, q_height[snap_index], 'Q')
-    for i in range(nbins_m + 1):
-        plt.axvline(min_m+i*delta_m, ls=':', lw=1.5, c='darkgray')
-    im = plt.scatter(gal_sm, np.log10(gal_sfr + 1e-3), c=np.log10(gal_nsats + 0.31), cmap=cmap, s=5, marker='o')
-    plt.colorbar(im, label=r'$N_{\rm sats}$')
-    plt.clim(-0.5, 1.75)
-    plt.xlim(9.75,11.75)
-    plt.ylim(-3.5, ylims[snap_index])
-    plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
-    plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_nsats.png')
-    plt.close()
-
-    plt.plot(sm_line, sf_line, ls='--', lw=1.3, c='dimgray')
-    plt.plot(sm_line, q_line, ls='--', lw=1.3, c='dimgray')
-    plt.text(11.56, sf_height[snap_index], 'SF')
-    plt.text(11.55, gv_height[snap_index], 'GV')
-    plt.text(11.575, q_height[snap_index], 'Q')
-    for i in range(nbins_m + 1):
-        plt.axvline(min_m+i*delta_m, ls=':', lw=1.5, c='darkgray')
-    im = plt.scatter(gal_sm, np.log10(gal_sfr + 1e-3), c=np.abs(np.cos(alpha)), cmap=cmap, s=5, marker='o', vmin=0, vmax=1)
-    plt.colorbar(im, label=r'$\vert{\rm cos}\ i\vert$')
-    #plt.clim(1, 0)
-    plt.xlim(9.75,11.75)
-    plt.ylim(-3.5, ylims[snap_index])
-    plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
-    plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_cosi.pdf', format='pdf')
-    plt.close()
-    
-    """
     plt.plot(sm_line, sf_line, ls='--', lw=1.3, c='dimgray')
     plt.plot(sm_line, q_line, ls='--', lw=1.3, c='dimgray')
     plt.text(11.56, sf_height[snap_index], 'SF')
@@ -180,9 +127,10 @@ if __name__ == '__main__':
     plt.colorbar(im, label=r'${\rm log} (T_{\rm CGM} / {\rm K})$')
     plt.xlim(9.75,11.75)
     plt.ylim(-3.5, ylims[snap_index])
+    plt.margins(y=0.05)
     plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
     plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_Tcgm.pdf', format='pdf')
+    plt.savefig(f'~/data/plots/{model}_{wind}_{snap}_Tcgm.pdf', format='pdf')
     plt.savefig(os.path.expanduser(f'~/data/plots/{model}_{wind}_{snap}_Tcgm.png'), format='png')
     plt.close()
 
@@ -198,47 +146,8 @@ if __name__ == '__main__':
     plt.xlim(9.75,11.75)
     plt.ylim(-3.5, ylims[snap_index])
     plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
+    plt.margins(y=0.05)
     plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_fcold.pdf', format='pdf')
+    plt.savefig(f'~/data/plots/{model}_{wind}_{snap}_fcold.pdf', format='pdf')
     plt.savefig(os.path.expanduser(f'~/data/plots/{model}_{wind}_{snap}_fcold.png'), format='png')
     plt.close()
-    """
-
-    im = plt.scatter(gal_sm, inclination, c=np.log10(gal_sfr + 1e-3), cmap=cmap, s=5, marker='o')
-    plt.colorbar(im, label=r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.clim(1.5, -3.5)
-    plt.xlim(9.75,11.75)
-    plt.ylim(0, 90)
-    plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
-    plt.ylabel(r'$i\ (^\circ)$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_mstar_inclination.png')
-    plt.close()
-
-    im = plt.scatter(gal_sm, np.abs(np.cos(alpha)), c=np.log10(gal_sfr + 1e-3), cmap=cmap, s=5, marker='o')
-    plt.colorbar(im, label=r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.clim(1.5, -3.5)
-    plt.xlim(9.75,11.75)
-    plt.ylim(0, 1)
-    plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
-    plt.ylabel(r'$\vert{\rm cos}\ i\vert$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_mstar_cosi.png')
-    plt.close()
-
-    plt.plot(sm_line, sf_line, ls='--', lw=1.3, c='dimgray')
-    plt.plot(sm_line, q_line, ls='--', lw=1.3, c='dimgray')
-    plt.text(11.55, sf_height[snap_index], 'SF')
-    plt.text(11.55, gv_height[snap_index], 'GV')
-    plt.text(11.55, q_height[snap_index], 'Q')
-    for i in range(nbins_m + 1):
-        plt.axvline(min_m+i*delta_m, ls=':', lw=1.5, c='darkgray')
-    im = plt.scatter(gal_sm, np.log10(gal_sfr + 1e-3), c=gal_fgas, cmap=cmap, s=5, marker='o')
-    plt.colorbar(im, label=r'$\textrm{log} (f_{\textrm{gas}})$')
-    plt.clim(1.0, -3.)
-    plt.xlim(9.75,11.75)
-    plt.ylim(-3.5, ylims[snap_index])
-    plt.xlabel(r'$\log\ (M_{*} / M_{\odot})$')
-    plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_fgas.png')
-    plt.close()
-
-    """
