@@ -29,9 +29,9 @@ plt.rcParams['legend.frameon'] = False
 plt.rcParams['savefig.dpi'] = 400
 plt.rcParams['figure.dpi'] = 130
 
-cb_blue = '#5289C7'
-cb_green = '#90C987'
-cb_red = '#E26F72'
+cb_blue = "#6868AC"
+cb_green = '#85A295'
+cb_red = '#864E61'
 
 def quench_thresh(z): # in units of yr^-1 
     return -1.8  + 0.3*z -9.
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     norients = int(sys.argv[4])
     verbose = True if sys.argv[5] == 'True' else False
     
-    data_dir = f'/disk04/rad/sim/{model}/{wind}/'
+    data_dir = f'/disk04/rad/sim/m100n1024/simba-c'
     sim = caesar.load(f'{data_dir}Groups/{model}_{snap}.hdf5')
     redshift = sim.simulation.redshift
     quench = quench_thresh(redshift)
