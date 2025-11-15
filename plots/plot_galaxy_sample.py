@@ -182,7 +182,7 @@ if __name__ == '__main__':
     plt.ylim(-3.5, ylims[snap_index])
     plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
     plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    #plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_Tcgm.pdf', format='pdf')
+    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_Tcgm.pdf', format='pdf')
     plt.savefig(os.path.expanduser(f'~/data/plots/{model}_{wind}_{snap}_Tcgm.png'), format='png')
     plt.close()
 
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     plt.ylim(-3.5, ylims[snap_index])
     plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
     plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    #plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_fcold.pdf', format='pdf')
+    plt.savefig(f'{sample_dir}{model}_{wind}_{snap}_fcold.pdf', format='pdf')
     plt.savefig(os.path.expanduser(f'~/data/plots/{model}_{wind}_{snap}_fcold.png'), format='png')
     plt.close()
     """

@@ -267,7 +267,7 @@ class Spectrum(object):
         
         if filename == None:
             filename = self.spectrum_file.split('/')[-1].replace('.h5', '.png')
-        plt.savefig(f'/disk04/mrejus/sh/results/plots/spec/spec/{filename}')
+        plt.savefig(f'/disk04/mrejus/sh/results/plots/simba_c/{filename}')
         plt.show()
         #plt.savefig('../figures/spec_gal_1.png')
         plt.close()
