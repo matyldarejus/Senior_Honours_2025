@@ -103,7 +103,7 @@ if __name__ == '__main__':
     ax.legend(fontsize=11)
     ax.set_title(f'{line} linewidth distributions')
     ax.set_xscale('log')
-    ax.set_xlim(3, 140)
+    ax.set_xlim(3, 115)
     plt.tight_layout()
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_bparam_dist_total.png', format='png')
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_bparam_dist_total.pdf', format='pdf')
