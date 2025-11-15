@@ -102,7 +102,7 @@ if __name__ == '__main__':
     ax.set_ylabel('Count')
     ax.legend(fontsize=11)
     ax.set_title(f'{line} linewidth distributions')
-    ax.set_xlim(0, 90)
+    #ax.set_xlim(0, 90)
     ax.set_xscale('log')
 
     plt.tight_layout()
