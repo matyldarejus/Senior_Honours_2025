@@ -173,4 +173,5 @@ if __name__ == '__main__':
 
     fig.subplots_adjust(wspace=0., hspace=0.)
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Nweighted_deltaTZ_{ion}.png', format='png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Nweighted_deltaTZ_{ion}.pdf', format='pdf')
     plt.close()
