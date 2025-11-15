@@ -22,7 +22,7 @@ plt.rcParams['xtick.major.size'] = 6
 plt.rcParams['ytick.major.size'] = 6
 plt.rcParams['xtick.major.width'] = 1.5
 plt.rcParams['ytick.major.width'] = 1.5
-plt.rcParams['legend.fontsize'] = 13
+plt.rcParams['legend.fontsize'] = 20
 plt.rcParams['legend.frameon'] = True
 plt.rcParams['savefig.dpi'] = 400
 plt.rcParams['figure.dpi'] = 130
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     ssfr_lines = []
     for i in range(len(ssfr_colors)):
         ssfr_lines.append(Line2D([0,1],[0,1], color=ssfr_colors[i]))
-    leg = ax[0].legend(ssfr_lines, ssfr_labels, loc=3, fontsize=14)
+    leg = ax[0].legend(ssfr_lines, ssfr_labels, loc=1, fontsize=20)
     ax[0].add_artist(leg)
 
     #rho_lines = []
