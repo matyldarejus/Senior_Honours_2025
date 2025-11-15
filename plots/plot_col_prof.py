@@ -8,8 +8,20 @@ import pygad as pg
 import sys
 
 plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=16)
-
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.5
+plt.rcParams['axes.labelsize'] = 24
+plt.rcParams['axes.titlesize'] = 24
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
+plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['legend.frameon'] = True
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100, alpha=1.):
     cmap_list = cmap(np.linspace(minval, maxval, n))
@@ -56,7 +68,7 @@ if __name__ == '__main__':
  
     idelta = 1. / (len(mass_bins) - 1)
     icolor = np.arange(0., 1. + idelta, idelta)
-    cmap = cm.get_cmap('plasma')
+    cmap = cm.get_cmap('magma')
     cmap = truncate_colormap(cmap, 0.2, .8)
     mass_colors = [cmap(i) for i in icolor]
 
@@ -74,14 +86,12 @@ if __name__ == '__main__':
 
     mass_lines = [Line2D([0, 1], [0, 1], color=mass_colors[i])
                   for i in range(len(mass_colors))]
-    leg1 = ax.legend(mass_lines, mass_plot_titles, loc=3, fontsize=13)
+    leg1 = ax.legend(mass_lines, mass_plot_titles, loc=3, fontsize=20)
     ax.add_artist(leg1)
 
 
     ion_line = [Line2D([0, 1], [0, 1], ls=linestyle,
                        marker=marker, color='dimgrey')]
-    #leg2 = ax.legend(ion_line, [plot_label], loc=4, fontsize=14)
-    #ax.add_artist(leg2)
 
 
     fcol = np.zeros((len(mass_plot_titles), len(fr200)))
@@ -122,7 +132,6 @@ if __name__ == '__main__':
             all_mass = mass[idx.astype(int)]
             collisional = all_T > Tphoto_ovi
 
-            # --- Mass bins ---
             for j in range(len(mass_plot_titles)):
                 mass_mask = (all_mass > mass_bins[j]) & (
                     all_mass < mass_bins[j + 1])
@@ -144,6 +153,6 @@ if __name__ == '__main__':
     plt.ylabel(r'$\sum N_{\rm col} / \sum N_{\rm total}$')
     plt.xlabel(r'$r_\perp / r_{200}$')
     plt.tight_layout()
-    plt.savefig(
-        f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI.png', format='png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI.png', format='png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI.pdf', format='pdf')
     plt.close()

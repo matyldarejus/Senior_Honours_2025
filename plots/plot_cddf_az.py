@@ -14,10 +14,23 @@ from utils import *
 from physics import *
 
 plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=16)
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.5
+plt.rcParams['axes.labelsize'] = 24
+plt.rcParams['axes.titlesize'] = 24
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
+plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['legend.frameon'] = True
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
 
-# --- Colour palette ---
 cb_blue = '#5289C7'
+cb_green = '#90C987'
 cb_red = '#E26F72'
 cb_grey = 'dimgrey'
 
@@ -58,7 +71,7 @@ if __name__ == '__main__':
     rho_ls = ['-', '--', '--']
     rho_lines = [Line2D([0, 1], [0, 1], color=c, ls=ls, lw=1.5)
                  for c, ls in zip(rho_colors, rho_ls)]
-    leg = ax[0].legend(rho_lines, rho_labels, loc=3, fontsize=14)
+    leg = ax[0].legend(rho_lines, rho_labels, loc=1, fontsize=20)
     ax[0].add_artist(leg)
 
     for l, line in enumerate(lines):
@@ -72,7 +85,7 @@ if __name__ == '__main__':
             for k in range(len(plot_data['plot_logN']))
         ])
 
-        ax[1].axhline(0, c='k', lw=0.8, ls='-')
+        ax[1].axhline(0, c='k', lw=1.5, ls='-')
 
         # Replace NaNs with zeros
         for key in ['cddf_all_poisson', 'cddf_major_poisson', 'cddf_minor_poisson']:
@@ -86,26 +99,26 @@ if __name__ == '__main__':
         plot_data['cddf_minor_err'] = np.sqrt(
             plot_data[f'cddf_minor_cv_{ncells}']**2. + plot_data['cddf_minor_poisson']**2.)
         
-        ax[0].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
-        ax[1].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
+        ax[0].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
+        ax[1].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
 
 
     
         ax[0].errorbar(plot_data['plot_logN'], plot_data['cddf_all'],
                        c=cb_grey, yerr=plot_data['cddf_all_err'],
-                       xerr=xerr, capsize=4, ls='-', lw=1.5,
+                       xerr=xerr, capsize=4, ls='-', lw=1.3,
                        label='All CGM')
 
         
         for az_idx, az_label in enumerate(az_labels):
-            mock_cddf = plot_data[f'cddf_{az_label}']
-            ax[0].plot(plot_data['plot_logN'], mock_cddf,
+            cddf_plot = plot_data[f'cddf_{az_label}']
+            ax[0].plot(plot_data['plot_logN'], cddf_plot,
                        c=az_colors[az_idx], ls=az_ls[az_idx], lw=1.5,
                        label=f'{az_label.capitalize()} axis')
 
             # fractional difference relative to all
             ax[1].plot(plot_data['plot_logN'],
-                       mock_cddf - plot_data['cddf_all'],
+                       cddf_plot - plot_data['cddf_all'],
                        c=az_colors[az_idx], ls=az_ls[az_idx], lw=1.5)
 
         # Axes & labels
@@ -118,15 +131,13 @@ if __name__ == '__main__':
         ax[0].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
         ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
 
-        #ax[0].annotate(plot_lines[l], xy=(0.76, 0.86), xycoords='axes fraction',
-        #               bbox=dict(boxstyle="round", fc="w", ec='dimgrey', lw=0.75))
-
         if line in ['OVI1031']:
             ax[0].set_xticks(range(11, 19))
 
     plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
 
-    outname = f'{plot_dir}{model}_{wind}_{snap}_cddf_major_minor_{ncells}.png'
-    plt.savefig(outname, format='png', dpi=200)
+    outname = f'{plot_dir}{model}_{wind}_{snap}_cddf_major_minor_{ncells}'
+    plt.savefig(f'{outname}.png', format='png', dpi=400)
+    plt.savefig(f'{outname}.pdf', format='pdf')
     plt.close()

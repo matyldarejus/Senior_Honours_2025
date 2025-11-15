@@ -11,7 +11,20 @@ import pygad as pg
 import sys
 
 plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=13)
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.5
+plt.rcParams['axes.labelsize'] = 24
+plt.rcParams['axes.titlesize'] = 24
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
+plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['legend.frameon'] = True
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100, alpha=1.):
         cmap_list = cmap(np.linspace(minval, maxval, n))
@@ -55,7 +68,7 @@ if __name__ == '__main__':
     rho_labels = ['Inner CGM', 'Outer CGM']
     ssfr_labels = ['All', 'Star forming', 'Green valley', 'Quenched']
 
-    chisq_lim = 2.5
+    chisq_lim = 4.5
     N_min = [12., 11., 12., 11., 12., 12.]
     
     snapfile = f'/disk04/mrejus/sh/samples/{model}_{wind}_{snap}.hdf5'

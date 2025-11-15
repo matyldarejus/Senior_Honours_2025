@@ -48,12 +48,6 @@ if __name__ == '__main__':
     wind = sys.argv[2]
     snap = sys.argv[3]
 
-    """
-    lines = ["H1215", "MgII2796", "CII1334", "SiIII1206", "CIV1548", "OVI1031"]
-    plot_lines = [r'${\rm HI}\ 1215$', r'${\rm MgII}\ 2796$', r'${\rm CII}\ 1334$',
-                  r'${\rm SiIII}\ 1206$', r'${\rm CIV}\ 1548$', r'${\rm OVI}\ 1031$']
-    """
-
     lines = ["OVI1031"]
     plot_lines = [r'${\rm OVI}\ 1031$']
     
@@ -77,11 +71,6 @@ if __name__ == '__main__':
     leg = ax[0].legend(ssfr_lines, ssfr_labels, loc=1, fontsize=20)
     ax[0].add_artist(leg)
 
-    #rho_lines = []
-    #for i in range(len(rho_ls)):
-    #    rho_lines.append(Line2D([0,1],[0,1], color=ssfr_colors[0], ls=rho_ls[i], lw=rho_lw[i]))
-    #leg = ax[0][1].legend(rho_lines, rho_labels, loc=3, fontsize=14)
-    #ax[0][1].add_artist(leg)
 
     i = 0
     j = 0
@@ -90,9 +79,6 @@ if __name__ == '__main__':
 
         results_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_fit_lines_{line}.h5'
         cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_{line}_cddf_chisqion.h5'
-
-        #results_file = f'/disk04/sapple/data/normal/results/{model}_{wind}_{snap}_fit_lines_{line}_extras.h5'
-        #cddf_file = f'/disk04/sapple/data/normal/results/{model}_{wind}_{snap}_{line}_cddf_chisqion_extras.h5'
 
         plot_data = read_h5_into_dict(cddf_file)
         completeness = plot_data['completeness']
@@ -118,29 +104,12 @@ if __name__ == '__main__':
         plot_data[f'cddf_all_gv_err'] = np.sqrt(plot_data[f'cddf_all_err']**2 + plot_data[f'cddf_gv_err']**2)
         plot_data[f'cddf_all_q_err'] = np.sqrt(plot_data[f'cddf_all_err']**2 + plot_data[f'cddf_q_err']**2)
 
-        #if line == 'MgII2796':
-        #    plot_data[f'cddf_all_q_err'][7] = (plot_data[f'cddf_all_q_err'][6] + plot_data[f'cddf_all_q_err'][8]) * 0.5
-        #    plot_data[f'cddf_all_gv_err'][7] = (plot_data[f'cddf_all_gv_err'][5] + plot_data[f'cddf_all_gv_err'][6]) * 0.5
 
         ax[i].errorbar(plot_data['plot_logN'], plot_data[f'cddf_all'], c=ssfr_colors[0], yerr=plot_data[f'cddf_all_err'], 
                           xerr=xerr, capsize=4, ls=rho_ls[0], lw=1.5)
         ax[i].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
         ax[i+1].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
 
-        #for k in range(len(labels)):
-
-        #    ax[i][j].plot(plot_data['plot_logN'], plot_data[f'cddf_all_{labels[k]}'], c=ssfr_colors[0], ls=rho_ls[k+1], lw=1.5)
-        #    ax[i][j].plot(plot_data['plot_logN'], plot_data[f'cddf_sf_{labels[k]}'], c=ssfr_colors[1], ls=rho_ls[k+1], lw=rho_lw[k+1])
-        #    ax[i][j].plot(plot_data['plot_logN'], plot_data[f'cddf_gv_{labels[k]}'], c=ssfr_colors[2], ls=rho_ls[k+1], lw=rho_lw[k+1])
-        #    ax[i][j].plot(plot_data['plot_logN'], plot_data[f'cddf_q_{labels[k]}'], c=ssfr_colors[3], ls=rho_ls[k+1], lw=rho_lw[k+1])
-
-        #    ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_sf_{labels[k]}'] - plot_data[f'cddf_all']), 
-        #                    c=ssfr_colors[1], ls=rho_ls[k+1], lw=rho_lw[k+1])
-        #    ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_gv_{labels[k]}'] - plot_data[f'cddf_all']), 
-        #                    c=ssfr_colors[2], ls=rho_ls[k+1], lw=rho_lw[k+1])
-        #    ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_q_{labels[k]}'] - plot_data[f'cddf_all']), 
-        #                    c=ssfr_colors[3], ls=rho_ls[k+1], lw=rho_lw[k+1])
-       
         ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_sf'], c=ssfr_colors[1], ls='-', lw=1)
         ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_gv'], c=ssfr_colors[2], ls='-', lw=1)
         ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_q'], c=ssfr_colors[3], ls='-', lw=1)
@@ -154,12 +123,6 @@ if __name__ == '__main__':
         ax[i+1].errorbar(plot_data['plot_logN'] + 0.05, (plot_data[f'cddf_q'] - plot_data[f'cddf_all']), yerr=plot_data[f'cddf_all_q_err'],
                             xerr=xerr, c=ssfr_colors[3], capsize=4, ls='-', lw=1.3)
 
-        #ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_sf'] - plot_data[f'cddf_all']),
-        #                c=ssfr_colors[1], ls='-', lw=1)
-        #ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_gv'] - plot_data[f'cddf_all']),
-        #                c=ssfr_colors[2], ls='-', lw=1)
-        #ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_q'] - plot_data[f'cddf_all']),
-        #                c=ssfr_colors[3], ls='-', lw=1)
 
         # Axes & labels
         ax[0].set_xlim(logN_min, 18)

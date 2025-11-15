@@ -6,7 +6,20 @@ import pygad as pg
 import sys
 
 plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=14.5)
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.5
+plt.rcParams['axes.labelsize'] = 24
+plt.rcParams['axes.titlesize'] = 24
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
+plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['legend.frameon'] = True
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
 
 def quench_thresh(z):  # sSFR threshold in yr^-1
     return -1.8 + 0.3*z - 9.
@@ -82,10 +95,11 @@ if __name__ == '__main__':
     ax.set_xlabel(r'$b\ [{\rm km\ s^{-1}}]$')
     ax.set_ylabel('Count')
     ax.legend(fontsize=11)
-    ax.set_title(f'{line} linewidth distributions', fontsize=15)
+    ax.set_title(f'{line} linewidth distributions')
     ax.set_xlim(0, 90)
+    ax.set_xscale('log')
 
     plt.tight_layout()
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_bparam_dist_total.png', format='png')
-    #plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_bparam_dist_total.pdf', format='pdf')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_bparam_dist_total.pdf', format='pdf')
     plt.close()

@@ -7,7 +7,20 @@ import pygad as pg
 import sys
 
 plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=15)
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.5
+plt.rcParams['axes.labelsize'] = 24
+plt.rcParams['axes.titlesize'] = 24
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
+plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['legend.frameon'] = True
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
 
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100, alpha=1.):
@@ -39,7 +52,6 @@ if __name__ == '__main__':
     }
     chisq_lim = chisq_lim_dict[f'snap_{snap}']
 
-    # --- Simulation info ---
     snapfile = f'/disk04/mrejus/sh/samples/{model}_{wind}_{snap}.hdf5'
     s = pg.Snapshot(snapfile)
     redshift = s.redshift
@@ -49,7 +61,6 @@ if __name__ == '__main__':
     deltath = 2.046913
     Tth = 5.0
 
-    # --- Impact parameter bins ---
     delta_fr200 = 0.25
     min_fr200 = 0.25
     nbins_fr200 = 5
@@ -117,15 +128,15 @@ if __name__ == '__main__':
         ax[0].errorbar(ion_ev, weighted_D[i],
                        yerr=np.array([[weighted_D[i] - weighted_D_25[i],
                                        weighted_D_75[i] - weighted_D[i]]]).T,
-                       color=color_list[i], lw=1, ls='None', capsize=2, alpha=0.6)
+                       color=color_list[i], lw=1.5, ls='None', capsize=2, alpha=0.6)
         ax[1].errorbar(ion_ev, weighted_T[i],
                        yerr=np.array([[weighted_T[i] - weighted_T_25[i],
                                        weighted_T_75[i] - weighted_T[i]]]).T,
-                       color=color_list[i], lw=1, ls='None', capsize=2, alpha=0.6)
+                       color=color_list[i], lw=1.5, ls='None', capsize=2, alpha=0.6)
         ax[2].errorbar(ion_ev, weighted_Z[i],
                        yerr=np.array([[weighted_Z[i] - weighted_Z_25[i],
                                        weighted_Z_75[i] - weighted_Z[i]]]).T,
-                       color=color_list[i], lw=1, ls='None', capsize=2, alpha=0.6)
+                       color=color_list[i], lw=1.5, ls='None', capsize=2, alpha=0.6)
 
     # scatter all points for the colorbar
     im = ax[0].scatter(np.repeat(ion_ev, len(fr200)), weighted_D, c=fr200, cmap=cmap, norm=norm, marker='o', alpha=0.6)
