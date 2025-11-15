@@ -87,10 +87,16 @@ if __name__ == '__main__':
     fig, ax = plt.subplots(figsize=(7,5))
     bins = np.linspace(0, 150, 40)
 
-    ax.hist(b_all, bins=bins, histtype='step', color=cb_grey, lw=2, label='Total')
-    ax.hist(b_sf, bins=bins, histtype='step', color=cb_blue, lw=1.8, label='Star forming')
-    ax.hist(b_gv, bins=bins, histtype='step', color=cb_green, lw=1.8, label='Green valley')
-    ax.hist(b_q, bins=bins, histtype='step', color=cb_red, lw=1.8, label='Quenched')
+    # avoid zeros
+    b_pos = b_all[b_all > 0]
+
+    # log-spaced bins from min to 150
+    bins = np.logspace(np.log10(b_pos.min()), np.log10(150), 40)
+
+    ax.hist(b_all[b_all > 0], bins=bins, histtype='step', color=cb_grey, lw=2, label='Total')
+    ax.hist(b_sf[b_sf > 0], bins=bins, histtype='step', color=cb_blue, lw=1.8, label='Star forming')
+    ax.hist(b_gv[b_gv > 0], bins=bins, histtype='step', color=cb_green, lw=1.8, label='Green valley')
+    ax.hist(b_q[b_q > 0], bins=bins, histtype='step', color=cb_red, lw=1.8, label='Quenched')
 
     ax.set_xlabel(r'$b\ [{\rm km\ s^{-1}}]$')
     ax.set_ylabel('Count')
