@@ -132,8 +132,8 @@ if __name__ == '__main__':
     plt.margins(y=0.05)
     plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
     plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Tcgm.pdf', format='pdf')
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Tcgm.png', format='png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Tcgm.pdf', format='pdf'), bbox_inches='tight'
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Tcgm.png', format='png',bbox_inches='tight')
     plt.close()
 
     plt.plot(sm_line, sf_line, ls='--', lw=1.3, c='dimgray')
@@ -150,6 +150,6 @@ if __name__ == '__main__':
     plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
     plt.margins(y=0.05)
     plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcold.pdf', format='pdf')
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcold.png', format='png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcold.pdf', format='pdf', bbox_inches='tight')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcold.png', format='png', bbox_inches='tight')
     plt.close()
