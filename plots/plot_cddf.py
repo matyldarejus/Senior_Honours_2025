@@ -23,7 +23,7 @@ plt.rcParams['ytick.major.size'] = 6
 plt.rcParams['xtick.major.width'] = 1.5
 plt.rcParams['ytick.major.width'] = 1.5
 plt.rcParams['legend.fontsize'] = 13
-plt.rcParams['legend.frameon'] = False
+plt.rcParams['legend.frameon'] = True
 plt.rcParams['savefig.dpi'] = 400
 plt.rcParams['figure.dpi'] = 130
 

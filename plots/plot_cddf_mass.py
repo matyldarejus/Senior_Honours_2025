@@ -26,7 +26,7 @@ plt.rcParams['ytick.major.size'] = 6
 plt.rcParams['xtick.major.width'] = 1.5
 plt.rcParams['ytick.major.width'] = 1.5
 plt.rcParams['legend.fontsize'] = 20
-plt.rcParams['legend.frameon'] = False
+plt.rcParams['legend.frameon'] = True
 plt.rcParams['savefig.dpi'] = 400
 plt.rcParams['figure.dpi'] = 130
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
     mass_lines.append(Line2D([0,1],[0,1], color='dimgrey'))
     for i in range(len(mass_colors)):
         mass_lines.append(Line2D([0,1],[0,1], color=mass_colors[i]))
-    leg = ax[0].legend(mass_lines, mass_plot_titles, loc=3, fontsize=20)
+    leg = ax[0].legend(mass_lines, mass_plot_titles, loc=1, fontsize=20)
     ax[0].add_artist(leg)
 
     i = 0
