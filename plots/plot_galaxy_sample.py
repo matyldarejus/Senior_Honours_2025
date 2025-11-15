@@ -132,7 +132,7 @@ if __name__ == '__main__':
     plt.margins(y=0.05)
     plt.xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
     plt.ylabel(r'$\textrm{log} ({\rm SFR} / M_{\odot}{\rm yr}^{-1})$')
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Tcgm.pdf', format='pdf'), bbox_inches='tight'
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Tcgm.pdf', format='pdf', bbox_inches='tight')
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Tcgm.png', format='png',bbox_inches='tight')
     plt.close()
 
