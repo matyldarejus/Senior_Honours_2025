@@ -14,8 +14,8 @@ sys.path.insert(0, '/home/matylda/sh/make_spectra_sh/')
 from utils import read_h5_into_dict, write_dict_to_h5
 
 plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=13)
-plt.rcParams['axes.linewidth'] = 1.6
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.5
 plt.rcParams['axes.labelsize'] = 24
 plt.rcParams['axes.titlesize'] = 24
 plt.rcParams['xtick.labelsize'] = 22
@@ -167,7 +167,7 @@ if __name__ == '__main__':
                 ax[l][b].set_xlabel(r'$r_\perp / r_{200}$')
 
     plt.tight_layout()
-    fig.subplots_adjust(wspace=0.1, hspace=0.)
+    fig.subplots_adjust(wspace=0.05, hspace=0.)
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_ew_profile.png', dpi=400)
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_ew_profile.pdf')
     plt.show()
