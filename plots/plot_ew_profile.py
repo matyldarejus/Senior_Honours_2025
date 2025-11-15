@@ -16,22 +16,22 @@ from utils import read_h5_into_dict, write_dict_to_h5
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif', size=13)
 plt.rcParams['axes.linewidth'] = 1.6
-plt.rcParams['axes.labelsize'] = 15
-plt.rcParams['axes.titlesize'] = 15
-plt.rcParams['xtick.labelsize'] = 13
-plt.rcParams['ytick.labelsize'] = 13
+plt.rcParams['axes.labelsize'] = 20
+plt.rcParams['axes.titlesize'] = 20
+plt.rcParams['xtick.labelsize'] = 16
+plt.rcParams['ytick.labelsize'] = 16
 plt.rcParams['xtick.major.size'] = 6
 plt.rcParams['ytick.major.size'] = 6
-plt.rcParams['xtick.major.width'] = 1.3
-plt.rcParams['ytick.major.width'] = 1.3
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
 plt.rcParams['legend.fontsize'] = 13
 plt.rcParams['legend.frameon'] = False
 plt.rcParams['savefig.dpi'] = 400
 plt.rcParams['figure.dpi'] = 130
 
-cb_blue = "#6868AC"
-cb_green = '#85A295'
-cb_red = '#864E61'
+cb_blue = '#5289C7'
+cb_green = '#90C987'
+cb_red = '#E26F72'
 
 def quench_thresh(z): # in units of yr^-1 
     return -1.8  + 0.3*z -9.
