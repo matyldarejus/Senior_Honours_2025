@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib import cm
 import matplotlib.colors as colors
-import cmastro
 import numpy as np
 import h5py
 import os
@@ -87,9 +86,7 @@ if __name__ == '__main__':
 
     idelta = 1. / (len(mass_bins) -1)
     icolor = np.arange(0., 1.+idelta, idelta)
-    #cmap = cm.get_cmap('plasma')
-    cmap = cmastro.hesperia
-    cmap = plt.get_cmap('cmastro.hesperia')
+    cmap = cm.get_cmap('magma')
     cmap = truncate_colormap(cmap, 0.2, .8)
     mass_colors = [cmap(i) for i in icolor]
 
