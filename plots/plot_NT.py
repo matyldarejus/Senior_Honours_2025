@@ -63,7 +63,7 @@ if __name__ == '__main__':
     
     x = [0.7]
     chisq_lim = [4.5]
-    N_min = [13.2]
+    N_min = [10.2]
     Tth = 5
 
     inner_outer = [[0.25, 0.5, 0.75], [1.0, 1.25]]
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     
     for i in range(3):
         ax[i].set_xlabel(r'${\rm log }(N / {\rm cm}^{-2})$')
-        ax[i].set_xlim(np.min(N_min), 18)
+        ax[i].set_xlim(np.min(N_min), 16)
         ax[i].set_ylim(3, 6)
         ax[i].axhline(Tth, ls=':', c='k', lw=1)
     
