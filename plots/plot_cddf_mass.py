@@ -123,15 +123,15 @@ if __name__ == '__main__':
 
         plot_data[f'cddf_all_err'] = np.sqrt(plot_data[f'cddf_all_cv_{ncells}']**2. + plot_data[f'cddf_all_poisson']**2.)
         ax[i].errorbar(plot_data['plot_logN'], plot_data[f'cddf_all'], c='dimgrey', yerr=plot_data[f'cddf_all_err'],
-                          xerr=xerr, capsize=4, ls='-', lw=1)
-        ax[i].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
-        ax[i+1].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
+                          xerr=xerr, capsize=4, ls='-', lw=1.3)
+        ax[i].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
+        ax[i+1].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
 
         for k in range(len(mass_bin_labels)):
-            ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_{mass_bin_labels[k]}'], c=mass_colors[k], ls='-', lw=1)
+            ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_{mass_bin_labels[k]}'], c=mass_colors[k], ls='-', lw=1.5)
 
             ax[i+1].plot(plot_data['plot_logN'], (plot_data[f'cddf_{mass_bin_labels[k]}'] - plot_data[f'cddf_all']),
-                            c=mass_colors[k], ls='-', lw=1)
+                            c=mass_colors[k], ls='-', lw=1.5)
  
     # Axes & labels
         ax[0].set_xlim(logN_min, 16.5)

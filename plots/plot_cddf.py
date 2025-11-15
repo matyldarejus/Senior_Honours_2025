@@ -13,7 +13,7 @@ from physics import *
 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
-plt.rcParams['axes.linewidth'] = 1.6
+plt.rcParams['axes.linewidth'] = 1.5
 plt.rcParams['axes.labelsize'] = 24
 plt.rcParams['axes.titlesize'] = 24
 plt.rcParams['xtick.labelsize'] = 22
@@ -123,9 +123,9 @@ if __name__ == '__main__':
         #    plot_data[f'cddf_all_gv_err'][7] = (plot_data[f'cddf_all_gv_err'][5] + plot_data[f'cddf_all_gv_err'][6]) * 0.5
 
         ax[i].errorbar(plot_data['plot_logN'], plot_data[f'cddf_all'], c=ssfr_colors[0], yerr=plot_data[f'cddf_all_err'], 
-                          xerr=xerr, capsize=4, ls=rho_ls[0], lw=1)
-        ax[i].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
-        ax[i+1].axvline(plot_data['completeness'], c='k', ls=':', lw=1)
+                          xerr=xerr, capsize=4, ls=rho_ls[0], lw=1.5)
+        ax[i].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
+        ax[i+1].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
 
         #for k in range(len(labels)):
 
@@ -146,13 +146,13 @@ if __name__ == '__main__':
         ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_q'], c=ssfr_colors[3], ls='-', lw=1)
 
         ax[i+1].errorbar(plot_data['plot_logN'] - 0.05, (plot_data[f'cddf_sf'] - plot_data[f'cddf_all']), yerr=plot_data[f'cddf_all_sf_err'],
-                            xerr=xerr, c=ssfr_colors[1], capsize=4, ls='-', lw=1)
+                            xerr=xerr, c=ssfr_colors[1], capsize=4, ls='-', lw=1.3)
 
         ax[i+1].errorbar(plot_data['plot_logN'], (plot_data[f'cddf_gv'] - plot_data[f'cddf_all']), yerr=plot_data[f'cddf_all_gv_err'],
-                            xerr=xerr, c=ssfr_colors[2], capsize=4, ls='-', lw=1)
+                            xerr=xerr, c=ssfr_colors[2], capsize=4, ls='-', lw=1.3)
 
         ax[i+1].errorbar(plot_data['plot_logN'] + 0.05, (plot_data[f'cddf_q'] - plot_data[f'cddf_all']), yerr=plot_data[f'cddf_all_q_err'],
-                            xerr=xerr, c=ssfr_colors[3], capsize=4, ls='-', lw=1)
+                            xerr=xerr, c=ssfr_colors[3], capsize=4, ls='-', lw=1.3)
 
         #ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_sf'] - plot_data[f'cddf_all']),
         #                c=ssfr_colors[1], ls='-', lw=1)
