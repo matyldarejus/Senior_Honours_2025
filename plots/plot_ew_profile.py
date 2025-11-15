@@ -53,7 +53,7 @@ if __name__ == '__main__':
     norients = int(sys.argv[4])
     verbose = True if sys.argv[5] == 'True' else False
     
-    data_dir = f'/disk04/rad/sim/m100n1024/simba-c'
+    data_dir = f'/disk04/rad/sim/m100n1024/simba-c/'
     sim = caesar.load(f'{data_dir}Groups/{model}_{snap}.hdf5')
     redshift = sim.simulation.redshift
     quench = quench_thresh(redshift)
