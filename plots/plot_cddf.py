@@ -12,7 +12,20 @@ from utils import *
 from physics import *
 
 plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=16)
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.6
+plt.rcParams['axes.labelsize'] = 24
+plt.rcParams['axes.titlesize'] = 24
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
+plt.rcParams['legend.fontsize'] = 13
+plt.rcParams['legend.frameon'] = False
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
 
 cb_blue = '#5289C7'
 cb_green = '#90C987'
@@ -49,7 +62,7 @@ if __name__ == '__main__':
     ssfr_labels = ['All galaxies', 'Star forming', 'Green valley', 'Quenched']
     ssfr_colors = ['dimgrey', cb_blue, cb_green, cb_red]
     rho_ls = ['-', '--', ':']
-    rho_lw = [1, 1.5, 2]
+    rho_lw = [1.5, 2, 2.5]
     logN_min = 11.
     x = [0.79, 0.74, 0.77, 0.75, 0.755, 0.76]
     ncells = 16
@@ -89,7 +102,7 @@ if __name__ == '__main__':
         for k in range(len(plot_data['plot_logN'])):
             xerr[k] = (plot_data['bin_edges_logN'][k+1] - plot_data['bin_edges_logN'][k])*0.5
 
-        ax[i+1].axhline(0, c='k', lw=0.8, ls='-')
+        ax[i+1].axhline(0, c='k', lw=1.5, ls='-')
 
         plot_data[f'cddf_all_poisson'][np.isnan(plot_data[f'cddf_all_poisson'])] = 0
         plot_data[f'cddf_sf_poisson'][np.isnan(plot_data[f'cddf_sf_poisson'])] = 0
@@ -148,7 +161,7 @@ if __name__ == '__main__':
         #ax[i+1][j].plot(plot_data['plot_logN'], (plot_data[f'cddf_q'] - plot_data[f'cddf_all']),
         #                c=ssfr_colors[3], ls='-', lw=1)
 
-            # Axes & labels
+        # Axes & labels
         ax[0].set_xlim(logN_min, 18)
         ax[0].set_ylim(-19, -9)
         ax[1].set_xlim(logN_min, 18)
@@ -158,8 +171,8 @@ if __name__ == '__main__':
         ax[0].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
         ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
 
-        ax[0].annotate(plot_lines[l], xy=(0.76, 0.86), xycoords='axes fraction',
-                       bbox=dict(boxstyle="round", fc="w", ec='dimgrey', lw=0.75))
+        #ax[0].annotate(plot_lines[l], xy=(0.76, 0.86), xycoords='axes fraction',
+        #               bbox=dict(boxstyle="round", fc="w", ec='dimgrey', lw=0.75))
 
         if line in ['OVI1031']:
             ax[0].set_xticks(range(11, 19))
@@ -168,5 +181,6 @@ if __name__ == '__main__':
     plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_compressed_chisqion_{ncells}.png', format='png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_compressed_chisqion_{ncells}.pdf', format='pdf')
     #plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_compressed_chisqion_{ncells}_extras.pdf', format='pdf')
     plt.close()

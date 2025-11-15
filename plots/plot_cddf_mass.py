@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib import cm
 import matplotlib.colors as colors
+import cmastro
 import numpy as np
 import h5py
 import os
@@ -15,7 +16,20 @@ from utils import *
 from physics import *
 
 plt.rc('text', usetex=True)
-plt.rc('font', family='serif', size=16)
+plt.rc('font', family='serif')
+plt.rcParams['axes.linewidth'] = 1.6
+plt.rcParams['axes.labelsize'] = 24
+plt.rcParams['axes.titlesize'] = 24
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.5
+plt.rcParams['ytick.major.width'] = 1.5
+plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['legend.frameon'] = False
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
 
 cb_blue = '#5289C7'
 cb_green = '#90C987'
@@ -73,7 +87,8 @@ if __name__ == '__main__':
 
     idelta = 1. / (len(mass_bins) -1)
     icolor = np.arange(0., 1.+idelta, idelta)
-    cmap = cm.get_cmap('plasma')
+    #cmap = cm.get_cmap('plasma')
+    cmap = cmastro.hesperia
     cmap = truncate_colormap(cmap, 0.2, .8)
     mass_colors = [cmap(i) for i in icolor]
 
@@ -85,7 +100,7 @@ if __name__ == '__main__':
     mass_lines.append(Line2D([0,1],[0,1], color='dimgrey'))
     for i in range(len(mass_colors)):
         mass_lines.append(Line2D([0,1],[0,1], color=mass_colors[i]))
-    leg = ax[0].legend(mass_lines, mass_plot_titles, loc=3, fontsize=14)
+    leg = ax[0].legend(mass_lines, mass_plot_titles, loc=3, fontsize=20)
     ax[0].add_artist(leg)
 
     i = 0
@@ -104,7 +119,7 @@ if __name__ == '__main__':
         for k in range(len(plot_data['plot_logN'])):
             xerr[k] = (plot_data['bin_edges_logN'][k+1] - plot_data['bin_edges_logN'][k])*0.5
 
-        ax[i+1].axhline(0, c='k', lw=0.8, ls='-')
+        ax[i+1].axhline(0, c='k', lw=1.5, ls='-')
 
         plot_data[f'cddf_all_err'] = np.sqrt(plot_data[f'cddf_all_cv_{ncells}']**2. + plot_data[f'cddf_all_poisson']**2.)
         ax[i].errorbar(plot_data['plot_logN'], plot_data[f'cddf_all'], c='dimgrey', yerr=plot_data[f'cddf_all_err'],
@@ -136,6 +151,7 @@ if __name__ == '__main__':
 
     plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_mass.png', format='png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_mass.png', format='png', dpi=400)
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_cddf_mass.pdf', format='pdf')
     plt.close()
 
