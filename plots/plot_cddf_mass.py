@@ -89,6 +89,7 @@ if __name__ == '__main__':
     icolor = np.arange(0., 1.+idelta, idelta)
     #cmap = cm.get_cmap('plasma')
     cmap = cmastro.hesperia
+    cmap = plt.get_cmap('cmastro.hesperia')
     cmap = truncate_colormap(cmap, 0.2, .8)
     mass_colors = [cmap(i) for i in icolor]
 
