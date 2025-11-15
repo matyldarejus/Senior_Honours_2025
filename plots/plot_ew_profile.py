@@ -18,8 +18,8 @@ plt.rc('font', family='serif', size=13)
 plt.rcParams['axes.linewidth'] = 1.6
 plt.rcParams['axes.labelsize'] = 24
 plt.rcParams['axes.titlesize'] = 24
-plt.rcParams['xtick.labelsize'] = 20
-plt.rcParams['ytick.labelsize'] = 20
+plt.rcParams['xtick.labelsize'] = 22
+plt.rcParams['ytick.labelsize'] = 22
 plt.rcParams['xtick.major.size'] = 6
 plt.rcParams['ytick.major.size'] = 6
 plt.rcParams['xtick.major.width'] = 1.5
@@ -163,7 +163,7 @@ if __name__ == '__main__':
             if l == 0:
                 ax[l][b].set_title(mass_plot_titles[b])
 
-            if l == len(lines) -1:
+            if l == len(lines) -1 and b == 1:
                 ax[l][b].set_xlabel(r'$r_\perp / r_{200}$')
 
     plt.tight_layout()
