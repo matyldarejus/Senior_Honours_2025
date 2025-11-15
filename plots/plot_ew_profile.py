@@ -1,5 +1,6 @@
 # Sourced from https://github.com/sarahappleby/cgm/tree/master
 # Edited by Matylda Rejus for SH 2025
+# Plots the equivalent width profiles for different ssfr types of galaxies
 
 import numpy as np
 import h5py
@@ -14,6 +15,19 @@ from utils import read_h5_into_dict, write_dict_to_h5
 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif', size=13)
+plt.rcParams['axes.linewidth'] = 1.6
+plt.rcParams['axes.labelsize'] = 15
+plt.rcParams['axes.titlesize'] = 15
+plt.rcParams['xtick.labelsize'] = 13
+plt.rcParams['ytick.labelsize'] = 13
+plt.rcParams['xtick.major.size'] = 6
+plt.rcParams['ytick.major.size'] = 6
+plt.rcParams['xtick.major.width'] = 1.3
+plt.rcParams['ytick.major.width'] = 1.3
+plt.rcParams['legend.fontsize'] = 13
+plt.rcParams['legend.frameon'] = False
+plt.rcParams['savefig.dpi'] = 400
+plt.rcParams['figure.dpi'] = 130
 
 cb_blue = '#5289C7'
 cb_green = '#90C987'
@@ -59,9 +73,9 @@ if __name__ == '__main__':
     fr200 = np.arange(min_fr200, (nbins_fr200+1)*delta_fr200, delta_fr200)
     chisq_lim = 2.5
 
-    delta_m = 0.25
+    delta_m = 0.5
     min_m = 10.
-    nbins_m = 5
+    nbins_m = 3
     mass_bins = np.arange(min_m, min_m+(nbins_m+1)*delta_m, delta_m)
     
     mass_bin_labels = [] 
@@ -85,7 +99,7 @@ if __name__ == '__main__':
     ssfr_long = np.repeat(gal_ssfr, norients)
     sf_mask, gv_mask, q_mask = ssfr_type_check(quench, ssfr_long)
 
-    fig, ax = plt.subplots(len(lines), nbins_m, figsize=(14, 13), sharey='row', sharex='col')
+    fig, ax = plt.subplots(len(lines), nbins_m, figsize=(14, 13), constrained_layout=False, sharey='row', sharex='col')
 
     if len(lines) == 1:
         ax = np.array([ax])
@@ -130,13 +144,13 @@ if __name__ == '__main__':
 
         for b, bin_label in enumerate(mass_bin_labels):
 
-            ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_sf_med'], ls='-', c=cb_blue, label='SF', lw=1.5)
+            ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_sf_med'], ls='-', c=cb_blue, label='SF', lw=2)
             ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_sf_per75'], plot_data[f'{bin_label}_sf_per25'], alpha=0.3, color=cb_blue)
 
-            ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_gv_med'], ls='-', c=cb_green, label='GV', lw=1.5)
+            ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_gv_med'], ls='-', c=cb_green, label='GV', lw=2)
             ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_gv_per75'], plot_data[f'{bin_label}_gv_per25'], alpha=0.3, color=cb_green)
 
-            ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_q_med'], ls='-', c=cb_red, label='Q', lw=1.5)
+            ax[l][b].plot(plot_data['fr200'], plot_data[f'{bin_label}_q_med'], ls='-', c=cb_red, label='Q', lw=2)
             ax[l][b].fill_between(plot_data['fr200'], plot_data[f'{bin_label}_q_per75'], plot_data[f'{bin_label}_q_per25'], alpha=0.3, color=cb_red)
 
             ax[l][b].set_ylim(-3., 0.)
@@ -154,6 +168,7 @@ if __name__ == '__main__':
 
     plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_ew_profile.png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_ew_profile.png', dpi=400)
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_ew_profile.pdf')
     plt.show()
     plt.clf()
