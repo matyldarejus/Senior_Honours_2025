@@ -165,7 +165,7 @@ if __name__ == '__main__':
     for i in range(3):
         ax[i].set_xlabel(r'${\rm log }(N / {\rm cm}^{-2})$')
         ax[i].set_xlim(np.min(N_min), 16)
-        ax[i].set_ylim(3, 6)
+        ax[i].set_ylim(3, 7)
         ax[i].axhline(Tth, ls=':', c='k', lw=1)
     
 
