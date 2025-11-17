@@ -108,9 +108,13 @@ if __name__ == '__main__':
             continue
 
         if verbose ==1:
+            print(f'\nResults for r = {fr:.2f} r200:')
             print(f'Cosmic rho: {cosmic_rho:.3e} g/cm^3')
             print(f'Cosmic rho log: {np.log10(cosmic_rho):.3f}')
             print(f'Mean rho log: {np.nanmean(all_D) + np.log10(cosmic_rho):.3f} g/cm^3')
+            print(f'Mean rho: {10**(np.nanmean(all_D) + np.log10(cosmic_rho)):.3e} g/cm^3')
+            print(f'Mean T log: {np.nanmean(all_T):.3f} K')
+            print(f'Mean T: {10**(np.nanmean(all_T)):.3e} K')
 
         def weighted_percentile(x, w, q):
             """Compute the weighted percentile given data x, weights w, and percentile q (0-1)."""
