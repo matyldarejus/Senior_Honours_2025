@@ -21,7 +21,7 @@ ds = yt.load(fn)
 data_dir = f'/disk04/rad/sim/m100n1024/simba-c/'
 sim =  caesar.load(f'{data_dir}Groups/{model}_{snap}.hdf5')
 
-gal_cent = np.array([i.central for i in sim.galaxies])[gal_id]
+gal_cent = yt.YTArray([sim.galaxies[i].pos.in_units('kpc/h') for i in range(len(sim.galaxies))], 'kpc/h')[gal_id]
 print(gal_cent)
 radius = np.array([i.halo.virial_quantities['r200c'].in_units('kpc/h') for i in sim.galaxies])[gal_id]
 print(radius)
