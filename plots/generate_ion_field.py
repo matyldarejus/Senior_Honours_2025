@@ -38,5 +38,5 @@ proj.set_cmap("O_p5_number_density", "viridis")
 # Save the projection plot
 plot_dir = '/home/matylda/data/plots/'
 output_filename = f'{plot_dir}ion_field_{model}_{wind}_{snap}'
-proj.save(f'{output_filename}.png', format='png', dpi=400)
-proj.save(f'{output_filename}.pdf', format='pdf')
+proj.save(f'{output_filename}.png')
+proj.save(f'{output_filename}.pdf')
