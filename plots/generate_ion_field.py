@@ -9,7 +9,7 @@ import sys
 model = sys.argv[1]
 wind = sys.argv[2]
 snap = sys.argv[3]
-gal_id = sys.argv[4]
+gal_id = int(sys.argv[4])
 
 # Load the dataset
 fn = f'/disk04/rad/sim/m100n1024/simba-c/snap_{model}_{snap}.hdf5'
