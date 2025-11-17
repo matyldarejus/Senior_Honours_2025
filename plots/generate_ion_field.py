@@ -1,3 +1,6 @@
+import caesar
+import numpy as np
+import h5py
 import yt
 import trident
 import sys 
@@ -6,10 +9,22 @@ import sys
 model = sys.argv[1]
 wind = sys.argv[2]
 snap = sys.argv[3]
+gal_id = sys.argv[4]
 
 # Load the dataset
-fn = "/disk04/rad/sim/{model}/{wind}/"
+fn = f'/disk04/rad/sim/m100n1024/simba-c/{model}/{wind}/snap_{model}_{snap}.hdf5'
 ds = yt.load(fn)
+
+# Cut out a sphere out of the dataset
+# Load in the galaxy data and find the center of the galaxy
+
+data_dir = f'/disk04/rad/sim/m100n1024/simba-c/'
+sim =  caesar.load(f'{data_dir}Groups/{model}_{snap}.hdf5')
+
+gal_cent = np.array([i.central for i in sim.galaxies])[gal_id]
+radius = np.array([i.halo.virial_quantities['r200c'].in_units('kpc/h') for i in sim.galaxies])[gal_id]
+
+sp = ds.sphere(gal_cent, (radius, "kpc"))
 
 # Add an ion field for OVI
 trident.add_ion_fields(ds, ions=['O VI'])
