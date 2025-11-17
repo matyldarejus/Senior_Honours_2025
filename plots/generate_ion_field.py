@@ -12,7 +12,7 @@ snap = sys.argv[3]
 gal_id = sys.argv[4]
 
 # Load the dataset
-fn = f'/disk04/rad/sim/m100n1024/simba-c/{model}/{wind}/snap_{model}_{snap}.hdf5'
+fn = f'/disk04/rad/sim/m100n1024/simba-c/snap_{model}_{snap}.hdf5'
 ds = yt.load(fn)
 
 # Cut out a sphere out of the dataset
