@@ -36,6 +36,7 @@ if __name__ == '__main__':
     model = sys.argv[1]
     wind = sys.argv[2]
     snap = sys.argv[3]
+    verbose = int(sys.argv[4])
 
     ion = "OVI1031"
     plot_label = "OVI"
@@ -105,6 +106,11 @@ if __name__ == '__main__':
         if len(all_N) == 0 or np.nansum(all_N) == 0:
             print(f"Empty selection for r = {fr:.2f}r200, skipping.")
             continue
+
+        if verbose ==1:
+            print(f'Cosmic rho: {cosmic_rho:.3e} g/cm^3')
+            print(f'Cosmic rho log: {np.log10(cosmic_rho):.3f}')
+            print(f'Mean rho log: {np.nanmean(all_D) + np.log10(cosmic_rho):.3f} g/cm^3')
 
         def weighted_percentile(x, w, q):
             """Compute the weighted percentile given data x, weights w, and percentile q (0-1)."""
