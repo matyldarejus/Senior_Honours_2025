@@ -137,7 +137,7 @@ if __name__ == '__main__':
         ax[1].set_xlim(logN_min, 17)
         ax[1].set_ylim(-1.25, 1.25)
 
-        ax[1].set_xlabel(r'${\rm log }(N / {\rm cm}^{-2})$')
+        ax[1].set_xlabel(r'${\rm log }(N / {\rm cm}^{2})$')
         ax[0].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
         ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
 
