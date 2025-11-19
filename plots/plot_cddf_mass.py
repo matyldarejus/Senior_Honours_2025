@@ -16,16 +16,16 @@ from physics import *
 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
-plt.rcParams['axes.linewidth'] = 1.6
-plt.rcParams['axes.labelsize'] = 24
-plt.rcParams['axes.titlesize'] = 24
-plt.rcParams['xtick.labelsize'] = 22
-plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['axes.linewidth'] = 1.5
+plt.rcParams['axes.labelsize'] = 27
+plt.rcParams['axes.titlesize'] = 27
+plt.rcParams['xtick.labelsize'] = 25
+plt.rcParams['ytick.labelsize'] = 25
 plt.rcParams['xtick.major.size'] = 6
 plt.rcParams['ytick.major.size'] = 6
 plt.rcParams['xtick.major.width'] = 1.5
 plt.rcParams['ytick.major.width'] = 1.5
-plt.rcParams['legend.fontsize'] = 20
+plt.rcParams['legend.fontsize'] = 23
 plt.rcParams['legend.frameon'] = True
 plt.rcParams['savefig.dpi'] = 400
 plt.rcParams['figure.dpi'] = 130
@@ -132,9 +132,9 @@ if __name__ == '__main__':
                             c=mass_colors[k], ls='-', lw=1.5)
  
     # Axes & labels
-        ax[0].set_xlim(logN_min, 16.5)
+        ax[0].set_xlim(logN_min, 17)
         ax[0].set_ylim(-19, -9)
-        ax[1].set_xlim(logN_min, 16.5)
+        ax[1].set_xlim(logN_min, 17)
         ax[1].set_ylim(-1.25, 1.25)
 
         ax[1].set_xlabel(r'${\rm log }(N / {\rm cm}^{-2})$')

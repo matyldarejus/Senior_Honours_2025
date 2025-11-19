@@ -16,16 +16,16 @@ from utils import read_h5_into_dict, write_dict_to_h5
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['axes.linewidth'] = 1.5
-plt.rcParams['axes.labelsize'] = 24
-plt.rcParams['axes.titlesize'] = 24
-plt.rcParams['xtick.labelsize'] = 22
-plt.rcParams['ytick.labelsize'] = 22
+plt.rcParams['axes.labelsize'] = 27
+plt.rcParams['axes.titlesize'] = 27
+plt.rcParams['xtick.labelsize'] = 25
+plt.rcParams['ytick.labelsize'] = 25
 plt.rcParams['xtick.major.size'] = 6
 plt.rcParams['ytick.major.size'] = 6
 plt.rcParams['xtick.major.width'] = 1.5
 plt.rcParams['ytick.major.width'] = 1.5
-plt.rcParams['legend.fontsize'] = 13
-plt.rcParams['legend.frameon'] = False
+plt.rcParams['legend.fontsize'] = 23
+plt.rcParams['legend.frameon'] = True
 plt.rcParams['savefig.dpi'] = 400
 plt.rcParams['figure.dpi'] = 130
 
