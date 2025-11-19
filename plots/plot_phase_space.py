@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
     inner_outer = [[0.25, 0.5, 0.75], [1.0, 1.25]]
     rho_labels = ['Inner CGM', 'Outer CGM']
-    ssfr_labels = ['All', 'Star forming', 'Green valley', 'Quenched']
+    ssfr_labels = ['All', 'Star-forming', 'Green valley', 'Quenched']
 
     chisq_lim = 4.5
     N_min = [12., 11., 12., 11., 12., 12.]
@@ -163,7 +163,7 @@ if __name__ == '__main__':
         ax[i][0].set_ylabel(r'${\rm log } (T / {\rm K})$')
 
     cax = plt.axes([horizontal_position, vertical_position, width, height])
-    fig.colorbar(im, cax=cax, label=r'${\rm log }(N / {\rm cm}^{-2})$')
+    fig.colorbar(im, cax=cax, label=r'${\rm log }(N / {\rm cm}^{2})$')
 
     ax[0][0].annotate('Inner CGM', xy=(0.65, 0.85), xycoords='axes fraction')
     ax[1][0].annotate('Outer CGM', xy=(0.65, 0.85), xycoords='axes fraction')

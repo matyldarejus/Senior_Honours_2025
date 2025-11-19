@@ -54,7 +54,7 @@ if __name__ == '__main__':
     
     labels = ['inner', 'outer']
     rho_labels = ['All CGM', 'Inner CGM', 'Outer CGM']
-    ssfr_labels = ['All galaxies', 'Star forming', 'Green valley', 'Quenched']
+    ssfr_labels = ['All galaxies', 'Star-forming', 'Green valley', 'Quenched']
     ssfr_colors = ['dimgrey', cb_blue, cb_green, cb_red]
     rho_ls = ['-', '--', ':']
     rho_lw = [1.5, 2, 2.5]

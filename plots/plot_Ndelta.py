@@ -271,7 +271,7 @@ if __name__ == '__main__':
 
         if l == len(lines)-1:
             for i in range(3):
-                ax[i].set_xlabel(r'${\rm log }(N / {\rm cm}^{-2})$')
+                ax[i].set_xlabel(r'${\rm log }(N / {\rm cm}^{2})$')
         
         ax[0].set_ylabel(r'${\rm log }\delta$')
         
@@ -293,5 +293,5 @@ if __name__ == '__main__':
     fig.colorbar(im, cax=cbar_ax, ticks=fr200, label=r'$r_\perp / r_{200}$')
     fig.subplots_adjust(wspace=0., hspace=0.)
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Ndelta_r200.png', format='png')
-    #plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Ndelta_r200_extras.pdf', format='pdf')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_Ndelta_r200.pdf', format='pdf')
     plt.close()
