@@ -142,7 +142,7 @@ if __name__ == '__main__':
         ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
 
         if line in ['OVI1031']:
-            ax[0].set_xticks(range(11, 19))
+            ax[0].set_xticks(range(11, 17))
 
     plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)

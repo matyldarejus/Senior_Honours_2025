@@ -138,8 +138,7 @@ if __name__ == '__main__':
         #               bbox=dict(boxstyle="round", fc="w", ec='dimgrey', lw=0.75))
 
         if line in ['OVI1031']:
-            ax[0].set_xticks(range(11, 19))
-
+            ax[0].set_xticks(range(11, 17))
     
     plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
