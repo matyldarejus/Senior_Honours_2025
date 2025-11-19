@@ -56,6 +56,7 @@ if __name__ == '__main__':
     az_labels = ['major', 'minor']
     az_colors = [cb_blue, cb_red]
     az_ls = ['-', '--']
+    offsets = [-0.05, 0.0]
 
     logN_min = 11.
     ncells = 16
@@ -112,6 +113,8 @@ if __name__ == '__main__':
         
         for az_idx, az_label in enumerate(az_labels):
             cddf_plot = plot_data[f'cddf_{az_label}']
+            cddf_plot_err = plot_data[f'cddf_{az_label}_err']
+
             ax[0].plot(plot_data['plot_logN'], cddf_plot,
                        c=az_colors[az_idx], ls=az_ls[az_idx], lw=1.5,
                        label=f'{az_label.capitalize()} axis')
@@ -120,6 +123,8 @@ if __name__ == '__main__':
             ax[1].plot(plot_data['plot_logN'],
                        cddf_plot - plot_data['cddf_all'],
                        c=az_colors[az_idx], ls=az_ls[az_idx], lw=1.5)
+            ax[1].errorbar(plot_data['plot_logN'] + offsets[az_idx], (cddf_plot - plot_data[f'cddf_all']), yerr=cddf_plot_err,
+                            xerr=xerr, c=az_colors[az_idx], capsize=4, ls='-', lw=1.3)
 
         # Axes & labels
         ax[0].set_xlim(logN_min, 17)
@@ -129,7 +134,7 @@ if __name__ == '__main__':
 
         ax[1].set_xlabel(r'${\rm log }(N / {\rm cm}^{2})$')
         ax[0].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
-        ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
+        ax[1].set_ylabel(r'$f_{\rm CDDF \, All}$')
 
         if line in ['OVI1031']:
             ax[0].set_xticks(range(11, 17))

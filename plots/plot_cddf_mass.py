@@ -83,6 +83,8 @@ if __name__ == '__main__':
         mass_bin_labels.append(f'{mass_bins[i]}-{mass_bins[i+1]}')
         mass_plot_titles.append(f'{mass_bins[i]}'+ r'$ < \textrm{log} (M_\star / M_{\odot}) < $' + f'{mass_bins[i+1]}')
     mass_plot_titles.insert(0, 'All galaxies')
+    offsets = [-0.05, 0, 0.05]
+
 
     idelta = 1. / (len(mass_bins) -1)
     icolor = np.arange(0., 1.+idelta, idelta)
@@ -126,11 +128,18 @@ if __name__ == '__main__':
         ax[i+1].axvline(plot_data['completeness'], c='k', ls=':', lw=1.5)
 
         for k in range(len(mass_bin_labels)):
+            bin_label = mass_bin_labels[k]
+
+            cv = plot_data[f'cddf_{bin_label}_cv_{ncells}']
+            poisson = plot_data[f'cddf_{bin_label}_poisson']
+            total_err = np.sqrt(cv**2. + poisson**2.)
+
             ax[i].plot(plot_data['plot_logN'], plot_data[f'cddf_{mass_bin_labels[k]}'], c=mass_colors[k], ls='-', lw=1.5)
 
             ax[i+1].plot(plot_data['plot_logN'], (plot_data[f'cddf_{mass_bin_labels[k]}'] - plot_data[f'cddf_all']),
                             c=mass_colors[k], ls='-', lw=1.5)
  
+            ax[i+1].errorbar(plot_data['plot_logN'] + offsets[k], plot_data[f'cddf_{mass_bin_labels[k]}'] - plot_data['cddf_all'], yerr=total_err, xerr=xerr, c=mass_colors[k], ls='-', lw=1.3, capsize=4)
     # Axes & labels
         ax[0].set_xlim(logN_min, 17)
         ax[0].set_ylim(-19, -9)
@@ -139,7 +148,7 @@ if __name__ == '__main__':
 
         ax[1].set_xlabel(r'${\rm log }(N / {\rm cm}^{2})$')
         ax[0].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
-        ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
+        ax[1].set_ylabel(r'$f_{\rm CDDF \, All}$')
 
         #ax[0].annotate(plot_lines[l], xy=(0.76, 0.86), xycoords='axes fraction',
         #               bbox=dict(boxstyle="round", fc="w", ec='dimgrey', lw=0.75))

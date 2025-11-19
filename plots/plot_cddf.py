@@ -132,7 +132,7 @@ if __name__ == '__main__':
 
         ax[1].set_xlabel(r'${\rm log }(N / {\rm cm}^{2})$')
         ax[0].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
-        ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
+        ax[1].set_ylabel(r'$f_{\rm CDDF \, All}$')
 
         #ax[0].annotate(plot_lines[l], xy=(0.76, 0.86), xycoords='axes fraction',
         #               bbox=dict(boxstyle="round", fc="w", ec='dimgrey', lw=0.75))

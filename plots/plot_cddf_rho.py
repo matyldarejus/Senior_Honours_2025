@@ -126,10 +126,20 @@ if __name__ == '__main__':
 
             ax[i+1].plot(plot_data['plot_logN'], (plot_data[f'cddf_sf_{labels[k]}'] - plot_data[f'cddf_all']), 
                             c=ssfr_colors[1], ls=rho_ls[k+1], lw=rho_lw[k+1])
+            
             ax[i+1].plot(plot_data['plot_logN'], (plot_data[f'cddf_gv_{labels[k]}'] - plot_data[f'cddf_all']), 
                             c=ssfr_colors[2], ls=rho_ls[k+1], lw=rho_lw[k+1])
             ax[i+1].plot(plot_data['plot_logN'], (plot_data[f'cddf_q_{labels[k]}'] - plot_data[f'cddf_all']), 
                             c=ssfr_colors[3], ls=rho_ls[k+1], lw=rho_lw[k+1])
+            
+            ax[i+1].errorbar(plot_data['plot_logN'] - 0.05, (plot_data[f'cddf_sf'] - plot_data[f'cddf_all']), yerr=plot_data[f'cddf_all_sf_err'],
+                            xerr=xerr, c=ssfr_colors[1], capsize=4, ls='-', lw=1.3)
+
+            ax[i+1].errorbar(plot_data['plot_logN'], (plot_data[f'cddf_gv'] - plot_data[f'cddf_all']), yerr=plot_data[f'cddf_all_gv_err'],
+                            xerr=xerr, c=ssfr_colors[2], capsize=4, ls='-', lw=1.3)
+
+            ax[i+1].errorbar(plot_data['plot_logN'] + 0.05, (plot_data[f'cddf_q'] - plot_data[f'cddf_all']), yerr=plot_data[f'cddf_all_q_err'],
+                                xerr=xerr, c=ssfr_colors[3], capsize=4, ls='-', lw=1.3)
        
         # Axes & labels
         ax[0].set_xlim(logN_min, 17)
@@ -139,7 +149,7 @@ if __name__ == '__main__':
 
         ax[1].set_xlabel(r'${\rm log }(N / {\rm cm}^{2})$')
         ax[0].set_ylabel(r'${\rm log }(\delta^2 n / \delta X \delta N )$')
-        ax[1].set_ylabel(r'$\Delta {\rm CDDF}$')
+        ax[1].set_ylabel(r'$f_{\rm CDDF \, All}$')
 
         if line in ['OVI1031']:
             ax[0].set_xticks(range(11, 17))
