@@ -101,7 +101,6 @@ if __name__ == '__main__':
     ax.set_xlabel(r'$b\ [{\rm km\ s^{-1}}]$')
     ax.set_ylabel('Count')
     ax.legend(fontsize=11)
-    ax.set_title(f'{line} linewidth distributions')
     ax.set_xscale('log')
     ax.set_xlim(3, 115)
     plt.tight_layout()
