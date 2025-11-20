@@ -157,13 +157,13 @@ if __name__ == '__main__':
     ax[2].plot(bin_cent[ndata>nmin], ymean[ndata>nmin], c='plum', lw=2, ls='--')
     bin_cent,ymean,ysiglo,ysighi,ndata = pm.runningmedian(N[q_mask*~inner_mask*silly_mask], T[q_mask*~inner_mask*silly_mask], stat='median')
     ax[2].plot(bin_cent[ndata>nmin], ymean[ndata>nmin], c='plum', lw=2, ls='-')
-    ax[0].set_title('Star forming')
+    ax[0].set_title('Star-forming')
     ax[1].set_title('Green valley')
     ax[2].set_title('Quenched')
     ax[0].set_ylabel(r'${\rm log } (T / {\rm K})$')
     
     for i in range(3):
-        ax[i].set_xlabel(r'${\rm log }(N / {\rm cm}^{-2})$')
+        ax[i].set_xlabel(r'${\rm log }(N / {\rm cm}^{2})$')
         ax[i].set_xlim(np.min(N_min), 16)
         ax[i].set_ylim(3, 7)
         ax[i].axhline(Tth, ls=':', c='k', lw=1)
