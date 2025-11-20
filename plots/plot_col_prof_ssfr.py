@@ -66,7 +66,7 @@ if __name__ == '__main__':
     ssfr_th = quench_thresh(redshift)
 
     ssfr_labels = ["All", "Star-forming", "Green Valley", "Quenched"]
-    ssfr_colors = ["black", "#1f77b4", "#ff7f0e", "#2ca02c"]
+    ssfr_colors = ["black", '#5289C7', "#90C987", "#E26F72"]
 
     fig, ax = plt.subplots(1, 1)
 
