@@ -165,8 +165,8 @@ if __name__ == '__main__':
     cax = plt.axes([horizontal_position, vertical_position, width, height])
     fig.colorbar(im, cax=cax, label=r'${\rm log }(N / {\rm cm}^{2})$')
 
-    ax[0][0].annotate('Inner CGM', xy=(0.55, 0.15), xycoords='axes fraction', bbox=dict(boxstyle="round", fc="w", ec="black", lw=1.2), fontsize=20)
-    ax[1][0].annotate('Outer CGM', xy=(0.55, 0.15), xycoords='axes fraction', bbox=dict(boxstyle="round", fc="w", ec="black", lw=1.2), fontsize=20)
+    ax[0][0].annotate('Inner CGM', xy=(0.45, 0.15), xycoords='axes fraction', bbox=dict(boxstyle="round", fc="w", ec="black", lw=1.2), fontsize=19)
+    ax[1][0].annotate('Outer CGM', xy=(0.45, 0.15), xycoords='axes fraction', bbox=dict(boxstyle="round", fc="w", ec="black", lw=1.2), fontsize=19)
 
     #plt.tight_layout()
     fig.subplots_adjust(wspace=0., hspace=0.)
