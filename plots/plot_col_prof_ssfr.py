@@ -134,6 +134,6 @@ if __name__ == '__main__':
     plt.ylabel(r'$\sum N_{\rm col} / \sum N_{\rm total}$')
     plt.xlabel(r'$r_\perp / r_{200}$')
     plt.tight_layout()
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI.png', format='png')
-    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI.pdf', format='pdf')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI_ssfr.png', format='png')
+    plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_fcol_OVI_ssfr.pdf', format='pdf')
     plt.close()
