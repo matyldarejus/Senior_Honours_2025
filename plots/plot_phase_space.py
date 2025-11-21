@@ -107,6 +107,14 @@ if __name__ == '__main__':
             ax[i][j].imshow(np.log10(rho_overdensity_temp_hist2d), extent=(rho_overdensity_bins[0], rho_overdensity_bins[-1], temp_bins[0], temp_bins[-1]),
                             cmap=cmap)
 
+
+        # Correct for completeness
+
+        cddf_file = f'/disk04/mrejus/sh/normal/results/{model}_{wind}_{snap}_{line}_cddf_chisqion.h5'
+
+        plot_data = read_h5_into_dict(cddf_file)
+        completeness = plot_data['completeness']
+
         all_T = []
         all_rho = []
         all_N = []
@@ -128,7 +136,7 @@ if __name__ == '__main__':
         all_chisq = np.array(all_chisq)
         all_ids = np.array(all_ids)
 
-        mask = (all_N > N_min[l]) * (all_chisq < chisq_lim)
+        mask = (all_N > completeness) * (all_chisq < chisq_lim)
         all_T = all_T[mask]
         all_delta_rho = all_rho[mask] - np.log10(cosmic_rho)
         all_ids = all_ids[mask]
