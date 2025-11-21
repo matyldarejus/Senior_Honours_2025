@@ -73,6 +73,8 @@ if __name__ == '__main__':
 
     chisq_lim = 4.5
     N_min = [12., 11., 12., 11., 12., 12.]
+    deltath = 2.046913
+
     
     snapfile = f'/disk04/mrejus/sh/samples/{model}_{wind}_{snap}.hdf5'
     s = pg.Snapshot(snapfile)
@@ -167,6 +169,8 @@ if __name__ == '__main__':
         for j in range(4):
             ax[i][j].set_xlim(-1, 5)
             ax[i][j].set_ylim(3, 7)
+            ax[i][j].axhline(deltath, ls=':', c='k', lw=1)
+            ax[i][j].avhline(5, ls=':', c='k', lw=1)
 
         if i == 0:
             for j in range(4):
