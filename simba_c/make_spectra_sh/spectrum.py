@@ -237,41 +237,59 @@ class Spectrum(object):
 
     def plot_fit(self, ax=None, vel_range=600., filename=None):
 
-        # plot the results :)
-
+        # Create axis if not given
         if ax is None:
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(6, 3))
 
-        x_val = self.wavelengths
+        # Convert wavelength axis → velocity axis
+        v = wave_to_vel(self.wavelengths, self.lambda_rest, self.redshift)
 
-        ax.plot(x_val, self.fluxes, label='data', c='tab:grey', lw=2, ls='-')
+        # Plot data
+        ax.plot(v, self.fluxes, c='grey', lw=2, label='Data')
 
+        # Compute model and plot total model
         self.get_fluxes_model()
+        ax.plot(v, self.fluxes_model, c='magenta', lw=2, alpha=0.9, label='Model')
+
+        # Plot individual Voigt components
         for i in range(len(self.line_list['N'])):
-            p = np.array([self.line_list['N'][i], self.line_list['b'][i], self.line_list['l'][i]])
-            print('Plotting',i,p)
-            _tau_model = pg.analysis.model_tau(self.ion_name, p, self.wavelengths)
-            ax.plot(x_val, tau_to_flux(_tau_model), alpha=0.5, lw=1, ls='--', label='%g %g'%(self.line_list['N'][i],self.line_list['b'][i]))
+            p = np.array([self.line_list['N'][i],
+                        self.line_list['b'][i],
+                        self.line_list['l'][i]])
+            tau = pg.analysis.model_tau(self.ion_name, p, self.wavelengths, 'Voigt')
+            ax.plot(v, tau_to_flux(tau), '--', lw=1, alpha=0.5, color='magenta')
 
-        ax.plot(x_val, self.fluxes_model, label='model', c='tab:pink', ls='--', lw=2)
+        # Axis limits
+        ax.set_xlim(-vel_range, vel_range)
+        ax.set_ylim(-0.05, 1.1)
 
-        ax.set_ylim(-0.1, 1.1)
-        ax.set_xlim(x_val[0], x_val[-1])
-        #ax.set_xlim(0, self.gal_velocity_pos +vel_range)
-        #ax.set_xlim(max(self.gal_velocity_pos-2*vel_range, 0), min(self.gal_velocity_pos+2*vel_range, self.velocities[-1]))
-        ax.legend(loc='best',fontsize=8)
-        
+        # Shade central ±50 km/s region (adjust if you want)
+        ax.axvspan(-50, 50, color='lightgrey', alpha=0.3)
+
+        # χ² label inside panel
         chisq = np.around(np.unique(self.line_list['Chisq']), 2)
-        chisq = [str(i) for i in chisq]
-        plt.title(r'$\chi^2_r = {x}$'.format(x = ', '.join(chisq) ))
-        
-        if filename == None:
-            filename = self.spectrum_file.split('/')[-1].replace('.h5', '.png')
-        plt.savefig(f'/disk04/mrejus/sh/results/plots/simba_c/{filename}')
-        plt.show()
-        #plt.savefig('../figures/spec_gal_1.png')
-        plt.close()
+        chisq_str = ", ".join([str(c) for c in chisq])
+        ax.text(0.02, 0.92, rf"$\chi_r^2 = {chisq_str}$",
+                transform=ax.transAxes, fontsize=10)
 
+        # Title (ion name)
+        #ax.text(0.02, 0.82, self.ion_name,
+        #        transform=ax.transAxes, fontsize=11)
+
+        # Labels (only for standalone plots)
+        if ax is None:
+            ax.set_xlabel("Velocity (km s$^{-1}$)")
+            ax.set_ylabel("Flux")
+
+        ax.legend(fontsize=8, loc='best')
+
+        # Saving
+        if filename is None:
+            filename = self.spectrum_file.split('/')[-1].replace('.h5', '_vel.png')
+
+        plt.savefig(f'/disk04/mrejus/sh/results/plots/simba_c/{filename}',
+                    dpi=200, bbox_inches='tight')
+        plt.show()
 
     def main(self, vel_range, do_continuum_buffer=True, nbuffer=50, 
              snr_default=30., chisq_unacceptable=25, chisq_asym_thresh=-3., 

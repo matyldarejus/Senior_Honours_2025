@@ -32,8 +32,8 @@ if __name__ == '__main__':
 
         spec.main(
             vel_range=vel_range,
-            do_fit=True,
-            write_lines=True,
+            do_fit=False,
+            write_lines=False,
             chisq_unacceptable=chisq_unacceptable,
             chisq_asym_thresh=chisq_asym_thresh, 
             plot_fit=True,
