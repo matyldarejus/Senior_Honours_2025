@@ -29,10 +29,10 @@ print(radius)
 sp = ds.sphere(gal_cent, (radius, "kpc"))
 
 # Add an ion field for OVI
-trident.add_ion_fields(ds, ions=['O VI'])
+trident.add_ion_fields(sp, ions=['O VI'])
 
 # Initialise the projection plot
-proj = yt.ProjectionPlot(ds, "z", "O_p5_number_density")
+proj = yt.ProjectionPlot(sp, "z", "O_p5_number_density")
 proj.set_cmap("O_p5_number_density", "viridis")
 
 # Save the projection plot
