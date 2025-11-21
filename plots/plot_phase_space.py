@@ -150,13 +150,15 @@ if __name__ == '__main__':
         all_ssfr = ssfr[idx]
         sf_mask, gv_mask, q_mask = ssfr_type_check(quench, all_ssfr)
 
+        N_min = all_N[mask].min()
+
         if line == 'H1215':
-            im = ax[i][0].scatter(all_delta_rho, all_T, c=all_N, cmap='magma', s=1, vmin=N_min[l], vmax=16)
+            im = ax[i][0].scatter(all_delta_rho, all_T, c=all_N[mask], cmap='magma', s=1, vmin=N_min, vmax=16)
             im = ax[i][1].scatter(all_delta_rho[sf_mask], all_T[sf_mask], c=all_N[sf_mask], cmap='magma', s=1, vmin=N_min[l], vmax=16)
             im = ax[i][2].scatter(all_delta_rho[gv_mask], all_T[gv_mask], c=all_N[gv_mask], cmap='magma', s=1, vmin=N_min[l], vmax=16)
             im = ax[i][3].scatter(all_delta_rho[q_mask], all_T[q_mask], c=all_N[q_mask], cmap='magma', s=1, vmin=N_min[l], vmax=16)
         else:
-            im = ax[i][0].scatter(all_delta_rho, all_T, c=all_N, cmap='magma', s=1, vmin=N_min[l], vmax=15)
+            im = ax[i][0].scatter(all_delta_rho, all_T, c=all_N[mask], cmap='magma', s=1, vmin=N_min, vmax=15)
             im = ax[i][1].scatter(all_delta_rho[sf_mask], all_T[sf_mask], c=all_N[sf_mask], cmap='magma', s=1, vmin=N_min[l], vmax=15)
             im = ax[i][2].scatter(all_delta_rho[gv_mask], all_T[gv_mask], c=all_N[gv_mask], cmap='magma', s=1, vmin=N_min[l], vmax=15)
             im = ax[i][3].scatter(all_delta_rho[q_mask], all_T[q_mask], c=all_N[q_mask], cmap='magma', s=1, vmin=N_min[l], vmax=15)
@@ -180,7 +182,7 @@ if __name__ == '__main__':
     ax[1][0].annotate('Outer CGM', xy=(0.45, 0.15), xycoords='axes fraction', bbox=dict(boxstyle="round", fc="w", ec="black", lw=1.2), fontsize=19)
 
     #plt.tight_layout()
-    fig.subplots_adjust(wspace=0., hspace=0.)
+    fig.subplots_adjust(wspace=0.05, hspace=0.)
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_deltaTN_{line}.png', format='png')
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_deltaTN_{line}.pdf', format='pdf')
     plt.close()
