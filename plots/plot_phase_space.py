@@ -170,7 +170,7 @@ if __name__ == '__main__':
             ax[i][j].set_xlim(-1, 5)
             ax[i][j].set_ylim(3, 7)
             ax[i][j].axhline(deltath, ls=':', c='k', lw=1)
-            ax[i][j].avhline(5, ls=':', c='k', lw=1)
+            ax[i][j].axvline(5, ls=':', c='k', lw=1)
 
         if i == 0:
             for j in range(4):
