@@ -9,6 +9,9 @@ import numpy as np
 import h5py
 import pygad as pg
 import sys
+sys.path.insert(0, '/home/matylda/sh/make_spectra_sh/')
+from utils import *
+from physics import *
 
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
@@ -171,7 +174,7 @@ if __name__ == '__main__':
         ax[i][0].set_ylabel(r'${\rm log } (T / {\rm K})$')
 
     cax = plt.axes([horizontal_position, vertical_position, width, height])
-    fig.colorbar(im, cax=cax, label=r'${\rm log }(N / {\rm cm}^{2})$')
+    fig.colorbar(im, cax=cax, label=r'${\rm log }(N / {\rm cm}^{2})$', shrink=0.8, pad=0.05)
 
     ax[0][0].annotate('Inner CGM', xy=(0.45, 0.15), xycoords='axes fraction', bbox=dict(boxstyle="round", fc="w", ec="black", lw=1.2), fontsize=19)
     ax[1][0].annotate('Outer CGM', xy=(0.45, 0.15), xycoords='axes fraction', bbox=dict(boxstyle="round", fc="w", ec="black", lw=1.2), fontsize=19)
