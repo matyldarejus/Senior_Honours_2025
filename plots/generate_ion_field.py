@@ -29,7 +29,7 @@ print(radius)
 
 
 # Add an ion field for OVI
-trident.add_ion_fields(sp, ions=['O VI'])
+trident.add_ion_fields(ds, ions=['O VI'])
 
 
 sp = ds.sphere(gal_cent, (radius, "kpc"))
