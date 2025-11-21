@@ -26,17 +26,26 @@ print(gal_cent)
 radius = np.array([i.halo.virial_quantities['r200c'].in_units('kpc/h') for i in sim.galaxies])[gal_id]
 print(radius)
 
-sp = ds.sphere(gal_cent, (radius, "kpc"))
+
 
 # Add an ion field for OVI
 trident.add_ion_fields(sp, ions=['O VI'])
 
+
+sp = ds.sphere(gal_cent, (radius, "kpc"))
+
 # Initialise the projection plot
 proj = yt.ProjectionPlot(sp, "z", "O_p5_number_density")
-proj.set_cmap("O_p5_number_density", "viridis")
+proj.set_cmap("O_p5_number_density", "magma")
 
-# Save the projection plot
+# Do the slice plot
+slice_plot = yt.SlicePlot(ds, "z", "O_p5_number_density", center=gal_cent)
+
+
+# Save the plots
 plot_dir = '/home/matylda/data/plots/'
 output_filename = f'{plot_dir}ion_field_{model}_{wind}_{snap}'
 proj.save(f'{output_filename}.png')
 proj.save(f'{output_filename}.pdf')
+slice_plot.set_cmap("O_p5_number_density", "magma")
+slice_plot.save(f"{output_filename}_slice_z0.png")
