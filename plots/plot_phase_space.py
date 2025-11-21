@@ -117,6 +117,7 @@ if __name__ == '__main__':
 
         plot_data = read_h5_into_dict(cddf_file)
         completeness = plot_data['completeness']
+        print(completeness)
 
         all_T = []
         all_rho = []
@@ -153,12 +154,12 @@ if __name__ == '__main__':
         N_min = all_N.min()
 
         if line == 'H1215':
-            im = ax[i][0].scatter(all_delta_rho, all_T, c=all_N, cmap='magma', s=1, vmin=N_min, vmax=16)
+            im = ax[i][0].scatter(all_delta_rho, all_T, c=all_N[all_N > completeness], cmap='magma', s=1, vmin=N_min, vmax=16)
             im = ax[i][1].scatter(all_delta_rho[sf_mask], all_T[sf_mask], c=all_N[sf_mask], cmap='magma', s=1, vmin=N_min, vmax=16)
             im = ax[i][2].scatter(all_delta_rho[gv_mask], all_T[gv_mask], c=all_N[gv_mask], cmap='magma', s=1, vmin=N_min, vmax=16)
             im = ax[i][3].scatter(all_delta_rho[q_mask], all_T[q_mask], c=all_N[q_mask], cmap='magma', s=1, vmin=N_min, vmax=16)
         else:
-            im = ax[i][0].scatter(all_delta_rho, all_T, c=all_N, cmap='magma', s=1, vmin=N_min, vmax=15)
+            im = ax[i][0].scatter(all_delta_rho, all_T, c=all_N[all_N > completeness], cmap='magma', s=1, vmin=N_min, vmax=15)
             im = ax[i][1].scatter(all_delta_rho[sf_mask], all_T[sf_mask], c=all_N[sf_mask], cmap='magma', s=1, vmin=N_min, vmax=15)
             im = ax[i][2].scatter(all_delta_rho[gv_mask], all_T[gv_mask], c=all_N[gv_mask], cmap='magma', s=1, vmin=N_min, vmax=15)
             im = ax[i][3].scatter(all_delta_rho[q_mask], all_T[q_mask], c=all_N[q_mask], cmap='magma', s=1, vmin=N_min, vmax=15)
