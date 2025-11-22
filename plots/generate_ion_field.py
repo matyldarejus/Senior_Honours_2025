@@ -15,7 +15,7 @@ gal_id = int(sys.argv[4])
 fn = f'/disk04/rad/sim/m100n1024/simba-c/snap_{model}_{snap}.hdf5'
 ds = yt.load(fn)
 
-# Cut out a sphere out of the dataset
+
 # Load in the galaxy data and find the center of the galaxy
 
 data_dir = f'/disk04/rad/sim/m100n1024/simba-c/'
@@ -31,11 +31,11 @@ print(radius)
 # Add an ion field for OVI
 trident.add_ion_fields(ds, ions=['O VI'])
 
-
-sp = ds.sphere(gal_cent, (radius, "kpc"))
+# Cut out a sphere out of the dataset
+sp = ds.sphere(gal_cent, (radius, "kpc/h"))
 
 # Initialise the projection plot
-proj = yt.ProjectionPlot(sp, "z", "O_p5_number_density")
+proj = yt.ProjectionPlot(ds, "z", "O_p5_number_density", data_source=sp, center=gal_cent)
 proj.set_cmap("O_p5_number_density", "magma")
 
 # Do the slice plot
