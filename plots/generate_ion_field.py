@@ -35,7 +35,7 @@ trident.add_ion_fields(ds, ions=['O VI'])
 sp = ds.sphere(gal_cent, (radius, "kpc/h"))
 
 # Initialise the projection plot
-proj = yt.ProjectionPlot(ds, "z", ("gas", "density"), data_source=sp)
+proj = yt.ProjectionPlot(ds, "z", ("gas", "density"), data_source=sp, center=gal_cent, width=(1.4, "Mpc"))
 proj.set_cmap(("gas", "density"), "magma")
 
 # Do the slice plot
