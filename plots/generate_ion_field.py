@@ -34,8 +34,11 @@ trident.add_ion_fields(ds, ions=['O VI'])
 # Cut out a sphere out of the dataset
 sp = ds.sphere(gal_cent, (radius, "kpc/h"))
 
-# Initialise the projection plot
-proj = yt.ProjectionPlot(ds, "z", ("gas", "density"), data_source=sp, center=gal_cent, width=(1.4, "Mpc"))
+# Initialise the projection plot - sphere
+proj_sp = yt.ProjectionPlot(ds, "z", ("gas", "density"), data_source=sp, center=gal_cent, width=(1.4, "Mpc"))
+proj_sp.set_cmap(("gas", "density"), "magma")
+
+proj = yt.ProjectionPlot(ds, "z", ("gas", "density"), center=gal_cent, width=(60, "Mpc"))
 proj.set_cmap(("gas", "density"), "magma")
 
 # Do the slice plot
@@ -49,3 +52,7 @@ proj.save(f'{output_filename}.png')
 proj.save(f'{output_filename}.pdf')
 
 slice_plot.save(f"{output_filename}_slice_z0.png")
+slice_plot.save(f"{output_filename}_slice_z0.png")
+
+proj_sp.save(f'{output_filename}_sphere.png')
+proj_sp.save(f'{output_filename}_sphere.pdf')
