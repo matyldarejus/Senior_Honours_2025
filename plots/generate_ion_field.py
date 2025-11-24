@@ -40,12 +40,12 @@ proj_sp.set_cmap(("gas", "density"), "magma")
 
 proj = yt.ProjectionPlot(ds, "z", ("gas", "density"), center=gal_cent, width=(60, "Mpc"))
 proj.set_cmap(("gas", "density"), "magma")
-proj.set_zlim(("gas", "density"), zmin=(1e-10, "g/cm**2"), zmax=(1e-0, "g/cm**2"))
+#proj.set_zlim(("gas", "density"), zmin=(1e-10, "g/cm**2"), zmax=(1e-0, "g/cm**2"))
 
 # Do the slice plot
 slice_plot = yt.SlicePlot(ds, "z", ("gas", "density"), center=gal_cent)
 slice_plot.set_cmap(("gas", "density"), "magma")
-slice_plot.set_zlim(("gas", "density"), zmin=(1e-10, "g/cm**2"), zmax=(1e-0, "g/cm**2"))
+#slice_plot.set_zlim(("gas", "density"), zmin=(1e-10, "g/cm**2"), zmax=(1e-0, "g/cm**2"))
 
 # Save the plots
 plot_dir = '/home/matylda/data/plots/'
@@ -54,7 +54,7 @@ proj.save(f'{output_filename}.png')
 proj.save(f'{output_filename}.pdf')
 
 slice_plot.save(f"{output_filename}_slice_z0.png")
-slice_plot.save(f"{output_filename}_slice_z0.png")
+slice_plot.save(f"{output_filename}_slice_z0.pdf")
 
 proj_sp.save(f'{output_filename}_sphere.png')
 proj_sp.save(f'{output_filename}_sphere.pdf')
