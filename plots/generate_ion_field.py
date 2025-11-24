@@ -35,17 +35,17 @@ trident.add_ion_fields(ds, ions=['O VI'])
 sp = ds.sphere(gal_cent, (radius, "kpc/h"))
 
 # Initialise the projection plot
-proj = yt.ProjectionPlot(ds, "z", "O_p5_number_density", data_source=sp, center=gal_cent)
-proj.set_cmap("O_p5_number_density", "magma")
+proj = yt.ProjectionPlot(ds, "z", ("gas", "density"), data_source=sp)
+proj.set_cmap(("gas", "density"), "magma")
 
 # Do the slice plot
-slice_plot = yt.SlicePlot(ds, "z", "O_p5_number_density", center=gal_cent)
-
+slice_plot = yt.SlicePlot(ds, "z", ("gas", "density"), center=gal_cent)
+slice_plot.set_cmap(("gas", "density"), "magma")
 
 # Save the plots
 plot_dir = '/home/matylda/data/plots/'
 output_filename = f'{plot_dir}ion_field_{model}_{wind}_{snap}'
 proj.save(f'{output_filename}.png')
 proj.save(f'{output_filename}.pdf')
-slice_plot.set_cmap("O_p5_number_density", "magma")
+
 slice_plot.save(f"{output_filename}_slice_z0.png")
