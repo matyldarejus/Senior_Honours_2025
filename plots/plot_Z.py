@@ -86,11 +86,11 @@ if __name__ == '__main__':
         Z_cgm_tw        = sf['Z_cgm_tw'][:]          # CGM temp-weighted
  
     # Convert to Z/Zsolar
-    Z_mass_weighted_sol = Z_mass_weighted - np.log10(zsolar)
-    Z_sfr_weighted_sol  = Z_sfr_weighted  - np.log10(zsolar)
-    Z_stellar_sol       = Z_stellar       - np.log10(zsolar)
-    Z_cgm_mw_sol        = Z_cgm_mw        - np.log10(zsolar)
-    Z_cgm_tw_sol        = Z_cgm_tw        - np.log10(zsolar)
+    Z_mass_weighted_sol = np.log10(Z_mass_weighted) - np.log10(zsolar)
+    Z_sfr_weighted_sol  = np.log10(Z_sfr_weighted)  - np.log10(zsolar)
+    Z_stellar_sol       = np.log10(Z_stellar)       - np.log10(zsolar)
+    Z_cgm_mw_sol        = np.log10(Z_cgm_mw)        - np.log10(zsolar)
+    Z_cgm_tw_sol        = np.log10(Z_cgm_tw)        - np.log10(zsolar)
  
     all_Z_absorbers    = []
     all_N_absorbers    = []
@@ -158,7 +158,7 @@ if __name__ == '__main__':
     ax.set_ylabel(r'$\log\ (Z / Z_{\odot})$')
     ax.set_xlim(9.75, 11.75)
     ax.set_ylim(-2, 1)
-    ax.legend(loc='lower right', fontsize=16)
+    ax.legend(loc='best', fontsize=12, markerscale=0.7, handlelength=1.5)
     plt.tight_layout()
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_absorbers_vs_cgm_metallicity.png',
                 format='png', dpi=400)
@@ -207,7 +207,7 @@ if __name__ == '__main__':
     ax.set_ylabel(r'$\log\ (Z / Z_{\odot})$')
     ax.set_xlim(9.75, 11.75)
     ax.set_ylim(-2, 1)
-    ax.legend(loc='lower right', fontsize=16)
+    ax.legend(loc='best', fontsize=12, markerscale=0.7, handlelength=1.5)
     plt.tight_layout()
     plt.savefig(f'{plot_dir}{model}_{wind}_{snap}_absorbers_vs_ism_metallicity.png',
                 format='png', dpi=400)
