@@ -16,7 +16,7 @@ if __name__ == '__main__':
     with h5py.File(sample_file, 'r') as sf:
         gal_ids = sf['gal_ids'][:]
  
-    data_dir = ff'/disk04/rad/sim/m100n1024/simba-c/'
+    data_dir = f'/disk04/rad/sim/m100n1024/simba-c/'
     sim = caesar.load(f'{data_dir}Groups/{model}_{snap}.hdf5')
  
 
