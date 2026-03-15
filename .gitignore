@@ -17,3 +17,4 @@ make_spectra_sh/.ipynb_checkpoints
 analyse_spectra_sh/.ipynb_checkpoints
 .ipynb_checkpoints
 plots/.ipynb_checkpoints
+tools/__pycache__/
