@@ -63,6 +63,7 @@ if __name__ == '__main__':
     chisq_lim = 4.5
     N_min     = 13.2
     nmin      = 10
+    nmin_panel = 3
  
     delta_fr200 = 0.25
     min_fr200   = 0.25
@@ -156,9 +157,9 @@ if __name__ == '__main__':
         gal_mask = (mass >= mlo) & (mass < mhi)
         ab_mask  = (abs_mass >= mlo) & (abs_mass < mhi)
 
-        plot_median_band(ax, mass[gal_mask],    Z_ism_sol[gal_mask], ism_color, ism_ls, lw, nmin)
-        plot_median_band(ax, mass[gal_mask],    Z_cgm_sol[gal_mask], cgm_color, cgm_ls, lw, nmin)
-        plot_median_band(ax, abs_mass[ab_mask], all_Z_abs[ab_mask],  abs_color, abs_ls, lw, nmin)
+        plot_median_band(ax, mass[gal_mask],    Z_ism_sol[gal_mask], ism_color, ism_ls, lw, nmin_panel)
+        plot_median_band(ax, mass[gal_mask],    Z_cgm_sol[gal_mask], cgm_color, cgm_ls, lw, nmin_panel)
+        plot_median_band(ax, abs_mass[ab_mask], all_Z_abs[ab_mask],  abs_color, abs_ls, lw, nmin_panel)
 
         ax.axhline(0, ls=':', c='k', lw=1, alpha=0.5)
         ax.set_title(mass_titles[k])
@@ -190,9 +191,9 @@ if __name__ == '__main__':
         gmask = gal_masks[k]
         amask = abs_masks[k]
  
-        plot_median_band(ax, mass[gmask],     Z_ism_sol[gmask], ism_color, ism_ls, lw, nmin)
-        plot_median_band(ax, mass[gmask],     Z_cgm_sol[gmask], cgm_color, cgm_ls, lw, nmin)
-        plot_median_band(ax, abs_mass[amask], all_Z_abs[amask], abs_color, abs_ls, lw, nmin)
+        plot_median_band(ax, mass[gmask],     Z_ism_sol[gmask], ism_color, ism_ls, lw, nmin_panel)
+        plot_median_band(ax, mass[gmask],     Z_cgm_sol[gmask], cgm_color, cgm_ls, lw, nmin_panel)
+        plot_median_band(ax, abs_mass[amask], all_Z_abs[amask], abs_color, abs_ls, lw, nmin_panel)
  
         ax.axhline(0, ls=':', c='k', lw=1, alpha=0.5)
         ax.set_title(ssfr_titles[k])
