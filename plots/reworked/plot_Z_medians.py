@@ -96,6 +96,9 @@ if __name__ == '__main__':
     all_chisq   = []
     all_ids_abs = []
 
+    Z_ism_sol = np.log10(Z_sfr_weighted) - np.log10(zsolar)
+    Z_cgm_sol = np.log10(Z_cgm_mw)       - np.log10(zsolar)
+
     with h5py.File(results_file, 'r') as hf:
         for r in fr200:
             try:
@@ -211,7 +214,7 @@ if __name__ == '__main__':
     for ax, (Z_data, x_data, title, is_abs) in zip(axes, plot_sets):
         # All in grey
         bc, ymed, ylo, yhi = median_with_percentiles(x_data, Z_data, nmin)
-        if len(bc) > 0:
+        if len(bc) > 0:pu
             ax.plot(bc, ymed, c='dimgrey', lw=2, ls='-', label='All')
             ax.fill_between(bc, ylo, yhi, color='dimgrey', alpha=0.15)
 
