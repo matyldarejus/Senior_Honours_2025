@@ -85,9 +85,11 @@ if __name__ == '__main__':
         mass           = sf['mass'][:]
         ssfr           = sf['ssfr'][:]
         Z_sfr_weighted = sf['Z_sfr_weighted'][:]
+        Z_mass_weighted = sf['Z_mass_weighted'][:]
         Z_cgm_mw       = sf['Z_cgm_mw'][:]
  
-    Z_ism_sol = np.log10(Z_sfr_weighted) - np.log10(zsolar)
+    #Z_ism_sol = np.log10(Z_sfr_weighted) - np.log10(zsolar)
+    Z_ism_sol = np.log10(Z_mass_weighted) - np.log10(zsolar)
     Z_cgm_sol = np.log10(Z_cgm_mw)       - np.log10(zsolar)
  
     # Load absorber data
