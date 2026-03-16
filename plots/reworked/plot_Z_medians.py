@@ -85,6 +85,9 @@ if __name__ == '__main__':
  
     Z_ism_sol = np.log10(Z_sfr_weighted) - np.log10(zsolar)
     Z_cgm_sol = np.log10(Z_cgm_mw)       - np.log10(zsolar)
+    
+    Z_ism_sol[~np.isfinite(Z_ism_sol)] = np.nan
+    Z_cgm_sol[~np.isfinite(Z_cgm_sol)] = np.nan
  
     # Load absorber data
     all_Z_abs   = []
@@ -143,7 +146,7 @@ if __name__ == '__main__':
                    + f'{mass_bins[i+1]:.1f}$'
                    for i in range(nbins_m)]
  
-    fig, axes = plt.subplots(1, nbins_m, figsize=(15, 5), sharey=True, sharex=True)
+    fig, axes = plt.subplots(1, nbins_m, figsize=(15, 5), sharey=True, sharex=False)
  
     for k, ax in enumerate(axes):
         mlo, mhi = mass_bins[k], mass_bins[k+1]
