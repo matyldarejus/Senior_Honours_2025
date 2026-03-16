@@ -138,11 +138,14 @@ if __name__ == '__main__':
     fig, axes = plt.subplots(1, 3, figsize=(18, 6), sharey=True)
     titles = ['ISM (SFR-weighted)', 'CGM (mass-weighted)', r'OVI Absorbers']
     
-    for ax, (Z_data, x_data, title) in zip(axes, [
-        (Z_ism_sol, mass,     titles[0]),
-        (Z_cgm_sol, mass,     titles[1]),
-        (all_Z_abs, abs_mass, titles[2]),
-    ]):
+    plot_sets = [
+        (Z_ism_sol, mass,     'ISM (SFR-weighted)'),
+        (Z_cgm_sol, mass,     'CGM (mass-weighted)'),
+        (all_Z_abs, abs_mass, r'OVI Absorbers'),
+    ]
+
+    for ax, (Z_data, x_data, title) in zip(axes, plot_sets):
+
         # All galaxies in grey
         bc, ymed, ylo, yhi = median_with_percentiles(x_data, Z_data, nmin)
         if len(bc) > 0:
@@ -199,11 +202,13 @@ if __name__ == '__main__':
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 6), sharey=True)
 
-    for ax, (Z_data, x_data, title, is_abs) in zip(axes, [
-        (Z_ism_sol, mass,     titles[0], False),
-        (Z_cgm_sol, mass,     titles[1], False),
-        (all_Z_abs, abs_mass, titles[2], True),
-    ]):
+    plot_sets = [
+        (Z_ism_sol, mass,     'ISM (SFR-weighted)',  False),
+        (Z_cgm_sol, mass,     'CGM (mass-weighted)', False),
+        (all_Z_abs, abs_mass, r'OVI Absorbers',       True),
+    ]
+
+    for ax, (Z_data, x_data, title, is_abs) in zip(axes, plot_sets):
         # All in grey
         bc, ymed, ylo, yhi = median_with_percentiles(x_data, Z_data, nmin)
         if len(bc) > 0:
