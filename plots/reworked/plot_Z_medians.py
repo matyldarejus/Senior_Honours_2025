@@ -134,7 +134,7 @@ if __name__ == '__main__':
     abs_color = '#90C987'  # green
  
     legend_entries = [
-        Line2D([0,1],[0,1], color=ism_color, ls=ism_ls, lw=lw, label='ISM (SFR-weighted)'),
+        Line2D([0,1],[0,1], color=ism_color, ls=ism_ls, lw=lw, label='ISM (mass-weighted)'),
         Line2D([0,1],[0,1], color=cgm_color, ls=cgm_ls, lw=lw, label='CGM (mass-weighted)'),
         Line2D([0,1],[0,1], color=abs_color, ls=abs_ls, lw=lw, label=r'OVI Absorbers'),
     ]
