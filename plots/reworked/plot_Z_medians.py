@@ -46,6 +46,11 @@ def ssfr_type_check(ssfr_thresh, ssfr):
 
 def median_with_percentiles(x, y, nmin=10):
     """Compute running median and 16th-84th percentile bands."""
+    # Remove NaNs and check we have enough data
+    valid = np.isfinite(x) & np.isfinite(y)
+    x, y = x[valid], y[valid]
+    if len(x) < nmin:
+        return np.array([]), np.array([]), np.array([]), np.array([])
     bin_cent, ymed, ysiglo, ysighi, ndata = pm.runningmedian(x, y, stat='median')
     mask = ndata > nmin
     return bin_cent[mask], ymed[mask], ysiglo[mask], ysighi[mask]
@@ -84,9 +89,6 @@ if __name__ == '__main__':
         ssfr           = sf['ssfr'][:]
         Z_sfr_weighted = sf['Z_sfr_weighted'][:]
         Z_cgm_mw       = sf['Z_cgm_mw'][:]
-
-    Z_ism_sol = np.log10(Z_sfr_weighted) - np.log10(zsolar)
-    Z_cgm_sol = np.log10(Z_cgm_mw)       - np.log10(zsolar)
 
     # --- Load absorbers ---
     all_Z_abs   = []
@@ -143,8 +145,9 @@ if __name__ == '__main__':
     ]):
         # All galaxies in grey
         bc, ymed, ylo, yhi = median_with_percentiles(x_data, Z_data, nmin)
-        ax.plot(bc, ymed, c='dimgrey', lw=2, ls='-', label='All')
-        ax.fill_between(bc, ylo, yhi, color='dimgrey', alpha=0.15)
+        if len(bc) > 0:
+            ax.plot(bc, ymed, c='dimgrey', lw=2, ls='-', label='All')
+            ax.fill_between(bc, ylo, yhi, color='dimgrey', alpha=0.15)
 
         # Mass bins
         for k in range(nbins_m):
@@ -159,6 +162,8 @@ if __name__ == '__main__':
 
             bc, ymed, ylo, yhi = median_with_percentiles(
                 x_data[bin_mask], Z_data[bin_mask], nmin)
+            if len(bc) == 0:
+                continue
             ax.plot(bc, ymed, c=mass_colors[k], lw=2, ls='-')
             ax.fill_between(bc, ylo, yhi, color=mass_colors[k], alpha=0.2)
 
@@ -201,8 +206,9 @@ if __name__ == '__main__':
     ]):
         # All in grey
         bc, ymed, ylo, yhi = median_with_percentiles(x_data, Z_data, nmin)
-        ax.plot(bc, ymed, c='dimgrey', lw=2, ls='-', label='All')
-        ax.fill_between(bc, ylo, yhi, color='dimgrey', alpha=0.15)
+        if len(bc) > 0:
+            ax.plot(bc, ymed, c='dimgrey', lw=2, ls='-', label='All')
+            ax.fill_between(bc, ylo, yhi, color='dimgrey', alpha=0.15)
 
         # SF / GV / Q
         masks = abs_masks if is_abs else gal_masks
@@ -211,6 +217,8 @@ if __name__ == '__main__':
                 continue
             bc, ymed, ylo, yhi = median_with_percentiles(
                 x_data[smask], Z_data[smask], nmin)
+            if len(bc) == 0:
+                continue
             ax.plot(bc, ymed, c=color, lw=2, ls='-', label=label)
             ax.fill_between(bc, ylo, yhi, color=color, alpha=0.2)
 
