@@ -214,7 +214,7 @@ if __name__ == '__main__':
     for ax, (Z_data, x_data, title, is_abs) in zip(axes, plot_sets):
         # All in grey
         bc, ymed, ylo, yhi = median_with_percentiles(x_data, Z_data, nmin)
-        if len(bc) > 0:pu
+        if len(bc) > 0:
             ax.plot(bc, ymed, c='dimgrey', lw=2, ls='-', label='All')
             ax.fill_between(bc, ylo, yhi, color='dimgrey', alpha=0.15)
 
