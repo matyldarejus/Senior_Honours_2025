@@ -39,9 +39,13 @@ def ssfr_type_check(ssfr_thresh, ssfr):
  
 def plot_median_band(ax, x, y, color, ls, lw, nmin, label=None, alpha=0.15):
     """Plot running median with 16-84th percentile shading."""
-    if np.sum(np.isfinite(x) & np.isfinite(y)) < nmin:
+    finite = np.isfinite(x) & np.isfinite(y)
+    x, y = x[finite], y[finite]
+    if len(x) < nmin:
         return
-    bc, ymed, ylo, yhi, ndata = pm.runningmedian(x, y, stat='median')
+    # Use fewer bins when working within a narrow mass range
+    nbins = max(5, len(x) // 20)
+    bc, ymed, ylo, yhi, ndata = pm.runningmedian(x, y, nbins=nbins, stat='median')
     mask = ndata > nmin
     if np.sum(mask) == 0:
         return
@@ -85,9 +89,6 @@ if __name__ == '__main__':
  
     Z_ism_sol = np.log10(Z_sfr_weighted) - np.log10(zsolar)
     Z_cgm_sol = np.log10(Z_cgm_mw)       - np.log10(zsolar)
-    
-    Z_ism_sol[~np.isfinite(Z_ism_sol)] = np.nan
-    Z_cgm_sol[~np.isfinite(Z_cgm_sol)] = np.nan
  
     # Load absorber data
     all_Z_abs   = []
@@ -152,15 +153,15 @@ if __name__ == '__main__':
         mlo, mhi = mass_bins[k], mass_bins[k+1]
         gal_mask = (mass >= mlo) & (mass < mhi)
         ab_mask  = (abs_mass >= mlo) & (abs_mass < mhi)
- 
-        plot_median_band(ax, mass[gal_mask],     Z_ism_sol[gal_mask], ism_color, ism_ls, lw, nmin)
-        plot_median_band(ax, mass[gal_mask],     Z_cgm_sol[gal_mask], cgm_color, cgm_ls, lw, nmin)
-        plot_median_band(ax, abs_mass[ab_mask],  all_Z_abs[ab_mask],  abs_color, abs_ls, lw, nmin)
- 
+
+        plot_median_band(ax, mass[gal_mask],    Z_ism_sol[gal_mask], ism_color, ism_ls, lw, nmin)
+        plot_median_band(ax, mass[gal_mask],    Z_cgm_sol[gal_mask], cgm_color, cgm_ls, lw, nmin)
+        plot_median_band(ax, abs_mass[ab_mask], all_Z_abs[ab_mask],  abs_color, abs_ls, lw, nmin)
+
         ax.axhline(0, ls=':', c='k', lw=1, alpha=0.5)
         ax.set_title(mass_titles[k])
         ax.set_xlabel(r'$\log\ (M_{\star} / M_{\odot})$')
-        ax.set_xlim(9.75, 11.75)
+        ax.set_xlim(mlo, mhi)
         ax.set_ylim(-2, 1)
  
     axes[0].set_ylabel(r'$\log\ (Z / Z_{\odot})$')
