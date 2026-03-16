@@ -4,7 +4,7 @@ MODEL="m100n1024"
 WIND="s50"
 SNAP="151"
  
-SCRIPT_DIR="/home/matylda/plots/reworked"
+SCRIPT_DIR="/home/matylda/sh/plots/reworked"
  
 echo "Running all plot scripts for ${MODEL} ${WIND} ${SNAP}..."
  
