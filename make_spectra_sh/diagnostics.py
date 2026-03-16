@@ -1,15 +1,19 @@
-import caesar
-import yt
-import numpy as np
 import h5py
-import sys
-import matplotlib.pyplot as plt
+import numpy as np
 
-sf = h5py.File("/disk04/mrejus/sh/normal/results/m25n256_s50_151_hm12_fit_lines_OVI1031.h5", "r")
-print(sf.keys())
+sample_file = '/disk04/mrejus/sh/samples/m100n1024_s50_151_galaxy_sample.h5'
+zsolar = 5.79e-3
 
-print(sf["chisq_0.25r200"])
+with h5py.File(sample_file, 'r') as sf:
+    mass = sf['mass'][:]
+    Z_sfr = sf['Z_sfr_weighted'][:]
+    Z_cgm = sf['Z_cgm_mw'][:]
 
+Z_ism = np.log10(Z_sfr) - np.log10(zsolar)
+Z_cgm = np.log10(Z_cgm) - np.log10(zsolar)
 
-
+mask = (mass >= 10.0) & (mass < 10.5)
+print('N galaxies in bin:', np.sum(mask))
+print('Z_ism range:', np.nanmin(Z_ism[mask]), np.nanmax(Z_ism[mask]))
+print('Z_cgm range:', np.nanmin(Z_cgm[mask]), np.nanmax(Z_cgm[mask]))
 
