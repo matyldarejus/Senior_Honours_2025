@@ -75,7 +75,7 @@ if __name__ == '__main__':
     rho_lines = []
     for i in range(len(rho_ls)):
         rho_lines.append(Line2D([0,1],[0,1], color='black', ls=rho_ls[i], lw=rho_lw[i]))
-    leg = ax[0].legend(rho_lines, rho_labels, loc='lower right', fontsize=20, title='Impact parameter')
+    leg = ax[0].legend(rho_lines, rho_labels, loc='lower right', fontsize=20, title='Impact parameter',title_fontsize=20)
     ax[0].add_artist(leg)
 
     i = 0
