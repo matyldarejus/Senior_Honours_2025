@@ -1,12 +1,12 @@
 # match_galaxies.py
+# DEPRECATED - NOT ENOUGH DATA FROM COS-HALOS - especially for quenched
 # For each simulated galaxy in a sample HDF5 file, find the best-matching
-# observed galaxy from COS-Halos / COS-Dwarfs (via pyigm) using:
+# observed galaxy from COS-Halos (via pyigm) using:
 #   - exact SF/GV/Q category match  (same sSFR thresholds as the simulation)
 #   - expanding search window in (log Mstar, log sSFR) until a match is found
 #   - nearest neighbour within that window by Euclidean distance
 #   - choose_mask to prevent the same obs galaxy being matched twice
-#   - quenched sSFR clipping so the -14 floor doesn't distort distances
-# I will be using classes for my Master's, I promise
+#   - quenched sSFR clipping so the -14 floor doesn't distort distance
 
 import os
 import sys
@@ -16,14 +16,14 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pyigm.cgm.cos_halos import COSHalos
-from pyigm.cgm.cos_dwarfs import COSDwarfs
+from pyigm.cgm import cos_halos as pycsh
 
 # Match tolerances 
 MASS_RANGE_INIT = 0.10   # starting half-width for mass search
 SSFR_RANGE_INIT = 0.10   # starting half-width for sSFR search
 MASS_RANGE_LIM  = 0.15   # maximum allowed mass half-width
 SSFR_RANGE_LIM  = 0.25   # maximum allowed sSFR half-width
-RANGE_STEP      = 0.05   # expansion step per iteration
+RANGE_STEP      = 0.01   # expansion step per iteration
 
 
 def quench_thresh(z):
@@ -56,13 +56,13 @@ def ssfr_category(log_ssfr, z):
     else:
         return 'Q'
 
-def load_observational_sample():
+def load_observational_sample(survey_name, loader):
     """
-    Load COS-Halos and COS-Dwarfs, extract the galaxy properties,
+    Load COS-Halos and extract the galaxy properties,
     and return a numpy array for matching
 
     Returned dtype fields:
-        survey    : str, 'COS-Halos' or 'COS-Dwarfs'
+        survey    : str, 'COS-Halos'
         cgm_id    : str, identifier string from the survey
         log_mstar : f64, log10(M* / Msun)
         log_ssfr  : f64, log10(sSFR / yr^-1); -14 for quenched / no SFR data
@@ -71,53 +71,55 @@ def load_observational_sample():
     """
     records = []
 
-    for survey_name, loader in [('COS-Halos', COSHalos), ('COS-Dwarfs', COSDwarfs)]:
+    print(f'    Loading {survey_name}....')
+    cgm_survey = loader()
+    cgm_survey.load_sys()
+    print(f'        SUCCESS!')
+
+    for cgm in cgm_survey.cgm_abs:
+        gal = cgm.galaxy
+        print(gal)
+        
+        # Stellar mass
         try:
-            cgm_survey = loader()
-            cgm_survey.load_sys()
-        except Exception as exc:
-            print(f'[WARNING] Could not load {survey_name}: {exc}')
+            log_mstar = float(gal.stellar_mass)
+        except Exception:
+            continue  # skip galaxies with no stellar mass
+
+        # sSFR
+        try:
+            sfr       = float(gal.sfr[1])              # linear Msun/yr
+            log_mstar = float(gal.stellar_mass)        # log Msun
+            mstar_lin = 10 ** log_mstar                # convert to linear
+            if sfr <= 0 or mstar_lin <= 0:
+                log_ssfr = -14.0
+            else:
+                log_ssfr = float(np.log10(sfr / mstar_lin))
+        except Exception:
+            log_ssfr = -14.0
+
+        # Redshift
+        try:
+            z = float(gal.z)
+        except Exception:
             continue
 
-        for cgm in cgm_survey.cgm_abs:
-            gal = cgm.galaxy
+        cat = ssfr_category(log_ssfr, z)
 
-            # Stellar mass
-            try:
-                log_mstar = float(np.log10(gal.stellar_mass))
-            except Exception:
-                continue  # skip galaxies with no stellar mass
+        if cat == 'Q':
+            print(f'For quenched galaxy {str(cgm.name)} log sSFR = {log_ssfr}')
 
-            # sSFR
-            try:
-                sfr   = float(gal.sfr)            # Msun / yr
-                mstar = float(gal.stellar_mass)   # Msun
-                if sfr <= 0 or mstar <= 0:
-                    log_ssfr = -14.0
-                else:
-                    log_ssfr = float(np.log10(sfr / mstar))
-            except Exception:
-                log_ssfr = -14.0  # treat missing SFR as fully quenched
-
-            # Redshift
-            try:
-                z = float(gal.z)
-            except Exception:
-                continue
-
-            cat = ssfr_category(log_ssfr, z)
-
-            records.append({
-                'survey':    survey_name,
-                'cgm_id':    str(cgm.name),
-                'log_mstar': log_mstar,
-                'log_ssfr':  log_ssfr,
-                'redshift':  z,
-                'category':  cat,
-            })
+        records.append({
+            'survey':    survey_name,
+            'cgm_id':    str(cgm.name),
+            'log_mstar': log_mstar,
+            'log_ssfr':  log_ssfr,
+            'redshift':  z,
+            'category':  cat,
+        })
 
     if not records:
-        raise RuntimeError('No observational galaxies could be loaded from either survey.')
+        raise RuntimeError('No galaxy data could be loaded.')
 
     dt = np.dtype([
         ('survey',    'U20'),
@@ -312,7 +314,7 @@ def make_summary_plot(sim_mass, sim_ssfr, obs, match_idx, model, wind, snap, plo
     out = os.path.join(plot_dir, f'{model}_{wind}_{snap}_match_summary.png')
     fig.savefig(out, dpi=120)
     plt.close(fig)
-    print(f'Summary plot saved → {out}')
+    print(f'Summary plot saved to {out}')
 
 
 # Helper functions 
@@ -327,8 +329,7 @@ def load_sim_sample(sample_file):
         ssfr    = hf['ssfr'][:]
         pos     = hf['position'][:]
         gal_ids = hf['gal_ids'][:]
-        z       = hf['redshift'][:] if 'redshift' in hf else None
-    return gal_ids, mass, ssfr, pos, z
+    return gal_ids, mass, ssfr, pos
 
 
 def save_matches(out_file, gal_ids, sim_mass, sim_ssfr, sim_z, sim_cat,
@@ -373,17 +374,19 @@ def main():
     wind  = sys.argv[2]
     snap  = sys.argv[3]
 
-    sample_dir  = f'/disk04/mrejus/sh/samples/'
+    sample_dir  = f'/home/matylda/SHP/Data/samples/'
     sample_file = f'{sample_dir}{model}_{wind}_{snap}_galaxy_sample.h5'
     out_file    = f'{sample_dir}{model}_{wind}_{snap}_matched_obs.h5'
-    plot_dir    = f'{sample_dir}plots/{model}_{wind}_{snap}/'
+    plot_dir    = f'/home/matylda/SHP/Plots/cos_comparison/'
 
-    gal_ids, sim_mass, sim_ssfr, sim_pos, sim_z = load_sim_sample(sample_file)
-
+    gal_ids, sim_mass, sim_ssfr, sim_pos = load_sim_sample(sample_file)
+    
+    sim_z = np.zeros_like(sim_mass, dtype=float) # zero redshift
+    
     print(f'Loaded {len(gal_ids)} simulated galaxies from {sample_file}')
     
-    # Load observational data
-    obs = load_observational_sample()
+    # Load observational data from COS-Halos
+    obs = load_observational_sample('COS-Halos', COSHalos)
 
     # Match
     match_idx, match_dist, sim_cat = find_matches(sim_mass, sim_ssfr, sim_z, obs)
